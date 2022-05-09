@@ -70,8 +70,6 @@ bool Bucket::remove(const double item)
 
 void Bucket::clear()
 {
-    for (size_t i = 0; i <= itemCount; i++)
-        items[i] = NULL;
     itemCount = 0;
 }
 

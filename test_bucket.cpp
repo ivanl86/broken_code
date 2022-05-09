@@ -14,7 +14,7 @@ int main(int argc, char const *argv[])
     // testing count() and isEmpty()
     std::cout << items.count() << " item(s) in the bucket\n";
     std::cout << "The bucket " << (items.isEmpty() ? "is" : "is not") << " empty!\n";
-    // testing add(int)
+    // testing add(int) and resize()
     for (size_t i = 1; i <= 4; i++)
         items.add(i);
     std::cout << items.count() << " item(s) in the bucket\n";
@@ -30,7 +30,6 @@ int main(int argc, char const *argv[])
     std::cout << items.count() << " item(s) in the bucket\n";
     std::cout << "The bucket " << (items.contains(1) ? "contains" : "does not contain") << " 1\n";
     // testing remove(int) and getFrequency(int)
-    std::cout << "The bucket " << (items.contains(1) ? "contains" : "does not contain") << " 1\n";
     std::cout << "1 " << (items.remove(1) ? "is removed\n" : "is not removed\n");
     std::cout << "The bucket contains " << items.getFrequency(1) << " 1(s) in the bucket\n";
     std::cout << items.count() << " item(s) in the bucket\n";

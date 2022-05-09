@@ -11,13 +11,14 @@
 #include <stddef.h>
 #include <stdexcept>
 
+#define DEFAULT_SIZE 4
 #define SCALING_FACTOR 2
 
 /*  The bucket class */
 class Bucket
 {
 private:
-	const size_t DEFAULT_SIZE{4};  // must be initialized
+	//const size_t DEFAULT_SIZE{4};  // must be initialized
 	size_t itemCount{};  // the number of items stored in the bucket
     double *items; // The storage facility for the added items
     size_t currSize;
@@ -35,6 +36,8 @@ public:
 	/** Constructor sets the initial size of the bucket
 		@param: initial size of the bucket */
 	Bucket(const size_t);
+
+    ~Bucket();
 	
     /** Gets the current number of entries in this bucket.
         @return The integer number of entries currently in the bucket. */
