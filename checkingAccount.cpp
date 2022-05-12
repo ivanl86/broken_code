@@ -8,3 +8,7 @@
 CheckingAccount::CheckingAccount(std::string accountName, double accountBalance, double transactionFee) : Account(accountName, accountBalance), fee{transactionFee}
 {}
 
+double CheckingAccount::calculateFee() const
+{
+    return fee;
+}

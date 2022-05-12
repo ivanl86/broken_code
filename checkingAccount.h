@@ -13,6 +13,8 @@ class CheckingAccount : public Account
 public:
    explicit CheckingAccount(std::string, double, double);
 
+   double calculateFee() const;
+
 private:
    double fee; // account transaction fee
 };

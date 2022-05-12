@@ -5,14 +5,15 @@
 
 #include <iostream>
 
+#include "account.h"
 #include "savingsAccount.h"
 #include "checkingAccount.h"
 
 int main(int argc, char const *argv[])
 {
-    CheckingAccount ckAcount("customer", 1000, 10);
+    CheckingAccount ckAccount("customer", 1000, 10);
 
-    std::cout << ckAcount.getBalance();
+    std::cout << ckAccount.getName() << " has $" << ckAccount.getBalance() << " with $" << ckAccount.calculateFee() << " transaction fee\n";
 
     return 0;
 }
