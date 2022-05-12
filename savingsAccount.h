@@ -8,14 +8,15 @@
 #ifndef SAVINGSACCOUNT_H
 #define SAVINGSACCOUNT_H
 
-class CheckingAccount : Account
+class SavingsAccount : public Account
 {
 public:
-   explicit CheckingAccount(std::string accountName, double accountBalance, double transactionFee) : Account(accountName, accountBalance)
-   {}
+   explicit SavingsAccount(const std::string &, const double &, const double &);
+
+   double calculateInterest() const;
 
 private:
-   double fee; // account transaction fee
+   double interestRate;
 };
 
 #endif

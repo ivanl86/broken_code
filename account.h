@@ -38,19 +38,4 @@ private:
    double balance; // account balance
 };                   // end class Account
 
-class SavingsAccount : Account
-{
-public:
-   explicit SavingsAccount(std::string accountName, double accountBalance, double interestRate) : Account(accountName, accountBalance)
-   {}
-
-   double calculateInterest() const
-   {
-      return getBalance() * interestRate;
-   }
-
-private:
-   double interestRate;
-};
-
 #endif
