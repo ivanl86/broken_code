@@ -11,37 +11,24 @@ class Account
 {
 public:
    // constructor initializes data member name with parameter accountName
-   explicit Account(std::string accountName)
-       : name{accountName}
-   { // member initializer
-      // empty body
-   }
+   explicit Account(std::string);
 
-   explicit Account(double accountBalance)
-       : balance{accountBalance}
-   { // member initializer
-      // empty body
-   }
-
-   explicit Account(std::string accountName, double accountBalance)
-       : name{accountName}
-   { // member initializer
-      setBalance(accountBalance);
-   }
+   // constructor initializes data member name and balance
+   explicit Account(std::string , double);
 
    // function to set the account name
-   void setName(std::string accountName);
+   void setName(const std::string &);
 
    // function to retrieve the account name
    std::string getName() const;
 
-   void setBalance(double accountBalance);
+   void setBalance(const double &);
 
    double getBalance() const;
 
-   void credit(double deposit);
+   void credit(const double &);
 
-   bool debit(double charge);
+   bool debit(const double &);
 
 private:
    std::string name; // account name data member

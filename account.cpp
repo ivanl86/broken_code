@@ -5,12 +5,11 @@
 
 #include "account.h"
 
+// constructor initializes data member name with parameter accountName
 explicit Account::Account(std::string accountName)
          : name{accountName} {}
 
-explicit Account::Account(double accountBalance)
-         : balance{accountBalance} {}
-
+// constructor initializes data member name and balance
 explicit Account::Account(std::string accountName, double accountBalance)
          : name{accountName}
 {
@@ -18,7 +17,7 @@ explicit Account::Account(std::string accountName, double accountBalance)
 }
 
 // function to set the account name
-void Account::setName(std::string accountName)
+void Account::setName(const std::string &accountName)
 {
     name = accountName;
 }
@@ -29,24 +28,28 @@ std::string Account::getName() const
     return name;
 }
 
-void Account::setBalance(double accountBalance)
+// function to set the account initial balance
+void Account::setBalance(const double &accountBalance)
 {
     if (accountBalance < 0)
         throw std::invalid_argument("Initial balance must be equal or greater than zero!");
     balance = accountBalance;
 }
 
+// function to retrieve the account balance
 double Account::getBalance() const
 {
     return balance;
 }
 
-void Account::credit(double deposit)
+// function to deposit to the account
+void Account::credit(const double &deposit)
 {
     balance += deposit;
 }
 
-bool Account::debit(double charge)
+// function to withdraw from the account
+bool Account::debit(const double &charge)
 {
     if (charge > balance)
         throw std::out_of_range("Insufficient balance!");
