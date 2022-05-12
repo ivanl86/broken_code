@@ -1,0 +1,38 @@
+
+class inheritance problem
+    operator overloading like pet.cpp
+    friend
+
+class definition
+    find errors
+
+fill the blank questions
+    how to apply inheritance
+    new operator
+
+dynamic stack
+    how to deallocate
+
+superclass subclass
+
+polymorphism
+
+lecture 6a and 6b
+
+virtual function and pure virtual function
+override function
+
+instruct vs class
+private defeault in class
+public defeault in instruct
+
+smart pointer
+    library?
+    how to create a smart pointer
+
+program
+    what is the output?
+
+sizeof(int)
+int v;
+sizeof v;
