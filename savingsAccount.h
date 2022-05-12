@@ -14,6 +14,8 @@ public:
    explicit SavingsAccount(const std::string &, const double &, const double &);
 
    double calculateInterest() const;
+   double getInterestRate() const;
+   void setInterestRate(double);
 
 private:
    double interestRate;

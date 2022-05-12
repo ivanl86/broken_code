@@ -12,8 +12,10 @@
 int main(int argc, char const *argv[])
 {
     CheckingAccount ckAccount("customer", 1000, 10);
+    SavingsAccount svAccount("customer", 1000, 0.03);
 
     std::cout << ckAccount.getName() << " has $" << ckAccount.getBalance() << " with $" << ckAccount.calculateFee() << " transaction fee\n";
+    std::cout << svAccount.getName() << " has $" << svAccount.getBalance() << " with " << svAccount.calculateInterest() << "% interest rate";
 
     return 0;
 }
