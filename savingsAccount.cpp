@@ -5,7 +5,7 @@
 
 #include "savingsAccount.h"
 
-explicit SavingsAccount::SavingsAccount(const std::string &accountName, const double &accountBalance, const double &interestRate) : Account(accountName, accountBalance)
+SavingsAccount::SavingsAccount(const std::string &accountName, const double &accountBalance, const double &interestRate) : Account(accountName, accountBalance)
 {}
 
 double SavingsAccount::calculateInterest() const

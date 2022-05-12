@@ -6,11 +6,11 @@
 #include "account.h"
 
 // constructor initializes data member name with parameter accountName
-explicit Account::Account(std::string accountName)
+Account::Account(std::string accountName)
          : name{accountName} {}
 
 // constructor initializes data member name and balance
-explicit Account::Account(std::string accountName, double accountBalance)
+Account::Account(std::string accountName, double accountBalance)
          : name{accountName}
 {
     setBalance(accountBalance);
