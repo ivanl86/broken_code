@@ -7,6 +7,9 @@
 #include <string>
 #include <stdexcept>
 
+#ifndef ACCOUNT_H
+#define ACCOUNT_H
+
 class Account
 {
 public:
@@ -50,12 +53,4 @@ private:
    double interestRate;
 };
 
-class CheckingAccount : Account
-{
-public:
-   explicit CheckingAccount(std::string accountName, double accountBalance, double transactionFee) : Account(accountName, accountBalance)
-   {}
-
-private:
-   double fee; // account transaction fee
-};
+#endif
