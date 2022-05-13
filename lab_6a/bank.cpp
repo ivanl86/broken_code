@@ -9,6 +9,8 @@
 #include "savingsAccount.h"
 #include "checkingAccount.h"
 
+#define DEFAULT_INTEREST_RATE 0.01
+
 int main(int argc, char const *argv[])
 {
     CheckingAccount ckAccount("customer", 1000, 10);
@@ -17,23 +19,7 @@ int main(int argc, char const *argv[])
     std::cout << ckAccount.getName() << " has $" << ckAccount.getBalance() << " with $" << ckAccount.calculateFee() << " transaction fee\n";
     std::cout << svAccount.getName() << " has $" << svAccount.getBalance() << " with " << svAccount.calculateInterest() << "% interest rate\n";
 
-
+    
 
     return 0;
-}
-
-double getDouble(std::string prompt)
-{
-    double val;
-    std::cout << prompt;
-    std::cin >> val;
-    return val;
-}
-
-std::string getString(std::string prompt)
-{
-    std::string str;
-    std::cout << prompt;
-    std::cin >> str;
-    return str;
 }

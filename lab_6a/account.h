@@ -16,7 +16,7 @@ public:
    // constructor initializes data member name with parameter accountName
    explicit Account(std::string);
 
-   // constructor initializes data member name and balance
+   // constructor initializes data member name and balance with parameter accountName and accountBalance
    explicit Account(std::string , double);
 
    // function to set the account name
@@ -25,17 +25,21 @@ public:
    // function to retrieve the account name
    std::string getName() const;
 
+   // function to set the account initial balance
    void setBalance(const double &);
 
+   // function to retrieve the account balance
    double getBalance() const;
 
+   // function to deposit to the account
    virtual bool credit(const double &);
 
+   // function to withdraw from the account
    virtual bool debit(const double &);
 
 private:
    std::string name; // account name data member
    double balance; // account balance
-};                   // end class Account
+};                 // end class Account
 
 #endif

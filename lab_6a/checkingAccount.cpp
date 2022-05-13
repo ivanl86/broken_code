@@ -8,17 +8,20 @@
 CheckingAccount::CheckingAccount(std::string accountName, double accountBalance, double transactionFee) : Account(accountName, accountBalance), fee{transactionFee}
 {}
 
-double CheckingAccount::calculateFee() const
+// function to retrieve transaction fee
+double CheckingAccount::getFee() const
 {
     return fee;
 }
 
+// override function to deposit to the account with transaction fee
 bool CheckingAccount::credit(const double &deposit)
 {
     setBalance(getBalance() + deposit);
     return true;
 }
 
+// override function to withdraw from account with transaction fee
 bool CheckingAccount::debit(const double &charge)
 {
     if (charge > getBalance())
