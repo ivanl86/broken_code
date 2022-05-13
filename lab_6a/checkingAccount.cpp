@@ -32,7 +32,7 @@ bool CheckingAccount::credit(const double &deposit)
 // override function to withdraw from account with transaction fee
 bool CheckingAccount::debit(const double &charge)
 {
-    if ((charge + fee) > getBalance())
+    if (charge > getBalance())
         return false;
     setBalance(getBalance() - charge);
     return true;
