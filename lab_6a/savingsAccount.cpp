@@ -15,14 +15,14 @@ double SavingsAccount::calculateInterest() const
     return getBalance() * interestRate;
 }
 
-// function to retrieve the account interest rate
-double SavingsAccount::getInterestRate() const
-{
-    return interestRate;
-}
-
 // function to set the account interest rate
 void SavingsAccount::setInterestRate(const double &accountInterestRate)
 {
     interestRate = accountInterestRate;
+}
+
+// function to retrieve the account interest rate
+double SavingsAccount::getInterestRate() const
+{
+    return interestRate;
 }

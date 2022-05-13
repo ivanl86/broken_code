@@ -15,6 +15,8 @@ public:
    // constructor initializes data member name, balance, and interest rate with parameter accountName, accountBalance, and accountFee
    explicit CheckingAccount(std::string, double, double);
 
+   void setFee(const double &);
+
    // function to retrieve transaction fee
    double getFee() const;
 

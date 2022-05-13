@@ -10,16 +10,51 @@
 #include "checkingAccount.h"
 
 #define DEFAULT_INTEREST_RATE 0.01
+#define DEFAULT_TRANSACTION_FEE 3
 
 int main(int argc, char const *argv[])
 {
-    CheckingAccount ckAccount("customer", 1000, 10);
-    SavingsAccount svAccount("customer", 1000, 0.03);
+    // declare a Account type named account with the name New Account User and $1000 balance
+    Account account("New Account User", 1'000);
+    // display the account name and account balance
+    std::cout << account.getName() << " has $" << account.getBalance() << " in the account\n";
+    // deposit into the account
+    double accountDeposit{500};
+    // should output successfully deposits if the amount is greater than 0
+    std::cout << account.getName() << (account.credit(accountDeposit) ? " successfully deposits $" : " cannot deposit $") << accountDeposit << " into the account\n";
+    std::cout << account.getName() << " has $" << account.getBalance() << " in the account\n";
+    // withdraw from the account
+    double accountWithdraw{800};
+    // will throw a exception if the accountWithdraw is more than the account balance
+    std::cout << account.getName() << (account.debit(accountWithdraw) ? " successfully withdraw $" : " cannot withdraw $") << accountWithdraw << " from the account\n";
+    std::cout << account.getName() << " has $" << account.getBalance() << " in the account\n";
+    // change account name
+    account.setName("Royal Account User");
+    std::cout << account.getName() << " has $" << account.getBalance() << " in the account\n";
+    std::cout << "\n";
 
-    std::cout << ckAccount.getName() << " has $" << ckAccount.getBalance() << " with $" << ckAccount.calculateFee() << " transaction fee\n";
-    std::cout << svAccount.getName() << " has $" << svAccount.getBalance() << " with " << svAccount.calculateInterest() << "% interest rate\n";
-
+    // declare a CheckingAccount type named ckAccount with the name New Checking Account User, $800 balance, and $10 transaction fee
+    CheckingAccount ckAccount("New Checking Account User", 800, 10);
+    std::cout << ckAccount.getName() << " has $" << ckAccount.getBalance() << " in the checking account with $" << ckAccount.getFee() << " transaction fee\n";
+    // deposit into the checking account
+    double ckDeposit{2'000};
+    // return true if the deposit is successful and transaction fee will be charged
+    if (ckAccount.credit(ckDeposit))
+    {
+        ckAccount.debit(ckAccount.getFee());
+        std::cout << ckAccount.getName() << " successfully deposits $" << ckDeposit << " into the checking account\n";
+    }
+    else
+        std::cout << "Deposit cannot be equal or less than zero!\n";
+    std::cout << ckAccount.getName() << " has $" << ckAccount.getBalance() << " in the checking account with $" << ckAccount.getFee() << " transaction fee\n";
     
+
+    std::cout << "\n";
+
+    // declare a SavingsAccount type named savAccount with the name New Savings Account User, $1200 balance, and 2% interest rate
+    SavingsAccount savAccount("New Savings Account User", 1200, 0.02);
+    std::cout << savAccount.getName() << " has $" << savAccount.getBalance() << " in the savings account\n";
+
 
     return 0;
 }

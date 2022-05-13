@@ -45,6 +45,8 @@ double Account::getBalance() const
 // function to deposit to the account
 bool Account::credit(const double &deposit)
 {
+    if (deposit <= 0)
+        return false;
     balance += deposit;
     return true;
 }

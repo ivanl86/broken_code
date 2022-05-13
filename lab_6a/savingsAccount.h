@@ -18,11 +18,11 @@ public:
    // function to calculate the interest
    double calculateInterest() const;
 
-   // function to retrieve the account interest rate
-   double getInterestRate() const;
-
    // function to set the account interest rate
    void setInterestRate(const double &);
+
+   // function to retrieve the account interest rate
+   double getInterestRate() const;
 
 private:
    double interestRate; // account interest rate data member
