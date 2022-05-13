@@ -14,6 +14,8 @@ public:
    explicit CheckingAccount(std::string, double, double);
 
    double calculateFee() const;
+   bool credit(const double &);
+   bool debit(const double &);
 
 private:
    double fee; // account transaction fee

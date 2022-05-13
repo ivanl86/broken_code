@@ -29,9 +29,9 @@ public:
 
    double getBalance() const;
 
-   void credit(const double &);
+   virtual bool credit(const double &);
 
-   bool debit(const double &);
+   virtual bool debit(const double &);
 
 private:
    std::string name; // account name data member

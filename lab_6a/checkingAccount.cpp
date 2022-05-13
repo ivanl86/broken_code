@@ -12,3 +12,17 @@ double CheckingAccount::calculateFee() const
 {
     return fee;
 }
+
+bool CheckingAccount::credit(const double &deposit)
+{
+    setBalance(getBalance() + deposit);
+    return true;
+}
+
+bool CheckingAccount::debit(const double &charge)
+{
+    if (charge > getBalance())
+        return false;
+    setBalance(getBalance() - charge);
+    return true;
+}

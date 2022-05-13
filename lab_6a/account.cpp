@@ -43,9 +43,10 @@ double Account::getBalance() const
 }
 
 // function to deposit to the account
-void Account::credit(const double &deposit)
+bool Account::credit(const double &deposit)
 {
     balance += deposit;
+    return true;
 }
 
 // function to withdraw from the account

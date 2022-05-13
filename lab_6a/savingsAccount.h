@@ -15,7 +15,7 @@ public:
 
    double calculateInterest() const;
    double getInterestRate() const;
-   void setInterestRate(double);
+   void setInterestRate(const double &);
 
 private:
    double interestRate;
