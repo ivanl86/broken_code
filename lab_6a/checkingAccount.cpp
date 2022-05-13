@@ -5,8 +5,10 @@
 
 
 #include "checkingAccount.h"
-CheckingAccount::CheckingAccount(std::string accountName, double accountBalance, double transactionFee) : Account(accountName, accountBalance), fee{transactionFee}
-{}
+
+// constructor initializes data member name, balance, and interest rate with parameter accountName, accountBalance, and transaction fee
+CheckingAccount::CheckingAccount(std::string accountName, double accountBalance, double transactionFee)
+    : Account(accountName, accountBalance), fee{transactionFee} {}
 
 // function to set transaction fee
 void CheckingAccount::setFee(const double &accountFee)

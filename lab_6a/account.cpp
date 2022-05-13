@@ -7,11 +7,11 @@
 
 // constructor initializes data member name with parameter accountName
 Account::Account(std::string accountName)
-         : name{accountName} {}
+    : name{accountName} {}
 
 // constructor initializes data member name and balance
 Account::Account(std::string accountName, double accountBalance)
-         : name{accountName}
+    : name{accountName}
 {
     setBalance(accountBalance);
 }
