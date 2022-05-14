@@ -1,0 +1,13 @@
+
+class vs struct
+All data in class are private by defeault
+All data in struc are public by defeault
+
+private vs protected vs private
+They are access modifiers
+
+private: all data in private are not accessible outside of the class
+protected: 
+public: all data in public are accessible outside of the class
+
+constructor: no return type, must have the same name as the class name, and must be in public
