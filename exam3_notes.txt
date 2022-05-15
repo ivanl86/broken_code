@@ -12,9 +12,8 @@ private vs protected vs private
 They are access modifiers
 
 private: all data in private are not accessible outside of the class
-protected: 
-public: all data in public are accessible outside of the class
 protected: subclass functions can access protected class member functions but not accessible outside of the class
+public: all data in public are accessible outside of the class
 
 constructor: no return type, must have the same name as the class name, and must be in public
 destructor: delete the object once it is out of scope
