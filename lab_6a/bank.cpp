@@ -10,7 +10,24 @@
 #include "savingsAccount.h"
 #include "checkingAccount.h"
 
+void testAccount();
+void testCheckingAccount();
+void testSavingsAccount();
+
 int main(int argc, char const *argv[])
+{
+    testAccount();
+    std::cout << "\n";
+
+    testCheckingAccount();
+    std::cout << "\n";
+
+    testSavingsAccount();
+    std::cout << "\n";
+    return 0;
+}
+
+void testAccount()
 {
     // declare a Account type named account with the name New Account User and $1000 balance
     Account account("New Account User", 1'000);
@@ -32,8 +49,10 @@ int main(int argc, char const *argv[])
     // change account name
     account.setName("Royal Account User");
     std::cout << account.getName() << " has $" << account.getBalance() << " in the account\n";
-    std::cout << "\n";
+} // end test Account
 
+void testCheckingAccount()
+{
     // declare a CheckingAccount type named ckAccount with the name New Checking Account User, $800 balance, and $10 transaction fee
     CheckingAccount ckAccount("New Checking Account User", 800, 10);
     std::cout << ckAccount.getName() << " has $" << std::fixed << std::setprecision(2) << ckAccount.getBalance() << " in the checking account with $" << ckAccount.getFee() << " transaction fee\n";
@@ -69,8 +88,10 @@ int main(int argc, char const *argv[])
     // change checking account name
     ckAccount.setName("Royal Checking Account User");
     std::cout << ckAccount.getName() << " has $" << ckAccount.getBalance() << " in the checking account with $" << ckAccount.getFee() << " transaction fee\n";
-    std::cout << "\n";
+} // end test CheckingAccount
 
+void testSavingsAccount()
+{
     // declare a SavingsAccount type named savAccount with the name New Savings Account User, $1200 balance, and 1% interest rate
     SavingsAccount savAccount("New Savings Account User", 1'200, 0.01);
     std::cout << savAccount.getName() << " has $" << std::fixed << std::setprecision(2) << savAccount.getBalance() << " in the savings account with " << savAccount.getInterestRate() << "% interest rate\n";
@@ -105,6 +126,4 @@ int main(int argc, char const *argv[])
     // change savings account name 
     savAccount.setName("Royal Savings Account User");
     std::cout << savAccount.getName() << " has $" << savAccount.getBalance() << " in the savings account with " << savAccount.getInterestRate() << "% interest rate\n";
-
-    return 0;
-}
+} // end test SavingsAccount
