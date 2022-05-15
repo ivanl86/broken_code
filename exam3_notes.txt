@@ -1,7 +1,12 @@
 
+is-a relationship is inheritance
+base class : derived class
+derived class is inherit from the base class
+derived class is a specailize version of the base class
+
 class vs struct
 All data in class are private by defeault
-All data in struc are public by defeault
+All data in struct are public by defeault
 
 private vs protected vs private
 They are access modifiers
@@ -9,5 +14,47 @@ They are access modifiers
 private: all data in private are not accessible outside of the class
 protected: 
 public: all data in public are accessible outside of the class
+protected: subclass functions can access protected class member functions but not accessible outside of the class
 
 constructor: no return type, must have the same name as the class name, and must be in public
+destructor: delete the object once it is out of scope
+
+virtual function must have same return type and name
+virtual void print();
+it has its own definition, but can be overridden by subclass function
+virtual void print() = 0;
+called pure virtual function, it does not has definition and must be overridden by subclass function
+
+smart pointer
+#include <memory>
+std::unique_ptr<data_type> ptr = std::make_unique<data_type>(initialization)
+when the pointer is pointing to a resource, no other pointer can point to the same resource
+When the pointer is out of scope, the resource is destroyed
+
+std::shared_ptr<data_type> ptr = std::make_shared<data_type>(initialization)
+Can have multiple pointers pointing to the same resource
+The resource is destroyed only when all the pointers are out of scope
+
+explicit function
+only direct initialization no copy initialization
+
+polymorphism
+compile time polymorphism: it is function overloading and operator overloading
+run time polymorphism: it is function overriding
+
+dynamic stack
+allocate memory
+int val;
+int * ptr = new int;
+int array[val];
+int * arrPtr = new int[val];
+
+deallocate memory
+delete ptr;
+delete[] arrPtr;
+
+operator overloading
+same operator with different definitions, and it use definition depends on the arguments
+
+friend
+a friend function of the class has access to both privatte and protected data member of the class

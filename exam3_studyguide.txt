@@ -6,9 +6,9 @@ class inheritance problem
 class definition
     find errors
 
-fill the blank questions
+fill in the blank questions
     how to apply inheritance
-    new operator
+    new keyword
 
 dynamic stack
     how to deallocate
