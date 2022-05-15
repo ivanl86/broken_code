@@ -25,6 +25,7 @@ virtual void print() = 0;
 called pure virtual function, it does not has definition and must be overridden by subclass function
 
 smart pointer
+pointer that use new keyword to allocate heap memory for a object and automatically deallocate memory of the object using delete
 #include <memory>
 std::unique_ptr<data_type> ptr = std::make_unique<data_type>(initialization)
 when the pointer is pointing to a resource, no other pointer can point to the same resource
@@ -35,7 +36,10 @@ Can have multiple pointers pointing to the same resource
 The resource is destroyed only when all the pointers are out of scope
 
 explicit function
-only direct initialization no copy initialization
+only direct initialization
+no copy initialization
+className entity(10, 20); // direct initialization
+className entity = {10, 20}; // copy initialization
 
 polymorphism
 definition: the same entity(function or object) behaves differently in different scenarios
@@ -101,3 +105,27 @@ and the static member function can only be accessed by using the class name and 
 className::staticFunctionName();
 
 static member function can only access static data member,other static member functions and any other functions from outside the class
+
+sizeof operator
+used to return the actual size of a object in bytes
+sizeof(int);
+sizeof(className);
+
+linker command:
+ls -> list all files in the current directory
+g++ -c func1.cpp func2.cpp
+-> compile into .o files but no linking
+g++ -c func1.o func2.o main.exe
+-> link together and create a executable file
+.\main.exe -> run the executable file
+
+g++ -o main.exe func1.cpp func1.h
+-> compile and link together to create a executable file
+.\main.exe -> run the executable file
+
+this keyword
+*this->
+to dereference this
+this->
+access the data members in class when data members have the same name as the parameters/ local varialbes
+when you need to access a value from a pointer
