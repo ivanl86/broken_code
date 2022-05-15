@@ -38,8 +38,15 @@ explicit function
 only direct initialization no copy initialization
 
 polymorphism
+definition: the same entity(function or object) behaves differently in different scenarios
 compile time polymorphism: it is function overloading and operator overloading
 run time polymorphism: it is function overriding
+
+new keyword
+allocate memory and initialize an object or array of objects of specific type and return a non-zero pointer to the object(s)
+
+delete operator
+deallocate a block of memory allocated by the new keyword
 
 dynamic stack
 allocate memory
@@ -55,5 +62,42 @@ delete[] arrPtr;
 operator overloading
 same operator with different definitions, and it use definition depends on the arguments
 
+void operator+(const Pet&);
+
+void Pet::operator=(const Pet &p)
+{
+    type = p.type;
+    breed = p.bread;
+    name = p.name;
+}
+
 friend
-a friend function of the class has access to both privatte and protected data member of the class
+a friend function of the class has access to both private and protected data member of the class
+
+class Pet
+{
+    friend std::ostream& operator<<(std::ostream&, const Pet&);
+
+public:
+...}
+
+std::ostream& operator<<(std::ostream& os, const Pet& p)
+{
+    os << p.getName() << " the " << p.getType() << " is a " << p.getBreed() << " and says " << p.speak();
+    return os;
+}
+
+static variable in a class
+when declare a variblae of a class as static,
+only one copy of the static variable is created no matter how many objects of the class has created
+
+the static variable is shared by all objects of the class
+when the first object is created, all static varibales are initialize to zero unless specified
+if one of the objects changed the static varialbe, it reflects that change across all objects
+
+static member function is independent of any particular object of the class
+the static member function can be called if no object of the class exist
+and the static member function can only be accessed by using the class name and the scope resolution operator ::
+className::staticFunctionName();
+
+static member function can only access static data member,other static member functions and any other functions from outside the class
