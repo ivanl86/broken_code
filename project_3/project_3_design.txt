@@ -54,3 +54,9 @@ Uninfected
 it represents the scientist and the spec-op
 it overrides the pure virtual move funciton in Person class
 it should throw a runtime exception if the move is invalid
+
+write a program called building_z.cpp to handle all uesr input and output and turn taking
+and the player's move making
+std::cout << buildingZ << std::endl;
+
+the spec-op saves the scientist if both of their positions are at (0, 0)
