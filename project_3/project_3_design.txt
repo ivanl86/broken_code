@@ -60,3 +60,8 @@ and the player's move making
 std::cout << buildingZ << std::endl;
 
 the spec-op saves the scientist if both of their positions are at (0, 0)
+
+do not change the user interface or the behavior
+add pre and post condition comments to function prototype in each header file
+can add private members to the header files of any class
+but dot not change the public or protected sections unless granted permission
