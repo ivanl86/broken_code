@@ -28,4 +28,29 @@ contains all person objects
 1 spec-op, 1 scientist
 friend ostrean<< to output the layout of the building with the position of all the person objects
 
-Position
+Position (struct)
+public data members: x and y
+a constructor to initial values of x and y
+and a copy of constructor that takes a position as an argument
+
+Person
+base class for all the infected, the spec-op, the scientist
+Protected: position data member
+type of person
+a constructor that takes a position and type as its only argument
+operator== and operator!= are overridden to compare the position of two person objects
+pure virtual function called move which takes the move as its argument
+
+Infected
+pure virtual function called move which has a move as its parameter
+
+Lounger, Hyper, Aggressor
+override the move function in infected
+a constructor takes a position as its parameter
+the constructor for the Aggressor takes a second parameter which is the pointer to the spec-op object
+It allows the aggressor to purse the spec-op
+
+Uninfected
+it represents the scientist and the spec-op
+it overrides the pure virtual move funciton in Person class
+it should throw a runtime exception if the move is invalid
