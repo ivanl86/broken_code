@@ -1,0 +1,31 @@
+
+objects:
+building
+position
+person : infected
+: lounger 20% chance to make a random move
+: hyper always make a random move
+: aggressor always make a move and purse the spec-op within 2 adjacent tiles
+person : uninfected
+
+Building Z has 80 rooms in 8x10 grid
+spec-op starts at room (0, 0)
+6 actions
+(N)orth, (S)outh, (W)est, (E)ast, (P)ause, (C)arry
+
+The antidote is located in one of the four center rooms: (4, 3), (4, 4), (5, 3), (5, 4)
+
+O = spec-op
+S = scientist
+L = lounger
+H = hyper
+A = aggressor
+
+Class:
+Building
+contains all person objects
+6 lounger, 4 hyper, 2 aggressor
+1 spec-op, 1 scientist
+friend ostrean<< to output the layout of the building with the position of all the person objects
+
+Position

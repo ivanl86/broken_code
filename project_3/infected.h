@@ -1,0 +1,24 @@
+#include "person.h"
+#include "position.h"
+
+// should inherit from Person but be an abstract class
+class Infected
+{
+public:
+    /** Infected constructor. Calls person constructor  
+     * @parameter pos is the initial position. 
+     * @parameter type is the type of person. */
+    Infected(const Position& pos, char type);
+
+    /** Moves the Infected. This is a pure virtual function which is overrriden in the derived Infecteds
+     * @parameter move determines the  position to move to. Should be a pure virtual function, 
+     *            Defaults to 'A' for auto */
+    void move(char move = 'A');
+    
+    /** Virtual Destructor */
+    ~Infected() {}; 
+
+protected:
+
+private:
+};
