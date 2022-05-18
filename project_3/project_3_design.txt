@@ -65,3 +65,8 @@ do not change the user interface or the behavior
 add pre and post condition comments to function prototype in each header file
 can add private members to the header files of any class
 but dot not change the public or protected sections unless granted permission
+
+Questions
+why use the default 'A' in move()
+~Aggressor(){}; in aggressor.h
+std::vector<Infected*> guards; in building.h
