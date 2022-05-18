@@ -5,9 +5,10 @@
 #define UNINFECTED_H
 
 // should inherit from Person
-class Uninfected : Person
+class Uninfected : public Person
 {
 public:
+    Uninfected();
     /** Uninfected constructor. Calls person constructor  
      * @parameter pos is the initial position. 
      * @parameter type is the type of person. */
@@ -20,11 +21,12 @@ public:
     void move(const char move); 
 
     /** Destructor */
-    ~Uninfected(){};
+    ~Uninfected();
     
 protected:
 
 private:
+    bool carry{false};
 };
 
 #endif

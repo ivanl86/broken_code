@@ -5,7 +5,7 @@
 #define INFECTED_H
 
 // should inherit from Person but be an abstract class
-class Infected : Person
+class Infected : public Person
 {
 public:
     /** Infected constructor. Calls person constructor  
@@ -22,6 +22,7 @@ public:
     virtual ~Infected() {}; 
 
 protected:
+    int random(const int &, const int &);
 
 private:
 };

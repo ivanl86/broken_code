@@ -6,7 +6,7 @@
 #define HYPER_H
 
 // should inherit from Guard
-class Hyper : Infected
+class Hyper : public Infected
 {
 public:
     /** Hyper constructor. Calls Infected constructor with type 'H'

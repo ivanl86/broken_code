@@ -6,7 +6,7 @@
 #define AGGRESSOR_H
 
 // should inherit from Infected
-class Aggressor : Infected
+class Aggressor : public Infected
 {
 public:
     /** Aggressor constructor. Calls Infected constructor with type 'H'

@@ -6,7 +6,7 @@
 #define LOUNGER_H
 
 // should inherit from Infected 
-class Lounger : Infected
+class Lounger : public Infected
 {
 public:
     /** Lounger constructor. Calls Infected constructor with type 'I'
@@ -24,6 +24,7 @@ public:
     ~Lounger(){}
     
 protected:
+    int random(const int &, const int &);
 
 private:
 };
