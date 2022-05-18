@@ -2,8 +2,11 @@
 #include "infected.h"
 #include "uninfected.h"
 
+#ifndef AGGRESSOR_H
+#define AGGRESSOR_H
+
 // should inherit from Infected
-class Aggressor
+class Aggressor : Infected
 {
 public:
     /** Aggressor constructor. Calls Infected constructor with type 'H'
@@ -25,3 +28,5 @@ protected:
 private:
     const Uninfected* hero;
 };
+
+#endif

@@ -1,5 +1,8 @@
 #include "position.h"
 
+#ifndef PERSON_H
+#define PERSON_H
+
 // The base class of Infecteds and Uninfecteds and is abstract
 class Person
 {
@@ -31,10 +34,10 @@ public:
 
     /** Moves the Person from the current position to pos. This is a pure virtual function
      * @parameter move determines the direction to move. The default value is 'A' for auto  */
-    void move(char move = 'A'); 
+    virtual void move(char move = 'A') = 0; 
 
     /** Virtual Destructor */
-    ~Person(){}
+    virtual ~Person(){}
     
 protected:
     Position* pos;
@@ -43,3 +46,5 @@ protected:
 private:
     
 };
+
+#endif
