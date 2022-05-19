@@ -16,10 +16,10 @@ public:
     /** Moves the Infected. This is a pure virtual function which is overrriden in the derived Infecteds
      * @parameter move determines the  position to move to. Should be a pure virtual function, 
      *            Defaults to 'A' for auto */
-    void move(char move = 'A');
+    virtual void move(char move = 'A') = 0;
     
     /** Virtual Destructor */
-    ~Infected() {}; 
+    virtual ~Infected(); 
 
 protected:
 

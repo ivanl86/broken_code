@@ -34,10 +34,10 @@ public:
 
     /** Moves the Person from the current position to pos. This is a pure virtual function
      * @parameter move determines the direction to move. The default value is 'A' for auto  */
-    void move(char move = 'A'); 
+    virtual void move(char move = 'A') = 0; 
 
     /** Virtual Destructor */
-    ~Person(){}
+    virtual ~Person();
     
 protected:
     Position* pos;
