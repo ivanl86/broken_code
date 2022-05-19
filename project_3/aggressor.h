@@ -2,14 +2,16 @@
 #include "infected.h"
 #include "uninfected.h"
 
+#ifndef AGGRESSOR_H
+#define AGGRESSOR_H
+
 // should inherit from Infected
-class Aggressor
+class Aggressor : public Infected
 {
 public:
     /** Aggressor constructor. Calls Infected constructor with type 'H'
-     * @parameter pos is the initial position.
-     * @parameter hero is a pointer to the hero object in the castle */
-    Aggressor(const Position& pos, const Innocent& hero);
+     * @parameter pos is the initial position.*/
+    Aggressor(const Position& pos);
 
     /** Moves the Infected. This function overrides in the Infected's pure virtual function
      *  moves this Infected towards the spec-op either in the x or y direction.
@@ -23,5 +25,7 @@ public:
 protected:
 
 private:
-    const Uninfected* hero;
+    // const Uninfected* hero;
 };
+
+#endif

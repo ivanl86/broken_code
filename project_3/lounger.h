@@ -2,8 +2,11 @@
 #include "position.h"
 #include "Infected.h"
 
+#ifndef LOUNGER_H
+#define LOUNGER_H
+
 // should inherit from Infected 
-class Lounger
+class Lounger : public Infected
 {
 public:
     /** Lounger constructor. Calls Infected constructor with type 'I'
@@ -24,3 +27,5 @@ protected:
 
 private:
 };
+
+#endif

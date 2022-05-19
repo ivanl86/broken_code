@@ -1,5 +1,8 @@
 #include "position.h"
 
+#ifndef PERSON_H
+#define PERSON_H
+
 // The base class of Infecteds and Uninfecteds and is abstract
 class Person
 {
@@ -43,3 +46,5 @@ protected:
 private:
     
 };
+
+#endif

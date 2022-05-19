@@ -1,8 +1,11 @@
 #include "person.h"
 #include "position.h"
 
+#ifndef INFECTED_H
+#define INFECTED_H
+
 // should inherit from Person but be an abstract class
-class Infected
+class Infected : public Person
 {
 public:
     /** Infected constructor. Calls person constructor  
@@ -22,3 +25,5 @@ protected:
 
 private:
 };
+
+#endif

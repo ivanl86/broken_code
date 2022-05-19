@@ -9,6 +9,9 @@
 #include "uninfected.h"
 #include "infected.h"
 
+#ifndef BUILDING_H
+#define BUILDING_H
+
 // this class does not provide UI nor does it contain main. 
 class Building
 {
@@ -32,3 +35,5 @@ private:
     Uninfected* specOp;
     Uninfected* scientist;
 };
+
+#endif

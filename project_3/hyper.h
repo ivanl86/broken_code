@@ -2,8 +2,11 @@
 #include "position.h"
 #include "infected.h"
 
-// should inherit from Guard
-class Hyper
+#ifndef HYPER_H
+#define HYPER_H
+
+// should inherit from Infected
+class Hyper : public Infected
 {
 public:
     /** Hyper constructor. Calls Infected constructor with type 'H'
@@ -23,3 +26,5 @@ protected:
 
 private:
 };
+
+#endif

@@ -1,8 +1,11 @@
 #include "person.h"
 #include "position.h"
 
+#ifndef UNINFECTED_H
+#define UNINFECTED_H
+
 // should inherit from Person
-class Uninfected
+class Uninfected : public Person
 {
 public:
     /** Uninfected constructor. Calls person constructor  
@@ -23,3 +26,5 @@ protected:
 
 private:
 };
+
+#endif
