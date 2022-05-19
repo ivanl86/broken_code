@@ -1,4 +1,4 @@
-#include "cstdlib"
+#include <cstdlib>
 
 #include "position.h"
 
@@ -44,9 +44,11 @@ public:
 protected:
     Position* pos;
     char type;
-
+    bool isValidMove();
 private:
     
 };
+
+int random(const int &, const int &);
 
 #endif

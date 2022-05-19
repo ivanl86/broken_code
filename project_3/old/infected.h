@@ -22,7 +22,6 @@ public:
     virtual ~Infected() {}; 
 
 protected:
-    int random(const int &, const int &);
 
 private:
 };

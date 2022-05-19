@@ -25,7 +25,7 @@ public:
 protected:
 
 private:
-    const Uninfected* hero;
+    // const Uninfected* hero; // should not needed
 };
 
 #endif

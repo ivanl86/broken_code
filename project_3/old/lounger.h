@@ -24,7 +24,6 @@ public:
     ~Lounger(){}
     
 protected:
-    int random(const int &, const int &);
 
 private:
 };

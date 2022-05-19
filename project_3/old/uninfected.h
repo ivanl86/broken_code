@@ -1,7 +1,7 @@
 #include "person.h"
 #include "position.h"
 
-#include <stdexcept>
+#include <stdexcept> // added myself
 
 #ifndef UNINFECTED_H
 #define UNINFECTED_H
@@ -10,7 +10,7 @@
 class Uninfected : public Person
 {
 public:
-    //Uninfected();
+    Uninfected();
     /** Uninfected constructor. Calls person constructor  
      * @parameter pos is the initial position. 
      * @parameter type is the type of person. */
@@ -28,7 +28,8 @@ public:
 protected:
 
 private:
-    bool carry{false};
+    bool hasAntidote{false};
+
 };
 
 #endif

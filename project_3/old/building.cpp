@@ -2,6 +2,8 @@
 
 Building::Building()
 {
+    guards = new std::vector<Infected*>;
+    //guards = std::make_unique<std::vector<Infected*>>();
     specOp = new Uninfected;
     scientist = new Uninfected;
 }

@@ -6,6 +6,8 @@
 #include <ctime>
 #include <stdexcept>
 
+//#include <memory>
+
 #include "uninfected.h"
 #include "infected.h"
 
@@ -32,6 +34,7 @@ public:
 
 private:
     std::vector<Infected*> guards;
+    //std::unique_ptr<std::vector<Infected*>> guards;
     Uninfected* specOp;
     Uninfected* scientist;
 };
