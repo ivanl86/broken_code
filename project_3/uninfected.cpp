@@ -11,21 +11,23 @@ void Uninfected::move(const char move)
         if (pos->y != 0)
             pos->y -= 1;
         else
-        break;
+            throw std::runtime_error("");
     case 'S':
         if (pos->y != 9)
             pos->y += 1;
-        break;
+        else
+            throw std::runtime_error("");
     case 'E':
         if (pos->x != 7)
             pos->x += 1;
-        break;
+        else
+            throw std::runtime_error("");
     case 'W':
         if (pos->x != 0)
             pos->x -= 1;
-        break;
+        else
+            throw std::runtime_error("");
     case 'P':
-        /* code */
         break;
     case 'C':
         if (!carry)

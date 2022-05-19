@@ -2,7 +2,6 @@
 
 Building::Building()
 {
-    guards = new std::vector<Infected>;
     specOp = new Uninfected;
     scientist = new Uninfected;
 }

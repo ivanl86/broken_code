@@ -1,0 +1,47 @@
+# Design Notes
+## Dungeon
+- 12 pits distributed randomly
+    - use any rand func
+- 1 Aldrac
+- They should not be located at (0, 0), (0, 1), (1, 0)
+- 8 x 8
+- enter/exit at (0, 0)
+- 1 box of gold located at an undisclosed random location
+location
+- artifact locations are unknown
+- none of these artifacts can share a room
+- percepts are displayed as
+    - G gold
+    - S stench
+    - B breeze
+- user location displayed as U
+- each cell displayed as 2 strings of 5 characters
+
+## Perceptions
+- all perceptions are only in directly adjacent rooms
+- when in adjacent room to a pit, we sense a breeze (B)
+- when in adjacent room to the Aldrac, we sense a stench (S)
+- when in the room with the gold, we sense a glimmer
+- perceptions are only displayed when the user enters a room and will be displayed for the rest of the game
+
+## Movement
+- R, L, U, D, and P to move Right, Left, Up, Down, and Pickup gold
+- cannot move out of bounds (issue error message if attempted)
+- cannot pickup gold in a empty room
+- when carrying gold print message saying should
+
+## Gameplay
+- clear screen between moves
+- if the user enters a room with a pit or Aldrac the game ends with a loss
+- prompt to play again
+- player wins if carrying gold and reaching (0, 0)
+
+## Code
+- clear instream after input
+- case insensative input
+
+## Design
+- UI class
+- Dungeon class
+- Controller class
+- ...

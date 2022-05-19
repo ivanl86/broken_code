@@ -67,8 +67,9 @@ can add private members to the header files of any class
 but dot not change the public or protected sections unless granted permission
 
 Questions
-Aggressor() delete Innocent?
+//Aggressor() delete Innocent?
 ~Aggressor(){}; in aggressor.h
 std::vector<Infected*> guards; in building.h
 add default constructor
 why use the default 'A' in move()
+does invalid move count as a turn?
