@@ -20,7 +20,7 @@ public:
     void move(const char move); 
 
     /** Destructor */
-    ~Uninfected(){};
+    ~Uninfected();
     
 protected:
 

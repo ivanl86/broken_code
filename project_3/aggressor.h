@@ -20,7 +20,7 @@ public:
     void move(const char move = 'A'); 
 
     /** Destructor */
-    ~Aggressor(){};
+    ~Aggressor();
     
 protected:
 

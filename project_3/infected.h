@@ -1,3 +1,5 @@
+#include <cstdlib>
+
 #include "person.h"
 #include "position.h"
 
@@ -25,5 +27,7 @@ protected:
 
 private:
 };
+
+int random(const int &, const int &);
 
 #endif
