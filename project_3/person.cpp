@@ -13,6 +13,6 @@ bool Person::operator==(const Person &other) const
 { return (other.pos->x == this->pos->x && other.pos->y == this->pos->y); }
 
 bool Person::operator!=(const Person &other) const
-{ return (this->pos->x != other.pos->x && this->pos->y != other.pos->y); }
+{ return (other.pos->x != this->pos->x && other.pos->y != this->pos->y); }
 
 Person::~Person() {}
