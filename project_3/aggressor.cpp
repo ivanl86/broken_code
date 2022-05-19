@@ -4,7 +4,7 @@ Aggressor::Aggressor(const Position &pos) : Infected(pos, 'A')
 {}
 
 void Aggressor::move(const char move)
-{
+{/*
     do
     {
         int c{random(1, 5)};
@@ -23,7 +23,7 @@ void Aggressor::move(const char move)
             if (this->pos->x < (MAX_X - 1))
                 this->pos->x + 1;
         }
-    } while (true);
+    } while (true);*/
 }
 
 Aggressor::~Aggressor()

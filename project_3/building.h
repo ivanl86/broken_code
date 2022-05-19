@@ -28,7 +28,7 @@ public:
     void move(char move);
 
     /** Building destructor. Deletes all heap based objects (including guards) */
-    ~Building(){}
+    ~Building();
 
 private:
     std::vector<Infected*> guards;

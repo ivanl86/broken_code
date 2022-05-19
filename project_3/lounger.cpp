@@ -4,7 +4,7 @@ Lounger::Lounger(const Position &pos) : Infected(pos, 'L')
 {}
 
 void Lounger::move(const char move)
-{
+{/*
     if (random(1,100) <= 20)
     {
         do
@@ -26,7 +26,7 @@ void Lounger::move(const char move)
                     this->pos->x + 1;
             }
         } while (true);
-    }
+    }*/
 }
 
 Lounger::~Lounger()
