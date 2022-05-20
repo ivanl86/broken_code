@@ -1,5 +1,7 @@
 #include "position.h"
 
+#include <stdexcept> // added
+
 #ifndef PERSON_H
 #define PERSON_H
 
@@ -42,9 +44,14 @@ public:
 protected:
     Position* pos;
     char type;
+    
+    void setPosition(const Position &pos);
+
+    bool isInValidRange(char move);
+    size_t random(const size_t &start, const size_t &end);
 
 private:
-    
+
 };
 
 #endif

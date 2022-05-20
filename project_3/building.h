@@ -8,9 +8,16 @@
 
 #include "uninfected.h"
 #include "infected.h"
+#include "person.h"
+
+#include "lounger.h" // added
+#include "hyper.h" // added
+#include "aggressor.h" // added
 
 #ifndef BUILDING_H
 #define BUILDING_H
+
+#define MAX_GUARD 12
 
 // this class does not provide UI nor does it contain main. 
 class Building
@@ -34,6 +41,14 @@ private:
     std::vector<Infected*> guards;
     Uninfected* specOp;
     Uninfected* scientist;
+    bool hasAntidote;
+
+    void initGuards();
+    void initScientist();
+    void initSpecOp();
+    Position getRandomPosition();
+    bool isInValidRange(char move);
+    size_t randomRange(const size_t &start, const size_t &end);
 };
 
 #endif

@@ -4,29 +4,21 @@ Lounger::Lounger(const Position &pos) : Infected(pos, 'L')
 {}
 
 void Lounger::move(const char move)
-{/*
-    if (random(1,100) <= 20)
+{
+    if (isInValidRange(move) && (random(1, 100) <= 20))
     {
-        do
+        switch (random(1, 4))
         {
-            int c{random(1, 5)};
-            switch (c)
-            {
-            case 1: // N
-                if (this->pos->y < (MAX_Y - 1))
-                    this->pos->y + 1;
-            case 2: // S
-                if (this->pos->y > 0)
-                    this->pos->y - 1;
-            case 3: // E
-                if (this->pos->x > 0)
-                    this->pos->x - 1;
-            case 4: // W
-                if (this->pos->x < (MAX_X - 1))
-                    this->pos->x + 1;
-            }
-        } while (true);
-    }*/
+        case 1: // N
+            this->pos->x - 1;
+        case 2: // S
+            this->pos->x + 1;
+        case 3: // E
+            this->pos->y + 1;
+        case 4: // W
+            this->pos->y - 1;
+        }
+    }
 }
 
 Lounger::~Lounger()

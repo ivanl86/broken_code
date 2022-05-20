@@ -73,3 +73,31 @@ std::vector<Infected*> guards; in building.h
 add default constructor
 why use the default 'A' in move()
 does invalid move count as a turn?
+
+    Position pos(0, 0);
+    if (!(isInValidRange(move)))
+        throw std::runtime_error("");
+    switch (move)
+    {
+    case 'N':
+        if (specOp->getPosition() == pos);
+        specOp->x - 1;
+        this->pos->x - 1;
+    case 'S':
+        this->pos->x + 1;
+    case 'E':
+        this->pos->y + 1;
+    case 'W':
+        this->pos->y - 1;
+    case 'C':
+        hasAntidote = true;
+    case 'P':
+        break;
+    }
+
+        return ((move == 'N' && (this->pos->x > 0))
+         || (move == 'S' && (this->pos->x < MAX_X))
+         || (move == 'E' && (this->pos->y < MAX_Y))
+         || (move == 'W' && (this->pos->y > 0))
+         || (move == 'C')
+         || (move == 'P'));

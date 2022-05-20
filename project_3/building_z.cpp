@@ -14,8 +14,27 @@
 #include "aggressor.h"
 #include "uninfected.h"
 
+char getChar(const std::string &prompt);
+
 int main(int argc, char const *argv[])
 {
+    char g;
+    std::cout << "It runs!!!";
     Building bdg;
+    bdg.move(g);
     return 0;
+}
+
+char getChar(const std::string &prompt)
+{
+    char move;
+    do
+    {
+        std::cout << prompt; // "Your move [N,S,W,E,P,C]: "
+        std::cin >> move;
+        move = toupper(move);
+        if (move == 'N' || move == 'S' || move == 'W' || move == 'E' || move == 'P' || move == 'C')
+            return move;
+        std::cout << "Invalid Input!\n\n";
+    } while (true);
 }
