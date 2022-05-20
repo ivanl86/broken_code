@@ -18,9 +18,19 @@ char getChar(const std::string &prompt);
 
 int main(int argc, char const *argv[])
 {
-    char g;
+    char g{'S'};
     Building bdg;
-    bdg.move(g);
+    do
+    {
+        try
+        {
+            bdg.move(getChar("Your move [N,S,W,E,P,C]: "));
+            break;
+        }
+        catch (const std::runtime_error e)
+        { std::cerr << "Invalid move!\n"; }
+    } while (true);
+
     std::cout << bdg;
     return 0;
 }

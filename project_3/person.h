@@ -46,10 +46,6 @@ protected:
     char type;
     
     void setPosition(const Position &pos);
-
-    bool isInValidRange(char move);
-    size_t random(const size_t &start, const size_t &end);
-
 private:
 
 };

@@ -11,22 +11,21 @@ Building::Building()
 
 std::ostream& operator<<(std::ostream &os, const Building &bdg)
 {
-    os << "It runs!!!";
+    os << "Rescue mission in progress\n";
     return os;
 }
 
 void Building::move(char move)
 {
-    hasAntidote = true;
-    switch (move)
-    {
-    case 'N':
-        /* code */;
-        break;
-    
-    default:
-        break;
-    }
+    if (!isInValidRange(move))
+        throw std::runtime_error("");
+    if ((move == 'C') && !hasAntidote)
+        hasAntidote = true;
+    specOp->move(move);
+    if (hasAntidote)
+        scientist->move(move);
+    for (size_t i = 0; i < MAX_ZOMBIE_QTY; i++)
+        zombies.at(i)->move();
 }
 
 Building::~Building()
@@ -57,7 +56,6 @@ Position Building::getRandomPosition()
     Position pos(randomRange(0, MAX_X), randomRange(0, MAX_Y));
     while ((pos.x + pos.y) < 2)
         pos = {randomRange(0, MAX_X), randomRange(0, MAX_Y)};
-
     return pos;
 }
 

@@ -24,7 +24,8 @@ public:
     virtual ~Infected(); 
 
 protected:
-    
+    size_t random(const size_t &start, const size_t &end);
+
 private:
 };
 

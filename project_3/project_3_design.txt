@@ -102,7 +102,16 @@ does invalid move count as a turn?
          || (move == 'C')
          || (move == 'P'));
 
-Questions
+    switch (move)
+    {
+    case 'N':
+        this->pos->x + 1;
+    case 'S':
+        this->pos->x - 1;
+    case 'E':
+        this->pos->y + 1;
+    case 'W':
+        this->pos->y - 1;
 
 
 

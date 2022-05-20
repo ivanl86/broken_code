@@ -5,17 +5,18 @@ Lounger::Lounger(const Position &pos) : Infected(pos, 'L')
 
 void Lounger::move(const char move)
 {
-    if (isInValidRange(move) && (random(1, 100) <= 20))
+    if (random(1, 100) <= 20)
     {
-        switch (random(1, 4))
+        std::string stumble{"NSEW"};
+        switch (stumble[random(0, 3)])
         {
-        case 1: // N
-            this->pos->x - 1;
-        case 2: // S
+        case 'N':
             this->pos->x + 1;
-        case 3: // E
+        case 'S':
+            this->pos->x - 1;
+        case 'E':
             this->pos->y + 1;
-        case 4: // W
+        case 'W':
             this->pos->y - 1;
         }
     }
