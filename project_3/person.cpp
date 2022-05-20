@@ -1,5 +1,5 @@
 #include "person.h"
-/*
+
 Person::Person(const Position& pos, char type) : type{type}
 { *this->pos = pos; }
 
@@ -15,5 +15,5 @@ bool Person::operator==(const Person &other) const
 bool Person::operator!=(const Person &other) const
 { return (other.pos->x != this->pos->x && other.pos->y != this->pos->y); }
 
-Person::~Person() {}
-*/
+Person::~Person()
+{}

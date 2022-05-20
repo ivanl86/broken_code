@@ -3,7 +3,7 @@
 Hyper::Hyper(const Position &pos) : Infected(pos, 'H')
 {}
 
-void move(const char move)
+void Hyper::move(const char move)
 {}
 
 Hyper::~Hyper()

@@ -1,17 +1,16 @@
 #include "building.h"
 
-std::ostream& operator<<(std::ostream &os, const Building &bdg)
-{
-    return os;
-}
-
 Building::Building()
 {}
 
-void Building::move(char move)
+std::ostream& operator<<(std::ostream &os, const Building &bdg)
 {
-    
+    os << bdg;
+    return os;
 }
+
+void Building::move(char move)
+{}
 
 Building::~Building()
 {}

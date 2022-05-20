@@ -24,10 +24,10 @@ public:
     virtual ~Infected(); 
 
 protected:
-
+    int random(const int &, const int &);
 private:
 };
 
-int random(const int &, const int &);
+
 
 #endif
