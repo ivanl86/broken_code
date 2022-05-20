@@ -1,10 +1,7 @@
 #include "person.h"
 
 Person::Person(const Position& pos, char type) : type{type}
-{
-    //this->pos->x = pos.x;
-    //this->pos->y = pos.y;
-}
+{ this->pos = new Position(pos); }
 
 Position Person::getPosition() const
 { return *this->pos; }

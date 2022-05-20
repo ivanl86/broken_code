@@ -3,7 +3,7 @@
 Building::Building()
 {
     srand(static_cast<size_t>(time(NULL)));
-    initGuards();
+    initZombies();
     initScientist();
     initSpecOp();
     hasAntidote = false;
@@ -11,17 +11,21 @@ Building::Building()
 
 std::ostream& operator<<(std::ostream &os, const Building &bdg)
 {
-    os << bdg;
+    os << "It runs!!!";
     return os;
 }
 
 void Building::move(char move)
 {
     hasAntidote = true;
-    if (hasAntidote)
+    switch (move)
     {
-        //scientist->getPosition().x = specOp->getPosition().x;
-        //scientist->getPosition().y = specOp->getPosition().y;
+    case 'N':
+        /* code */;
+        break;
+    
+    default:
+        break;
     }
 }
 
@@ -31,15 +35,15 @@ Building::~Building()
     delete specOp;
 }
 
-void Building::initGuards()
+void Building::initZombies()
 {
-    guards.resize(MAX_GUARD);
-    for (size_t i = 0; i < 6; ++i)
-        guards.at(i) = new Lounger(getRandomPosition());
-    for (size_t i = 6; i < 10; ++i)
-        guards.at(i) = new Hyper(getRandomPosition());
-    for (size_t i = 10; i < MAX_GUARD; ++i)
-        guards.at(i) = new Aggressor(getRandomPosition());;
+    zombies.reserve(MAX_ZOMBIE_QTY);
+    for (size_t i = 0; i < MAX_LOUNGER_QTY; ++i)
+        zombies.emplace_back(new Lounger(getRandomPosition()));
+    for (size_t i = 0; i < MAX_HYPER_QTY; ++i)
+        zombies.emplace_back(new Hyper(getRandomPosition()));
+    for (size_t i = 0; i < MAX_AGGRESSOR_QTY; ++i)
+        zombies.emplace_back(new Aggressor(getRandomPosition()));
 }
 
 void Building::initScientist()
@@ -51,7 +55,7 @@ void Building::initSpecOp()
 Position Building::getRandomPosition()
 {
     Position pos(randomRange(0, MAX_X), randomRange(0, MAX_Y));
-    while ((pos.x + pos.y) <= 2)
+    while ((pos.x + pos.y) < 2)
         pos = {randomRange(0, MAX_X), randomRange(0, MAX_Y)};
 
     return pos;
@@ -59,8 +63,12 @@ Position Building::getRandomPosition()
 
 bool Building::isInValidRange(char move)
 {
-    if (specOp->getPosition().x == scientist->getPosition().x);
-    return true;
+    return ((move == 'N' && specOp->getPosition().x > 0)
+         || (move == 'S' && specOp->getPosition().x < (MAX_X - 1))
+         || (move == 'E' && specOp->getPosition().y < (MAX_Y - 1))
+         || (move == 'W' && specOp->getPosition().x > 0)
+         || (move == 'C' && specOp->getPosition().x == scientist->getPosition().x && specOp->getPosition().y == scientist->getPosition().y)
+         || (move == 'P'));
 }
 
 size_t Building::randomRange(const size_t &start, const size_t &end)

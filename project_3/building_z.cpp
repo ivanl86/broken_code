@@ -19,9 +19,9 @@ char getChar(const std::string &prompt);
 int main(int argc, char const *argv[])
 {
     char g;
-    std::cout << "It runs!!!";
     Building bdg;
     bdg.move(g);
+    std::cout << bdg;
     return 0;
 }
 

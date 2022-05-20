@@ -12,7 +12,7 @@ struct Position
     size_t y;
     
     Position(size_t x, size_t y);
-    Position(Position& other);
+    Position(const Position& other);
 };
 
 #endif

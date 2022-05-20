@@ -101,3 +101,9 @@ does invalid move count as a turn?
          || (move == 'W' && (this->pos->y > 0))
          || (move == 'C')
          || (move == 'P'));
+
+Questions
+
+
+
+toString

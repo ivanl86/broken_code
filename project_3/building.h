@@ -4,7 +4,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
-#include <stdexcept>
+// #include <stdexcept>
 
 #include "uninfected.h"
 #include "infected.h"
@@ -17,7 +17,10 @@
 #ifndef BUILDING_H
 #define BUILDING_H
 
-#define MAX_GUARD 12
+#define MAX_ZOMBIE_QTY 12
+#define MAX_LOUNGER_QTY 6
+#define MAX_HYPER_QTY 4
+#define MAX_AGGRESSOR_QTY 2
 
 // this class does not provide UI nor does it contain main. 
 class Building
@@ -38,12 +41,12 @@ public:
     ~Building();
 
 private:
-    std::vector<Infected*> guards;
+    std::vector<Infected*> zombies;
     Uninfected* specOp;
     Uninfected* scientist;
     bool hasAntidote;
 
-    void initGuards();
+    void initZombies();
     void initScientist();
     void initSpecOp();
     Position getRandomPosition();
