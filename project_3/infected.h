@@ -25,6 +25,7 @@ public:
 
 protected:
     size_t random(const size_t &start, const size_t &end);
+    bool isValidStumble(const char &stumble);
 
 private:
 };

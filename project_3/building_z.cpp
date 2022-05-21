@@ -15,23 +15,39 @@
 #include "uninfected.h"
 
 char getChar(const std::string &prompt);
+bool wantToPlayOrNot(const std::string &prompt);
+void clearScreen();
+void clearInstream();
 
 int main(int argc, char const *argv[])
 {
-    char g{'S'};
-    Building bdg;
-    do
+    if (wantToPlayOrNot("Do you want to play Building Z? (Y/N): "))
     {
-        try
+        do
         {
-            bdg.move(getChar("Your move [N,S,W,E,P,C]: "));
-            break;
-        }
-        catch (const std::runtime_error e)
-        { std::cerr << "Invalid move!\n"; }
-    } while (true);
+            Building bdg;
+            std::cout << bdg;
+            do 
+            {
+                
+                try
+                {
+                    bdg.move(getChar("Your move [N,S,W,E,P,C]: "));
+                    clearInstream();
+                }
+                catch (const std::runtime_error e)
+                {
+                    std::cerr << "Invalid move!\n";
+                }
+                
+                // clearScreen();
+                std::cout << bdg;
+            } while (true);
+            // game over message here
+        } while (wantToPlayOrNot("Do you want to play Building Z again? (Y/N): "));
+    }
 
-    std::cout << bdg;
+    
     return 0;
 }
 
@@ -47,4 +63,29 @@ char getChar(const std::string &prompt)
             return move;
         std::cout << "Invalid Input!\n\n";
     } while (true);
+}
+
+bool wantToPlayOrNot(const std::string &prompt)
+{
+    char choice;
+    do
+    {
+        std::cout << prompt; // "Do you want to play Building Z? (Y/N): "
+        std::cin >> choice;
+        choice = toupper(choice);
+        if (choice == 'Y')
+            return true;
+        if (choice == 'N')
+            return false;
+        std::cout << "Invalid Input!\n\n";
+    } while (true);
+}
+
+void clearScreen()
+{ system("CLS"); }
+
+void clearInstream()
+{
+    std::cin.clear();
+    std::cin.ignore(INT_MAX, '\n');
 }

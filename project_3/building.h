@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 // #include <stdexcept>
+#include <array>
 
 #include "uninfected.h"
 #include "infected.h"
@@ -17,10 +18,10 @@
 #ifndef BUILDING_H
 #define BUILDING_H
 
-#define MAX_ZOMBIE_QTY 12
-#define MAX_LOUNGER_QTY 6
-#define MAX_HYPER_QTY 4
-#define MAX_AGGRESSOR_QTY 2
+#define LOUNGER_QTY 6
+#define HYPER_QTY 4
+#define AGGRESSOR_QTY 2
+#define ZOMBIE_QTY LOUNGER_QTY + HYPER_QTY + AGGRESSOR_QTY
 
 // this class does not provide UI nor does it contain main. 
 class Building
@@ -50,7 +51,10 @@ private:
     void initScientist();
     void initSpecOp();
     Position getRandomPosition();
-    bool isInValidRange(char move);
+    bool isInValidRange(const char &move);
+    bool saveTheScientist();
+    bool getInfected();
+    void ending();
     size_t randomRange(const size_t &start, const size_t &end);
 };
 
