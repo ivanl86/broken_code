@@ -11,7 +11,7 @@ size_t Infected::random(const size_t &start, const size_t &end)
 bool Infected::isValidStumble(const char &stumble)
 {
     return ((stumble == 'N' && this->pos->x > 0)
-         || (stumble == 'S' && this->pos->x < (MAX_X - 1))
-         || (stumble == 'E' && this->pos->y < (MAX_Y - 1))
+         || (stumble == 'S' && this->pos->x < MAX_X)
+         || (stumble == 'E' && this->pos->y < MAX_Y)
          || (stumble == 'W' && this->pos->y > 0));
 }

@@ -155,5 +155,9 @@ os << (bdg.zombies.at(a)->getPosition().x == x && bdg.zombies.at(a)->getPosition
         }
         os << "|\n";
 
-zombies
-0, 2
+if (bdg.zombies.at(l)->getPosition().x == x && bdg.zombies.at(l)->getPosition().y == y)
+    gridCells.at(LEFT_CELL) = bdg.zombies.at(l)->getType();
+if (bdg.zombies.at(h)->getPosition().x == x && bdg.zombies.at(h)->getPosition().y == y)
+    gridCells.at(MIDDLE_CELL) = bdg.zombies.at(h)->getType();
+                if (bdg.zombies.at(a)->getPosition().x == x && bdg.zombies.at(a)->getPosition().y == y)
+                    gridCells.at(RIGHT_CELL) = bdg.zombies.at(a)->getType();

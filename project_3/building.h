@@ -50,7 +50,7 @@ private:
     void initScientist();
     void initSpecOp();
     Position getRandomPosition();
-    bool isInValidRange(const char &move);
+    bool isValidMove(const char &move);
     bool saveTheScientist();
     bool getInfected();
     void ending();

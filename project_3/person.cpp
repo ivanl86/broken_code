@@ -17,6 +17,3 @@ bool Person::operator!=(const Person &other) const
 
 Person::~Person()
 {}
-
-void Person::setPosition(const Position &pos)
-{ this->pos->x = pos.x; this->pos->y = pos.y; }

@@ -3,8 +3,8 @@
 #ifndef POSITION_H
 #define POSITION_H
 
-#define MAX_X 10
-#define MAX_Y 8
+#define MAX_X 9
+#define MAX_Y 7
 
 struct Position
 {

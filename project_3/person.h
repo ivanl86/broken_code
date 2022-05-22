@@ -45,7 +45,6 @@ protected:
     Position* pos;
     char type;
 
-    void setPosition(const Position &pos);
 private:
 
 };
