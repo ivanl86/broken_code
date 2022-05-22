@@ -116,3 +116,44 @@ does invalid move count as a turn?
 
 
 toString
+
+os << (bdg.zombies.at(l)->getPosition().x == x && bdg.zombies.at(l)->getPosition().y == y ? bdg.zombies.at(l)->getType() : ' ')
+os << (bdg.zombies.at(h)->getPosition().x == x && bdg.zombies.at(h)->getPosition().y == y ? bdg.zombies.at(h)->getType() : ' ')
+os << (bdg.zombies.at(a)->getPosition().x == x && bdg.zombies.at(a)->getPosition().y == y ? bdg.zombies.at(a)->getType() : ' ')
+
+        os << "---------------------------------\n";
+        for (size_t y = 0; y < MAX_Y; ++y)
+        {
+            os << '|';
+            bool isLoungerHere{false};
+            for (size_t l = LOUNGER_FISRT; l < LOUNGER_LAST; ++l)
+                isLoungerHere = (bdg.zombies.at(l)->getPosition().x == x && bdg.zombies.at(l)->getPosition().y == y ? true : false);
+            if (isLoungerHere)
+                os << 'L';
+            else os << ' ';
+
+            bool isHyperHere{false};
+            for (size_t h = HYPER_FISRT; h < HYPER_LAST; ++h)
+                isHyperHere = (bdg.zombies.at(h)->getPosition().x == x && bdg.zombies.at(h)->getPosition().y == y ? true : false);
+            if (isHyperHere)
+                os << 'H';
+            else os << ' ';
+
+            bool isAggressorHere{false};
+            for (size_t a = AGGRESSOR_FISRT; a < AGGRESSOR_LAST; ++a)
+                isAggressorHere = (bdg.zombies.at(a)->getPosition().x == x && bdg.zombies.at(a)->getPosition().y == y ? true : false);
+            if (isAggressorHere)
+                os << 'A';
+            else os << ' ';
+        }
+        os << "|\n";
+        for (size_t y = 0; y < MAX_Y; ++y)
+        {
+            os << "| "
+               << (bdg.specOp->getPosition().x == x && bdg.specOp->getPosition().y == y ? bdg.specOp->getType() : ' ')
+               << (bdg.scientist->getPosition().x == x && bdg.scientist->getPosition().y == y ? bdg.scientist->getType() : ' ');
+        }
+        os << "|\n";
+
+zombies
+0, 2

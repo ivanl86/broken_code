@@ -33,6 +33,7 @@ int main(int argc, char const *argv[])
                 try
                 {
                     bdg.move(getChar("Your move [N,S,W,E,P,C]: "));
+                    
                     clearInstream();
                 }
                 catch (const std::runtime_error e)
