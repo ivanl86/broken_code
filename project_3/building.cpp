@@ -7,6 +7,7 @@ Building::Building()
     initScientist();
     initSpecOp();
     hasAntidote = false;
+    gridCells = "   ";
 }
 
 std::ostream& operator<<(std::ostream &os, const Building &bdg)
@@ -19,13 +20,13 @@ std::ostream& operator<<(std::ostream &os, const Building &bdg)
         {
             std::string gridCells{"   "};
             for (size_t l = LOUNGER_FISRT; l <= LOUNGER_LAST; ++l)
-                if (bdg.zombies.at(l)->getPosition().x == x && bdg.zombies.at(l)->getPosition().y == y)
+                if (gridCells.at(LEFT_CELL) != bdg.zombies.at(l)->getType() && (bdg.zombies.at(l)->getPosition().x == x && bdg.zombies.at(l)->getPosition().y == y))
                     gridCells.at(LEFT_CELL) = bdg.zombies.at(l)->getType();
             for (size_t h = HYPER_FISRT; h <= HYPER_LAST; ++h)
-                if (bdg.zombies.at(h)->getPosition().x == x && bdg.zombies.at(h)->getPosition().y == y)
+                if (gridCells.at(MIDDLE_CELL) != bdg.zombies.at(h)->getType() && (bdg.zombies.at(h)->getPosition().x == x && bdg.zombies.at(h)->getPosition().y == y))
                     gridCells.at(MIDDLE_CELL) = bdg.zombies.at(h)->getType();
             for (size_t a = AGGRESSOR_FISRT; a <= AGGRESSOR_LAST; ++a)
-                if (bdg.zombies.at(a)->getPosition().x == x && bdg.zombies.at(a)->getPosition().y == y)
+                if (gridCells.at(RIGHT_CELL) != bdg.zombies.at(a)->getType() && (bdg.zombies.at(a)->getPosition().x == x && bdg.zombies.at(a)->getPosition().y == y))
                     gridCells.at(RIGHT_CELL) = bdg.zombies.at(a)->getType();
             os << '|' << gridCells;
         }
@@ -102,7 +103,7 @@ bool Building::saveTheScientist()
 bool Building::getInfected()
 {
     for (size_t i = 0; i < TOTAL_ZOMBIES; ++i)
-        if (zombies.at(i)->getPosition().x == specOp->getPosition().x && zombies.at(i)->getPosition().y == specOp->getPosition().y)
+        if ((zombies.at(i)->getPosition().x == specOp->getPosition().x) && (zombies.at(i)->getPosition().y == specOp->getPosition().y))
             return true;
     return false;
 }

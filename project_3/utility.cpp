@@ -36,6 +36,14 @@ bool Utility::wantToPlayOrNot(const std::string &prompt)
     } while (true);
 }
 
+void Utility::end(Building &bdg) const
+{
+    if (bdg.saveTheScientist())
+        std::cout << "Congratulations!\nMission Accomplished!\n";
+    else if (bdg.getInfected())
+        std::cout << "You got infected from zombie attacks!\n";
+}
+
 void Utility::clearScreen()
 { system("CLS"); }
 

@@ -40,19 +40,22 @@ public:
     /** Building destructor. Deletes all heap based objects (including guards) */
     ~Building();
 
+    bool saveTheScientist();
+    bool getInfected();  
+
 private:
     std::vector<Infected*> zombies;
     Uninfected* specOp;
     Uninfected* scientist;
     bool hasAntidote;
+    std::string gridCells;
 
     void initZombies();
     void initScientist();
     void initSpecOp();
     Position getRandomPosition();
     bool isValidMove(const char &move);
-    bool saveTheScientist();
-    bool getInfected();
+
     void ending();
     size_t randomRange(const size_t &start, const size_t &end);
 };

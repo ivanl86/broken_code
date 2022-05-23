@@ -1,4 +1,5 @@
 #include <iostream>
+#include "building.h"
 
 #ifndef UTILITY_H
 #define UTILITY_H
@@ -12,6 +13,7 @@ public:
     bool wantToPlayOrNot(const std::string &prompt);
     void clearScreen();
     void clearInstream();
+    void end(Building &) const;
 
 private:
     char choice;

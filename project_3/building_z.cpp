@@ -23,7 +23,6 @@ int main(int argc, char const *argv[])
             std::cout << bdg << std::endl;
             do 
             {
-                
                 try
                 {
                     bdg.move(utility.getMove("Your move [N,S,W,E,P,C]: "));
@@ -33,8 +32,8 @@ int main(int argc, char const *argv[])
                 { std::cerr << "Invalid move!\n"; }
                 // utility.clearScreen();
                 std::cout << bdg << std::endl;
-            } while (true);
-            // game over message here
+            } while (!bdg.saveTheScientist() && !bdg.getInfected());
+            utility.end(bdg);
         } while (utility.wantToPlayOrNot("Do you want to play Building Z again? (Y/N): "));
     return 0;
 }
