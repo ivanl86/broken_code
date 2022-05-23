@@ -48,7 +48,6 @@ private:
     Uninfected* specOp;
     Uninfected* scientist;
     bool hasAntidote;
-    std::string gridCells;
 
     void initZombies();
     void initScientist();

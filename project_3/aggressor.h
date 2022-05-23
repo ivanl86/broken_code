@@ -13,6 +13,8 @@ public:
      * @parameter pos is the initial position.*/
     Aggressor(const Position& pos);
 
+    Aggressor(const Position& pos, Uninfected specOp);
+
     /** Moves the Infected. This function overrides in the Infected's pure virtual function
      *  moves this Infected towards the spec-op either in the x or y direction.
      * @parameter move determines the  position to move to. 

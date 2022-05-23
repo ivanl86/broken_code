@@ -7,7 +7,6 @@ Building::Building()
     initScientist();
     initSpecOp();
     hasAntidote = false;
-    gridCells = "   ";
 }
 
 std::ostream& operator<<(std::ostream &os, const Building &bdg)
