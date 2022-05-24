@@ -36,12 +36,12 @@ bool Utility::wantToPlayOrNot(const std::string &prompt)
     } while (true);
 }
 
-void Utility::end(Building &bdg) const
+void Utility::endOfOperation(Building &bdg) const
 {
-    if (bdg.saveTheScientist())
+    if (bdg.operationState() == ACCOMPLISHED)
         std::cout << "Congratulations!\nMission Accomplished!\n";
-    else if (bdg.getInfected())
-        std::cout << "You got infected from zombie attacks!\n";
+    else if (bdg.operationState() == FAILED)
+        std::cout << "You got infected from zombie attacks!\nMission Failed!\n";
 }
 
 void Utility::clearScreen()

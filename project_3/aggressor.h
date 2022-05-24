@@ -5,29 +5,34 @@
 #ifndef AGGRESSOR_H
 #define AGGRESSOR_H
 
+#define IN_RANGE 2
+
 // should inherit from Infected
 class Aggressor : public Infected
 {
 public:
     /** Aggressor constructor. Calls Infected constructor with type 'H'
      * @parameter pos is the initial position.*/
-    Aggressor(const Position& pos);
+    Aggressor(const Position &pos);
 
-    Aggressor(const Position& pos, Uninfected specOp);
+    Aggressor(const Position &pos, Uninfected *specOp);
 
     /** Moves the Infected. This function overrides in the Infected's pure virtual function
      *  moves this Infected towards the spec-op either in the x or y direction.
-     * @parameter move determines the  position to move to. 
+     * @parameter move determines the  position to move to.
      *            Defaults to 'A' for auto */
-    void move(const char move = 'A'); 
+    void move(const char move = 'A');
 
     /** Destructor */
     ~Aggressor();
-    
+
 protected:
 
 private:
-    // const Uninfected* hero;
+    Uninfected *victim;
+    bool isVictimInRange();
+    void randomMove();
+    void pursueVictim();
 };
 
 #endif

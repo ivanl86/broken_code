@@ -32,8 +32,8 @@ int main(int argc, char const *argv[])
                 { std::cerr << "Invalid move!\n"; }
                 // utility.clearScreen();
                 std::cout << bdg << std::endl;
-            } while (!bdg.saveTheScientist() && !bdg.getInfected());
-            utility.end(bdg);
+            } while (bdg.operationState() == IN_PROGRERSS);
+            utility.endOfOperation(bdg);
         } while (utility.wantToPlayOrNot("Do you want to play Building Z again? (Y/N): "));
     return 0;
 }

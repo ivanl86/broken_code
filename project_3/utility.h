@@ -13,7 +13,7 @@ public:
     bool wantToPlayOrNot(const std::string &prompt);
     void clearScreen();
     void clearInstream();
-    void end(Building &) const;
+    void endOfOperation(Building &) const;
 
 private:
     char choice;

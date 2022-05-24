@@ -161,3 +161,11 @@ if (bdg.zombies.at(h)->getPosition().x == x && bdg.zombies.at(h)->getPosition().
     gridCells.at(MIDDLE_CELL) = bdg.zombies.at(h)->getType();
                 if (bdg.zombies.at(a)->getPosition().x == x && bdg.zombies.at(a)->getPosition().y == y)
                     gridCells.at(RIGHT_CELL) = bdg.zombies.at(a)->getType();
+
+(zombies.at(i)->getPosition().x == specOp->getPosition().x) && (zombies.at(i)->getPosition().y == specOp->getPosition().y)
+
+other.pos->x == this->pos->x && other.pos->y == this->pos->y
+
+
+(x, y)
+(0, 0), (1, 0), (2, 0), (0, 1), (0, 2), ()

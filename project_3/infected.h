@@ -24,8 +24,14 @@ public:
     virtual ~Infected(); 
 
 protected:
+    const std::string stumble{"NSEW"};
+    size_t randomStumble;
     size_t random(const size_t &start, const size_t &end);
     bool isValidStumble(const char &stumble);
+    void moveNorth();
+    void moveSouth();
+    void moveEast();
+    void moveWest();
 
 private:
 };

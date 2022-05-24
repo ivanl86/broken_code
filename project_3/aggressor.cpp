@@ -3,10 +3,20 @@
 Aggressor::Aggressor(const Position &pos) : Infected(pos, 'A')
 {}
 
+Aggressor::Aggressor(const Position &pos, Uninfected *specOp) : Infected(pos, 'A'), victim{specOp}
+{}
+
 void Aggressor::move(const char move)
+{ (isVictimInRange() ? pursueVictim() : randomMove()); }
+
+Aggressor::~Aggressor()
+{}
+
+bool Aggressor::isVictimInRange()
+{ return (abs((victim->getPosition().x + victim->getPosition().y) - (this->pos->x + this->pos->y)) <= IN_RANGE); }
+
+void Aggressor::randomMove()
 {
-    std::string stumble{"NSEW"};
-    size_t randomStumble;
     do
     {
         randomStumble = random(0, 3);
@@ -15,19 +25,38 @@ void Aggressor::move(const char move)
     switch (stumble[randomStumble])
     {
     case 'N':
-        --this->pos->x;
+        moveNorth();
         break;
     case 'S':
-        ++this->pos->x;
+        moveSouth();
         break;
     case 'E':
-        ++this->pos->y;
+        moveEast();
         break;
     case 'W':
-        --this->pos->y;
+        moveWest();
         break;
     }
 }
 
-Aggressor::~Aggressor()
-{}
+void Aggressor::pursueVictim()
+{/*
+    if (victim->getPosition().x == this->pos->x)
+        (victim->getPosition().y > this->pos->y ? moveEast() : moveWest());
+    if (victim->getPosition().y == this->pos->y)
+        (victim->getPosition().x > this->pos->x ? moveSouth() : moveNorth());
+    if (victim->getPosition().y - this->pos->y == 1)
+    {
+        if (victim->getPosition().x > this->pos->x)
+            (random(0, 1) ? moveSouth() : moveEast());
+        if (victim->getPosition().x < this->pos->x)
+            (random(0, 1) ? moveNorth() : moveEast());
+    }
+    if (victim->getPosition().y - this->pos->y == -1)
+    {
+        if (victim->getPosition().x > this->pos->x)
+            (random(0, 1) ? moveSouth() : moveWest());
+        if (victim->getPosition().x < this->pos->x)
+            (random(0, 1) ? moveNorth() : moveWest());
+    }*/
+}

@@ -7,8 +7,6 @@ void Lounger::move(const char move)
 {
     if (random(1, 100) <= 20)
     {
-        std::string stumble{"NSEW"};
-        size_t randomStumble;
         do
         {
             randomStumble = random(0,3);
@@ -17,16 +15,16 @@ void Lounger::move(const char move)
         switch (stumble[randomStumble])
         {
         case 'N':
-            --this->pos->x;
+            moveNorth();
             break;
         case 'S':
-            ++this->pos->x;
+            moveSouth();
             break;
         case 'E':
-            ++this->pos->y;
+            moveEast();
             break;
         case 'W':
-            --this->pos->y;
+            moveWest();
             break;
         }
     }

@@ -5,8 +5,6 @@ Hyper::Hyper(const Position &pos) : Infected(pos, 'H')
 
 void Hyper::move(const char move)
 {
-    std::string stumble{"NSEW"};
-    size_t randomStumble;
     do
     {
         randomStumble = random(0, 3);
@@ -15,16 +13,16 @@ void Hyper::move(const char move)
     switch (stumble[randomStumble])
     {
     case 'N':
-        --this->pos->x;
+        moveNorth();
         break;
     case 'S':
-        ++this->pos->x;
+        moveSouth();
         break;
     case 'E':
-        ++this->pos->y;
+        moveEast();
         break;
     case 'W':
-        --this->pos->y;
+        moveWest();
         break;
     }
 }

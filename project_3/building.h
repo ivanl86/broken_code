@@ -4,7 +4,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
-// #include <stdexcept>
+#include <sstream>
 #include <array>
 
 #include "uninfected.h"
@@ -18,9 +18,10 @@
 #ifndef BUILDING_H
 #define BUILDING_H
 
-enum ZOMBIE_QTYS {LOUNGER_QTY = 6, HYPER_QTY = 4, AGGRESSOR_QTY = 2, TOTAL_ZOMBIES = LOUNGER_QTY + HYPER_QTY + AGGRESSOR_QTY};
-enum ZOMBIES_INDEX {LOUNGER_FISRT = 0, LOUNGER_LAST = 5, HYPER_FISRT = 6, HYPER_LAST = 9, AGGRESSOR_FISRT = 10, AGGRESSOR_LAST = 11};
-enum GRID_CELLS {LEFT_CELL = 0, MIDDLE_CELL = 1, RIGHT_CELL =2};
+enum zombieQtys {LOUNGER_QTY = 6, HYPER_QTY = 4, AGGRESSOR_QTY = 2, TOTAL_ZOMBIES = LOUNGER_QTY + HYPER_QTY + AGGRESSOR_QTY};
+enum zombieIndexes {LOUNGER_FISRT = 0, LOUNGER_LAST = 5, HYPER_FISRT = 6, HYPER_LAST = 9, AGGRESSOR_FISRT = 10, AGGRESSOR_LAST = 11};
+enum gridCells {LEFT_CELL = 0, MIDDLE_CELL = 1, RIGHT_CELL =2};
+enum operationStates {IN_PROGRERSS, ACCOMPLISHED, FAILED};
 
 // this class does not provide UI nor does it contain main. 
 class Building
@@ -40,8 +41,7 @@ public:
     /** Building destructor. Deletes all heap based objects (including guards) */
     ~Building();
 
-    bool saveTheScientist();
-    bool getInfected();  
+    operationStates operationState();
 
 private:
     std::vector<Infected*> zombies;
@@ -55,8 +55,12 @@ private:
     Position getRandomPosition();
     bool isValidMove(const char &move);
 
-    void ending();
+    bool saveTheScientist();
+    bool getInfected();      
     size_t randomRange(const size_t &start, const size_t &end);
+
+    std::string printHorizontalDivider() const;
+    std::string printVerticalDivider();
 };
 
 #endif

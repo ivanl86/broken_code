@@ -3,9 +3,9 @@
 Building::Building()
 {
     srand(static_cast<size_t>(time(NULL)));
-    initZombies();
-    initScientist();
     initSpecOp();
+    initScientist();
+    initZombies();
     hasAntidote = false;
 }
 
@@ -14,7 +14,7 @@ std::ostream& operator<<(std::ostream &os, const Building &bdg)
     os << "Rescue mission in progress\n";
     for (size_t x = 0; x <= MAX_X; ++x)
     {
-        os << "---------------------------------\n";
+        os << bdg.printHorizontalDivider() << std::endl;
         for (size_t y = 0; y <= MAX_Y; ++y)
         {
             std::string gridCells{"   "};
@@ -38,7 +38,7 @@ std::ostream& operator<<(std::ostream &os, const Building &bdg)
         }
         os << "|\n";
     }
-    os << "---------------------------------\n";
+    os << bdg.printHorizontalDivider() << std::endl;
     return os;
 }
 
@@ -69,7 +69,7 @@ void Building::initZombies()
     for (size_t i = 0; i < HYPER_QTY; ++i)
         zombies.emplace_back(new Hyper(getRandomPosition()));
     for (size_t i = 0; i < AGGRESSOR_QTY; ++i)
-        zombies.emplace_back(new Aggressor(getRandomPosition()));
+        zombies.emplace_back(new Aggressor(getRandomPosition(), specOp));
 }
 
 void Building::initScientist()
@@ -96,6 +96,15 @@ bool Building::isValidMove(const char &move)
          || (move == 'P'));
 }
 
+operationStates Building::operationState()
+{
+    if (saveTheScientist())
+        return ACCOMPLISHED;
+    if (getInfected())
+        return FAILED;
+    return IN_PROGRERSS;
+}
+
 bool Building::saveTheScientist()
 { return (hasAntidote && (scientist->getPosition().x == 0 && scientist->getPosition().y == 0)); }
 
@@ -109,3 +118,15 @@ bool Building::getInfected()
 
 size_t Building::randomRange(const size_t &start, const size_t &end)
 { return rand() % (end - start + 1) + start; }
+
+std::string Building::printHorizontalDivider() const
+{
+    std::stringstream strStream;
+    for (size_t i = 0; i <= MAX_Y; ++i)
+        strStream << "----";
+    strStream << '-';
+    return strStream.str();
+}
+
+std::string Building::printVerticalDivider()
+{}
