@@ -29,7 +29,8 @@ public:
 protected:
 
 private:
-    Uninfected *victim;
+    Uninfected *victim{nullptr};
+
     bool isVictimInRange();
     void randomMove();
     void pursueVictim();

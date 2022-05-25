@@ -39,9 +39,9 @@ bool Utility::wantToPlayOrNot(const std::string &prompt)
 void Utility::endOfOperation(Building &bdg) const
 {
     if (bdg.operationState() == ACCOMPLISHED)
-        std::cout << "Congratulations!\nMission Accomplished!\n";
+        std::cout << "  Congratulations!\nMission Accomplished!\n";
     else if (bdg.operationState() == FAILED)
-        std::cout << "You got infected from zombie attacks!\nMission Failed!\n";
+        std::cout << "You got infected from zombie attacks!\n\t  Mission Failed!\n";
 }
 
 void Utility::clearScreen()

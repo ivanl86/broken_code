@@ -45,6 +45,10 @@ protected:
     Position* pos;
     char type;
 
+    void moveNorth();
+    void moveSouth();
+    void moveEast();
+    void moveWest();
 private:
 
 };

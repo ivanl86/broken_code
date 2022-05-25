@@ -27,16 +27,16 @@ std::ostream& operator<<(std::ostream &os, const Building &bdg)
             for (size_t a = AGGRESSOR_FISRT; a <= AGGRESSOR_LAST; ++a)
                 if (gridCells.at(RIGHT_CELL) != bdg.zombies.at(a)->getType() && (bdg.zombies.at(a)->getPosition().x == x && bdg.zombies.at(a)->getPosition().y == y))
                     gridCells.at(RIGHT_CELL) = bdg.zombies.at(a)->getType();
-            os << '|' << gridCells;
+            os << bdg.printVerticalDivider() << gridCells;
         }
-        os << "|\n";
+        os << bdg.printVerticalDivider() << std::endl;
         for (size_t y = 0; y <= MAX_Y; ++y)
         {
-            os << "| "
+            os << bdg.printVerticalDivider() << ' '
                << (bdg.specOp->getPosition().x == x && bdg.specOp->getPosition().y == y ? bdg.specOp->getType() : ' ')
                << (bdg.scientist->getPosition().x == x && bdg.scientist->getPosition().y == y ? bdg.scientist->getType() : ' ');
         }
-        os << "|\n";
+        os << bdg.printVerticalDivider() << std::endl;;
     }
     os << bdg.printHorizontalDivider() << std::endl;
     return os;
@@ -48,11 +48,11 @@ void Building::move(char move)
         throw std::runtime_error("");
     if ((move == 'C') && !hasAntidote)
         hasAntidote = true;
+    for (size_t i = 0; i < TOTAL_ZOMBIES; ++i)
+        zombies.at(i)->move();
     specOp->move(move);
     if (hasAntidote)
         scientist->move(move);
-    for (size_t i = 0; i < TOTAL_ZOMBIES; ++i)
-        zombies.at(i)->move();
 }
 
 Building::~Building()
@@ -92,7 +92,7 @@ bool Building::isValidMove(const char &move)
          || (move == 'S' && specOp->getPosition().x < MAX_X)
          || (move == 'E' && specOp->getPosition().y < MAX_Y)
          || (move == 'W' && specOp->getPosition().y > 0)
-         || (move == 'C' && specOp->getPosition().x == scientist->getPosition().x && specOp->getPosition().y == scientist->getPosition().y)
+         || (move == 'C' && *specOp == *scientist)
          || (move == 'P'));
 }
 
@@ -111,7 +111,7 @@ bool Building::saveTheScientist()
 bool Building::getInfected()
 {
     for (size_t i = 0; i < TOTAL_ZOMBIES; ++i)
-        if ((zombies.at(i)->getPosition().x == specOp->getPosition().x) && (zombies.at(i)->getPosition().y == specOp->getPosition().y))
+        if ((*zombies.at(i) == *specOp))
             return true;
     return false;
 }
@@ -121,12 +121,14 @@ size_t Building::randomRange(const size_t &start, const size_t &end)
 
 std::string Building::printHorizontalDivider() const
 {
-    std::stringstream strStream;
+    std::stringstream strStream{};
     for (size_t i = 0; i <= MAX_Y; ++i)
         strStream << "----";
     strStream << '-';
     return strStream.str();
 }
 
-std::string Building::printVerticalDivider()
-{}
+char Building::printVerticalDivider() const
+{
+    return '|';
+}

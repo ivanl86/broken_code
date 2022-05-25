@@ -8,16 +8,16 @@ void Uninfected::move(char move)
     switch (move)
     {
     case 'N':
-        --this->pos->x;
+        moveNorth();
         break;
     case 'S':
-        ++this->pos->x;
+        moveSouth();
         break;
     case 'E':
-        ++this->pos->y;
+        moveEast();
         break;
     case 'W':
-        --this->pos->y;
+        moveWest();
         break;
     case 'C':
     case 'P':

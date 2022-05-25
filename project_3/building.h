@@ -60,7 +60,8 @@ private:
     size_t randomRange(const size_t &start, const size_t &end);
 
     std::string printHorizontalDivider() const;
-    std::string printVerticalDivider();
+    char printVerticalDivider() const;
+    std::string toString(size_t x, size_t y);
 };
 
 #endif
