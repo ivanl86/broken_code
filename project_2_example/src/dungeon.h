@@ -17,6 +17,8 @@ enum GameStates { IN_PLAY, WIN, LOSS };
 
 class Dungeon
 {
+    friend std::ostream& operator<<(std::ostream &, const Dungeon &);
+
 private:
     std::string percept[ROW_QTY][COL_QTY]{};
     Artifact artifacts[ROW_QTY][COL_QTY]{};
@@ -40,7 +42,7 @@ private:
 public:
     Dungeon();
     //~Dungeon();
-    std::string toString();
+    std::string toString() const;
     void move(const Position &);
     void pickup();
 };

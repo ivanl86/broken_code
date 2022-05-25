@@ -16,7 +16,7 @@ char Utility::getMove(const std::string &prompt)
         move = toupper(move);
         if (move == 'N' || move == 'S' || move == 'W' || move == 'E' || move == 'P' || move == 'C')
             return move;
-        std::cout << "Invalid Input!\n\n";
+        std::cout << "Invalid Move!\n\n";
     } while (true);
 }
 

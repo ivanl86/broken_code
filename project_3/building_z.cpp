@@ -30,7 +30,7 @@ int main(int argc, char const *argv[])
                 }
                 catch (const std::runtime_error e)
                 { std::cerr << "Invalid move!\n"; }
-                // utility.clearScreen();
+                utility.clearScreen();
                 std::cout << bdg << std::endl;
             } while (bdg.operationState() == IN_PROGRERSS);
             utility.endOfOperation(bdg);

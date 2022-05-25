@@ -77,14 +77,29 @@ void Dungeon::updatePercepts()
     Position p{user};
     Artifact a[4]{};
     std::string *userPercept{&percept[user.x][user.y]};
-    if (isValidMove({p.x - 1, p.y}))
-        a[0] = artifacts[p.x - 1][p.y];
-    if (isValidMove({p.x + 1, p.y}))
-        a[1] = artifacts[p.x + 1][p.y];
-    if (isValidMove({p.x, p.y - 1}))
-        a[2] = artifacts[p.x][p.y - 1];
-    if (isValidMove({p.x, p.y + 1}))
-        a[3] = artifacts[p.x][p.y + 1];
+
+    if (artifacts[p.x][p.y] == GOLD)
+        userPercept[2] = 'G';
+    
+    for (size_t i = -1; i < 2; i += 2)
+    {
+        if (isValidMove({p.x + i, p.y}))
+        {
+            if (artifacts[p.x + i][p.y] ==  ALDRAC)
+                userPercept[0] = 'S';
+            if (artifacts[p.x + i][p.y] ==  PIT)
+                userPercept[0] = 'B';            
+        }
+        if (isValidMove({p.x, p.y + i}))
+        {
+            if (artifacts[p.x][p.y + i] ==  ALDRAC)
+                userPercept[0] = 'S';
+            if (artifacts[p.x][p.y + i] ==  PIT)
+                userPercept[0] = 'B';  
+        }
+    }
+    
+
     for (size_t i = 0; i < sizeof(a); ++i)
     {
         if (a[i] == ALDRAC)
@@ -147,7 +162,7 @@ std::string getDivider()
     return ss.str();
 }
 
-std::string Dungeon::toString()
+std::string Dungeon::toString() const
 {
     std::stringstream ss;
     for (size_t row = 0; row < ROW_QTY; ++row)
@@ -166,4 +181,9 @@ std::string Dungeon::toString()
     ss << getDivider() << std::endl;
     ss << ((!hasGold) ? "You are carrying the gold!\n" : "\n");
     return ss.str();
+}
+
+std::ostream& operator<<(std::ostream &out, const Dungeon &dungeon)
+{
+    return (out << dungeon.toString());
 }
