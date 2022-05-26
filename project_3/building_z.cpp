@@ -8,17 +8,14 @@
 #include "building.h"
 #include "utility.h"
 
-char getChar(const std::string &prompt);
-bool wantToPlayOrNot(const std::string &prompt);
-void clearScreen();
-void clearInstream();
-
 int main(int argc, char const *argv[])
 {
+    srand(static_cast<size_t>(time(NULL)));
     Utility utility;
     if (utility.wantToPlayOrNot("Do you want to play Building Z? (Y/N): "))
         do
         {
+            //tility.clearScreen();
             Building bdg;
             std::cout << bdg << std::endl;
             do 
@@ -28,9 +25,9 @@ int main(int argc, char const *argv[])
                     bdg.move(utility.getMove("Your move [N,S,W,E,P,C]: "));
                     utility.clearInstream();
                 }
-                catch (const std::runtime_error e)
+                catch (const std::invalid_argument e)
                 { std::cerr << "Invalid move!\n"; }
-                utility.clearScreen();
+                //utility.clearScreen();
                 std::cout << bdg << std::endl;
             } while (bdg.operationState() == IN_PROGRERSS);
             utility.endOfOperation(bdg);

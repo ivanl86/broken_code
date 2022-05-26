@@ -45,9 +45,16 @@ protected:
     Position* pos;
     char type;
 
+    /** move the object to the north */
     void moveNorth();
+
+    /** move the object to the south */
     void moveSouth();
+
+    /** move the object to the east */
     void moveEast();
+
+    /** move the object to the west */
     void moveWest();
 private:
 

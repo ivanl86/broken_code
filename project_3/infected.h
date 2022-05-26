@@ -16,7 +16,7 @@ public:
     Infected(const Position& pos, char type);
 
     /** Moves the Infected. This is a pure virtual function which is overrriden in the derived Infecteds
-     * @parameter move determines the  position to move to. Should be a pure virtual function, 
+     * @parameter move determines the position to move to. Should be a pure virtual function, 
      *            Defaults to 'A' for auto */
     virtual void move(char move = 'A') = 0;
     
@@ -26,8 +26,13 @@ public:
 protected:
     const std::string stumble{"NSEW"};
     size_t randomStumble;
+
+    /** random number generator
+     * @ return a number between start to end inclusive */
     size_t random(const size_t &start, const size_t &end);
-    bool isValidStumble(const char &stumble);
+
+    /** return true if the position to move to is valid and false otherwise */
+    bool isValidStumble(const char &stumble) const;
 
 private:
 };

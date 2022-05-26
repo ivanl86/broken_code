@@ -19,8 +19,8 @@ void Uninfected::move(char move)
     case 'W':
         moveWest();
         break;
-    case 'C':
     case 'P':
+    case 'C':
         break;
     }
 }

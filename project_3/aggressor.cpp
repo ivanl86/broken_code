@@ -12,7 +12,7 @@ void Aggressor::move(const char move)
 Aggressor::~Aggressor()
 {}
 
-bool Aggressor::isVictimInRange()
+bool Aggressor::isVictimInRange() const
 { return (abs((victim->getPosition().x - this->pos->x)) + abs((victim->getPosition().y - this->pos->y)) <= IN_RANGE); }
 
 void Aggressor::randomMove()

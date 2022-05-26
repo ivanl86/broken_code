@@ -44,10 +44,16 @@ void Utility::endOfOperation(Building &bdg) const
         std::cout << "You got infected from zombie attacks!\n\t  Mission Failed!\n";
 }
 
-void Utility::clearScreen()
-{ system("CLS"); }
+void Utility::clearScreen() const
+{
+    #if (WINDOWS)
+        system("CLS");
+    #else
+        system("clear");
+    #endif
+}
 
-void Utility::clearInstream()
+void Utility::clearInstream() const
 {
     std::cin.clear();
     std::cin.ignore(INT_MAX, '\n');

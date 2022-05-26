@@ -169,3 +169,35 @@ other.pos->x == this->pos->x && other.pos->y == this->pos->y
 
 (x, y)
 (0, 0), (1, 0), (2, 0), (0, 1), (0, 2), ()
+
+    for (size_t i = 0; i < TOTAL_ZOMBIES; ++i)
+        zombies.at(i)->move();
+
+            os << "Rescue mission in progress\n";
+    for (size_t x = 0; x <= MAX_X; ++x)
+    {
+        os << bdg.printHorizontalDivider() << std::endl;
+        for (size_t y = 0; y <= MAX_Y; ++y)
+        {
+            std::string gridCells{"   "};
+            for (size_t l = LOUNGER_FISRT; l <= LOUNGER_LAST; ++l)
+                if (gridCells.at(LEFT_CELL) != bdg.zombies.at(l)->getType() && (bdg.zombies.at(l)->getPosition().x == x && bdg.zombies.at(l)->getPosition().y == y))
+                    gridCells.at(LEFT_CELL) = bdg.zombies.at(l)->getType();
+            for (size_t h = HYPER_FISRT; h <= HYPER_LAST; ++h)
+                if (gridCells.at(MIDDLE_CELL) != bdg.zombies.at(h)->getType() && (bdg.zombies.at(h)->getPosition().x == x && bdg.zombies.at(h)->getPosition().y == y))
+                    gridCells.at(MIDDLE_CELL) = bdg.zombies.at(h)->getType();
+            for (size_t a = AGGRESSOR_FISRT; a <= AGGRESSOR_LAST; ++a)
+                if (gridCells.at(RIGHT_CELL) != bdg.zombies.at(a)->getType() && (bdg.zombies.at(a)->getPosition().x == x && bdg.zombies.at(a)->getPosition().y == y))
+                    gridCells.at(RIGHT_CELL) = bdg.zombies.at(a)->getType();
+            os << bdg.printVerticalDivider() << gridCells;
+        }
+        os << bdg.printVerticalDivider() << std::endl;
+        for (size_t y = 0; y <= MAX_Y; ++y)
+        {
+            os << bdg.printVerticalDivider() << ' '
+               << (bdg.specOp->getPosition().x == x && bdg.specOp->getPosition().y == y ? bdg.specOp->getType() : ' ')
+               << (bdg.scientist->getPosition().x == x && bdg.scientist->getPosition().y == y ? bdg.scientist->getType() : ' ');
+        }
+        os << bdg.printVerticalDivider() << std::endl;;
+    }
+    os << bdg.printHorizontalDivider() << std::endl;

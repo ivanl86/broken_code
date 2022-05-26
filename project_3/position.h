@@ -6,6 +6,8 @@
 #define MAX_X 9
 #define MAX_Y 7
 
+#define WINDOWS true
+
 struct Position
 {
     size_t x;

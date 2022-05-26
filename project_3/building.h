@@ -20,7 +20,7 @@
 
 enum zombieQtys {LOUNGER_QTY = 6, HYPER_QTY = 4, AGGRESSOR_QTY = 2, TOTAL_ZOMBIES = LOUNGER_QTY + HYPER_QTY + AGGRESSOR_QTY};
 enum zombieIndexes {LOUNGER_FISRT = 0, LOUNGER_LAST = 5, HYPER_FISRT = 6, HYPER_LAST = 9, AGGRESSOR_FISRT = 10, AGGRESSOR_LAST = 11};
-enum gridCells {LEFT_CELL = 0, MIDDLE_CELL = 1, RIGHT_CELL =2};
+enum cell {LEFT_CORNER = 0, MIDDLE_SPACE = 1, RIGHT_CORNER =2};
 enum operationStates {IN_PROGRERSS, ACCOMPLISHED, FAILED};
 
 // this class does not provide UI nor does it contain main. 
@@ -41,7 +41,9 @@ public:
     /** Building destructor. Deletes all heap based objects (including guards) */
     ~Building();
 
-    operationStates operationState();
+    /** track the current state of the game
+     @ return enum operationStates */
+    operationStates operationState() const;
 
 private:
     std::vector<Infected*> zombies;
@@ -49,19 +51,36 @@ private:
     Uninfected* scientist;
     bool hasAntidote;
 
+    /** initialize vector of zombies objects */
     void initZombies();
+
+    /** initialize scientest object */
     void initScientist();
+
+    /** initialize specOp object */
     void initSpecOp();
+
+    /** generate random position to randomlize the starting positin of the scientist and the zombies objects*/
     Position getRandomPosition();
+
+    /** check if user input is valid to move the specOp*/
     bool isValidMove(const char &move);
 
-    bool saveTheScientist();
-    bool getInfected();      
+    /** return true if scientist is at the position {0, 0} and false otherwise*/
+    bool saveTheScientist() const;
+
+    /** return true if specOp is in the same cell as the zombies and false otherwise*/
+    bool getInfected() const;
+
+    /** random number generator
+     * @ return a number between start to end inclusive */
     size_t randomRange(const size_t &start, const size_t &end);
 
-    std::string printHorizontalDivider() const;
-    char printVerticalDivider() const;
-    std::string toString(size_t x, size_t y);
+    /** Return a horizontal line. Used in the ostream function*/
+    std::string HorizontalWall() const;
+
+    /** Return a vertical line. Used in the ostream function*/
+    char VerticalWall() const;
 };
 
 #endif
