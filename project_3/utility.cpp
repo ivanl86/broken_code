@@ -20,7 +20,10 @@ char Utility::getMove(const std::string &prompt)
     } while (true);
 }
 
-bool Utility::wantToPlayOrNot(const std::string &prompt)
+void Utility::welcome() const
+{ std::cout << "Welcome to Building Z\n\n"; }
+
+bool Utility::startRescueOrNot(const std::string &prompt) const
 {
     char choice;
     do

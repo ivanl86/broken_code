@@ -15,6 +15,9 @@
 #include "hyper.h" // added
 #include "aggressor.h" // added
 
+#define O 'O' /** O represents specOp in the game */
+#define S 'S' /** S represents scientist in the game */
+
 #ifndef BUILDING_H
 #define BUILDING_H
 

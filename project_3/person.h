@@ -1,6 +1,6 @@
 #include "position.h"
 
-#include <stdexcept> // added
+#include <string>
 
 #ifndef PERSON_H
 #define PERSON_H

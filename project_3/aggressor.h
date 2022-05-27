@@ -34,13 +34,13 @@ protected:
 private:
     Uninfected *victim{nullptr};
 
-    /* return true if the victim is witin the range of two adjacent cells and false otherwise */
+    /** return true if the victim is witin the range of two adjacent cells and false otherwise */
     bool isVictimInRange() const;
 
-    /* make a random move using the random function if victim is not witin the range*/
+    /** make a random move using the random function if victim is not witin the range*/
     void randomMove();
 
-    /* pursue the victim if it is within the range */
+    /** pursue the victim if it is within the range */
     void pursueVictim();
 };
 

@@ -1,8 +1,5 @@
 #include "building.h"
 
-#define O 'O'
-#define S 'S'
-
 Building::Building()
 {
     initSpecOp();
