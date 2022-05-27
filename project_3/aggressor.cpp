@@ -1,9 +1,9 @@
 #include "aggressor.h"
 
-Aggressor::Aggressor(const Position &pos) : Infected(pos, 'A')
+Aggressor::Aggressor(const Position &pos) : Infected(pos, A)
 {}
 
-Aggressor::Aggressor(const Position &pos, Uninfected *specOp) : Infected(pos, 'A'), victim{specOp}
+Aggressor::Aggressor(const Position &pos, Uninfected *specOp) : Infected(pos, A), victim{specOp}
 {}
 
 void Aggressor::move(const char move)

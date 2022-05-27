@@ -1,6 +1,6 @@
 #include "lounger.h"
 
-Lounger::Lounger(const Position &pos) : Infected(pos, 'L')
+Lounger::Lounger(const Position &pos) : Infected(pos, L)
 {}
 
 void Lounger::move(const char move)

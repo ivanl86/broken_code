@@ -1,5 +1,8 @@
 #include "building.h"
 
+#define O 'O'
+#define S 'S'
+
 Building::Building()
 {
     initSpecOp();
@@ -17,15 +20,15 @@ std::ostream& operator<<(std::ostream &os, const Building &bdg)
         for (size_t y = 0; y <= MAX_Y; ++y)
         {
             std::string cell{"   "};
-            for (size_t l = LOUNGER_FISRT; l <= LOUNGER_LAST; ++l)
-                if (cell.at(LEFT_CORNER) != bdg.zombies.at(l)->getType() && (bdg.zombies.at(l)->getPosition().x == x && bdg.zombies.at(l)->getPosition().y == y))
-                    cell.at(LEFT_CORNER) = bdg.zombies.at(l)->getType();
-            for (size_t h = HYPER_FISRT; h <= HYPER_LAST; ++h)
-                if (cell.at(MIDDLE_SPACE) != bdg.zombies.at(h)->getType() && (bdg.zombies.at(h)->getPosition().x == x && bdg.zombies.at(h)->getPosition().y == y))
-                    cell.at(MIDDLE_SPACE) = bdg.zombies.at(h)->getType();
-            for (size_t a = AGGRESSOR_FISRT; a <= AGGRESSOR_LAST; ++a)
-                if (cell.at(RIGHT_CORNER) != bdg.zombies.at(a)->getType() && (bdg.zombies.at(a)->getPosition().x == x && bdg.zombies.at(a)->getPosition().y == y))
-                    cell.at(RIGHT_CORNER) = bdg.zombies.at(a)->getType();
+            for (Infected *z : bdg.zombies)
+            {
+                if (z->getType() == L && cell.at(LEFT_CORNER) != L && z->getPosition().x == x && z->getPosition().y == y)
+                    cell.at(LEFT_CORNER) = z->getType();
+                if (z->getType() == H && cell.at(MIDDLE_SPACE) != H && z->getPosition().x == x && z->getPosition().y == y)
+                    cell.at(MIDDLE_SPACE) = z->getType();
+                if (z->getType() == A && cell.at(RIGHT_CORNER) != A && z->getPosition().x == x && z->getPosition().y == y)
+                    cell.at(RIGHT_CORNER) = z->getType();
+            }
             os << bdg.VerticalWall() << cell;
         }
         os << bdg.VerticalWall() << std::endl;
@@ -56,6 +59,9 @@ void Building::move(char move)
 
 Building::~Building()
 {
+    for (Infected *z : zombies)
+        delete z;
+    zombies.clear();
     delete scientist;
     delete specOp;
 }
@@ -72,10 +78,10 @@ void Building::initZombies()
 }
 
 void Building::initScientist()
-{ scientist = new Uninfected({randomRange(4, 5), randomRange(3, 4)}, 'S'); }
+{ scientist = new Uninfected({randomRange(4, 5), randomRange(3, 4)}, S); }
 
 void Building::initSpecOp()
-{ specOp = new Uninfected({0, 0}, 'O'); }
+{ specOp = new Uninfected({0, 0}, O); }
 
 Position Building::getRandomPosition()
 {

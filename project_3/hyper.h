@@ -5,6 +5,8 @@
 #ifndef HYPER_H
 #define HYPER_H
 
+#define H 'H' /** H represents Hypers in the game */
+
 // should inherit from Infected
 class Hyper : public Infected
 {

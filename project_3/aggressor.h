@@ -5,7 +5,8 @@
 #ifndef AGGRESSOR_H
 #define AGGRESSOR_H
 
-#define IN_RANGE 2
+#define A 'A' /** A represents Aggressors in the game */
+#define IN_RANGE 2 /** set the range how far Aggressors can sense the victim */
 
 // should inherit from Infected
 class Aggressor : public Infected

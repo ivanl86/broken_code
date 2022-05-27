@@ -15,7 +15,7 @@ int main(int argc, char const *argv[])
     if (utility.wantToPlayOrNot("Do you want to play Building Z? (Y/N): "))
         do
         {
-            utility.clearScreen();
+            utility.clearScreen();//
             Building bdg;
             std::cout << bdg << std::endl;
             do 
@@ -27,7 +27,7 @@ int main(int argc, char const *argv[])
                 }
                 catch (const std::invalid_argument e)
                 { std::cerr << "Invalid move!\n"; }
-                utility.clearScreen();
+                utility.clearScreen();//
                 std::cout << bdg << std::endl;
             } while (bdg.operationState() == IN_PROGRERSS);
             utility.endOfOperation(bdg);

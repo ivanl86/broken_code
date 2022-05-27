@@ -4,6 +4,8 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
+#define WINDOWS true
+
 class Utility
 {
 public:

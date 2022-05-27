@@ -5,6 +5,8 @@
 #ifndef LOUNGER_H
 #define LOUNGER_H
 
+#define L 'L' /** L represents Loungers in the game */
+
 // should inherit from Infected 
 class Lounger : public Infected
 {
