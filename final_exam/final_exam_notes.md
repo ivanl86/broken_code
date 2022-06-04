@@ -23,7 +23,7 @@
 ## data member vs data function
 - data members are the data variables
 - data functions are the functions used to manipulate data members
-- data members and data functions define the properties and behavior of the objects in a class
+- data members and data functions define the properties and behavior of the objects in the class
 
 ## base class exceptions
 - class logic_error is the base class of several standard exception classes that indicate errors in porgram logic
@@ -32,7 +32,7 @@
 ## try catch block
 
 ## stack unwinding
-- when an exception is thrown but not caught in a particular scope, the function call stack is "unwound" and an an attempt is made to catch the exception in the next outer try catch block
+- when an exception is thrown but not caught in a particular scope, the function call stack is "unwound" and an attempt is made to catch the exception in the next outer try catch block
 
 ## rethrow exception
 try {
@@ -45,16 +45,19 @@ catch (const exception&) {
 }
 
 ## how do they terminate?
-- by default, the termainzte handler calls abort when no catch handler can be found for a thrown exception
+- by default, the termainate handler calls abort when no catch handler can be found for a thrown exception
 
 ## noexcept operator
-- when a function does not throw any exceptions and does not call any functions that throw exceptions, you can explicitly state that a function does throw exceptions
+- when a function does not throw any exceptions and does not call any functions that throw exceptions, you can explicitly state that a function does not throw exceptions
 - this indicates to programmers that there is no need to call the function in a try catch block
 - add noexcept to the right of the function's parameter list in both the prototype and the definition
 - for a const member function, place noexcept after const
 - if a funciton that is declared noexcept calls another function that throws an exception or executes a throw statement, the program terminates
 
 ## 3 file system mode
+- ofstream - for file input
+- ifstream - for file output
+- fstream - for file input and output
 
 ## keywords
 - also known as reserved words
