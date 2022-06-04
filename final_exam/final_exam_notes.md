@@ -26,7 +26,8 @@
 - data members and data functions define the properties and behavior of the objects in a class
 
 ## base class exceptions
-
+- class logic_error is the base class of several standard exception classes that indicate errors in porgram logic
+- class runtime_error is the base class of several other standard exception classes that indicate execution-time errors
 
 ## try catch block
 
@@ -44,6 +45,7 @@ catch (const exception&) {
 }
 
 ## how do they terminate?
+- by default, the termainzte handler calls abort when no catch handler can be found for a thrown exception
 
 ## noexcept operator
 - when a function does not throw any exceptions and does not call any functions that throw exceptions, you can explicitly state that a function does throw exceptions
@@ -78,6 +80,7 @@ const int num = 5; // a constant integer
 const int *ptr = &num; // a pointer to a constant integer
 int const *cptr = &num; // a constant pointer to an integer
 const int const *ccptr = &num; // a constant pointer to a constant integer
+void function() const // a constant function that cannot modify any member variables in the class
 
 ## namespace and memberspace resolution
 - namespace is a declarative region that provides a scope to the identifiers inside it. It prevents name collisions

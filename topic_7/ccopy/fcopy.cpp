@@ -9,7 +9,7 @@ std::ofstream *openFile(const std::string &, std::ios);
 
 int main(int argc, char const *argv[])
 {
-    char buff[BUFFER_SZ];
+    char buffer[BUFFER_SZ];
     int qty;
     std::ifstream src("building.h", std::ios::in | std::ios::binary); // can use absoulute path or relative path
     std::ofstream dst("building_copy.h", std::ios::out | std::ios::binary);
@@ -17,9 +17,9 @@ int main(int argc, char const *argv[])
         exit(EXIT_FAILURE);
     while (src)
     {
-        src.read(buff, BUFFER_SZ);
+        src.read(buffer, BUFFER_SZ);
         qty = src.gcount();
-        dst.write(buff, qty);
+        dst.write(buffer, qty);
     }
     
     return 0;
