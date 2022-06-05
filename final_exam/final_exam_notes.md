@@ -112,7 +112,7 @@ except::exception();
 0000 0000 1010 1100 // positive 172 in binary
 1111 1111 0101 0011 // converting to -172
                   1
-1111 1111 0101 0100 // binary
+1111 1111 0101 0100 // -172 in binary
 ff54 // hex
 
 -1023
@@ -121,7 +121,7 @@ ff54 // hex
 0000 0011 1111 1111 // positive 1023 in binary
 1111 1100 0000 0000 // converting to -1023
                   1
-1111 1100 0000 0001 // binary
+1111 1100 0000 0001 // -1023 in binary
 fc01 // hex
 
 - conversion form unsigned int to binary to hex
