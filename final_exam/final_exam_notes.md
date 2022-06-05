@@ -4,11 +4,11 @@
 
 ## class member access modifiers
 - private
-    - can be accessed by anybody
+    - can only be accessed by base members and friends
 - protected
     - can be accessed by base members, friends, and derived classes
 - public
-    - can only be accessed by base members and friends
+    - can be accessed by anybody
 
 ## class inheritance access modifiers
 - private inheritance
@@ -17,7 +17,7 @@
     - public and protected inherited members become protected and private inherited members stay inaccessible
     - least common
 - public inheritance
-    - public inherited members stay public, protected inherited members stay protected and private inherited members inaccessible private
+    - public inherited members stay public, protected inherited members stay protected and private inherited members stay inaccessible
     - most common
 
 ## data member vs data function
@@ -55,8 +55,8 @@ catch (const exception&) {
 - if a funciton that is declared noexcept calls another function that throws an exception or executes a throw statement, the program terminates
 
 ## 3 file system mode
-- ofstream - for file input
-- ifstream - for file output
+- ofstream - for file output: it writes data out to a file
+- ifstream - for file input: it reads data from a file
 - fstream - for file input and output
 
 ## keywords
@@ -66,7 +66,13 @@ catch (const exception&) {
 ## linked list
 - static array
 - pointer in the heap
+    - example
+    int **ptr = new int *;
 - linked list
+    - a collection of nodes that contain a data part and a next pointer that contains the memory address of the next element in the list
+    - The last element in the list has its next pointer set to NULL which indicate the end of the list
+    - the first node of a linked list is called the head, and the last node is called the tail
+    - the list traverses from the head to the tail
 
 ## function overloading
 - when more than one definition for a function

@@ -4,7 +4,7 @@
 
 double quotient(const double & numerator, const double &denominator);
 
-namespace except
+namespace exc
 {
 class DivideByZeroException : public std::runtime_error
 {
@@ -16,12 +16,12 @@ public:
 
 int main(int argc, char const *argv[])
 {
-    double num1{6};
-    double num2{0};
+    double numerator{6};
+    double denominator{0};
 
     try
-    { std::cout << quotient(num1, num2) << std::endl; }
-    catch(const except::DivideByZeroException &divideByZeroException)
+    { std::cout << quotient(numerator, denominator) << std::endl; }
+    catch(const exc::DivideByZeroException &divideByZeroException)
     { std::cerr << divideByZeroException.what() << '\n'; }
 
     return 0;
@@ -30,6 +30,6 @@ int main(int argc, char const *argv[])
 double quotient(const double &numerator, const double &denominator)
 {
     if (denominator == 0)
-        throw except::DivideByZeroException();
+        throw exc::DivideByZeroException();
     return (numerator / denominator);
 }

@@ -3,9 +3,9 @@
 #include <fstream>
 #include <cstdlib>
 
-#define BUFFER_SZ 8196
+#define BUFFER_SZ 8192
 
-std::ofstream *openFile(const std::string &, std::ios);
+//std::ofstream *openFile(const std::string &, std::ios);
 
 int main(int argc, char const *argv[])
 {
@@ -24,9 +24,10 @@ int main(int argc, char const *argv[])
     
     return 0;
 }
-
+/*
 std::ofstream *openFile(const std::string &name, std::ios mode)
 {
     std::ofstream *file = new std::ofstream(name);
     //file->open(name, mode);
 }
+*/
