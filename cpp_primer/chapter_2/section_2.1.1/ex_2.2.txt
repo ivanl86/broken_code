@@ -1,0 +1,1 @@
+double will be the preferred choice because calculating rate, and payment needs demical and principal needs a large size type

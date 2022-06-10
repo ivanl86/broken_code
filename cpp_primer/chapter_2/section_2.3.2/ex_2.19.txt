@@ -1,0 +1,4 @@
+Reference is not an object. Once a reference has defined, there is no way to make that reference refer to a different object.
+When use a reference, we always get the object to which the reference was initially bound.
+
+Pointer can be assigned to any value.

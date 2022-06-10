@@ -1,0 +1,5 @@
+int, long, long long, and short hold different integer sizes. short is short integer, int is integer, long is long integer, and long long is long integer with twice the size of long.
+
+unsigned type can only hold positive value including zero when signed type can be both positive and negatve value.
+
+float is single precision floating point and double is double precision floating point.

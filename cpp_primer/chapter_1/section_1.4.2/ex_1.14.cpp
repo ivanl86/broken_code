@@ -1,0 +1,1 @@
+// for loop is simpler than a while loop
