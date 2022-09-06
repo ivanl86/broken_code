@@ -1,0 +1,4 @@
+Collection is a special case of a data structure
+Collection types:
+    -Ordered
+    -Unordered
