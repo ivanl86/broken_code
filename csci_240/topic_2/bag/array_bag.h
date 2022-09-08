@@ -9,16 +9,16 @@
 #define SCALING_FACTOR 2
 
 template <typename T>
-class ArrayBag : Bag<T>
+class ArrayBag : public Bag<T>
 {
 public:
     ArrayBag() : store{new T[DEFAULT_SIZE]} {}
 
     bool add(T item)
     {
-        if (count >= currentSize)
+        if (this->count >= currentSize)
             resize();
-        store[count++] = item;
+        store[this->count++] = item;
         return true;
     }
 
@@ -27,7 +27,7 @@ public:
         int i = indexOf(item);
         if (i > 0)
         {
-            store[i] = store[--count];
+            store[i] = store[--this->count];
             return true;
         }
         return false;
@@ -37,11 +37,11 @@ public:
     { return indexOf(item) >= 0; }
 
     size_t size()
-    { return count; }
+    { return this->count; }
 
     T grab()
     {
-        if (couunt == 0)
+        if (this->count == 0)
             throw std::runtime_error("Grab on empty bag!");
         return store[0];
     }
@@ -54,7 +54,7 @@ private:
     {
         currentSize *= SCALING_FACTOR;
         T *newStore{new T[currentSize]};
-        for (size_t i = 0; i < count; ++i)
+        for (size_t i = 0; i < this->count; ++i)
             newStore[i] = store[i];
         delete[] store;
         store = newStore;
@@ -62,7 +62,7 @@ private:
 
     int indexOf(T item)
     {
-        for (size_t i = 0; i < count; ++i)
+        for (size_t i = 0; i < this->count; ++i)
             if (store[i] == item)
                 return i;
         return -1;
