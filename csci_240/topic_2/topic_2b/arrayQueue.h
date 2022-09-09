@@ -1,4 +1,5 @@
 #include <stdexcept>
+
 #include "queue.h"
 
 #ifndef ARRAYQUEUE_H
@@ -11,6 +12,7 @@ template<typename T>
 class ArrayQueue : public Queue<T>
 {
 public:
+    // ArrayQueue constructor
     // creates an array of Queue on the heap with the DEFAULT_SIZE, 8
     // initialize front and currentCount to zero
     // initialize back to -1
@@ -18,6 +20,7 @@ public:
     ArrayQueue() : inQueue{new T[DEFAULT_SIZE]}, front{0}, back{-1},
                    currentCount{0}, currentSize{DEFAULT_SIZE} {}
 
+    // Takes an item as an argument and adds it to the collection at the back of the queue
     void enqueue(T item)
     {
         if (currentCount >= currentSize)
@@ -34,12 +37,12 @@ public:
             inQueue[++back] = item;
             ++currentCount;
         }
-
     }
 
+    // Removes and returns the item at the front of the queue
     T dequeue()
     {
-        T temp{inQueue[front]};
+        T frontQueue{inQueue[front]};
 
         if (isEmpty())
             throw std::runtime_error("The queue is empty!");
@@ -56,9 +59,10 @@ public:
             --currentCount;
         }
 
-        return temp;
+        return frontQueue;
     }
 
+    // Returns the item at the front of the queue but does not remove it
     T getFront()
     {
         if (isEmpty())
@@ -67,18 +71,16 @@ public:
         return inQueue[front];
     }
 
+    // Returns true if the queue is empty or false otherwise
     bool isEmpty()
-    {
-        if (currentCount <= 0)
-            return true;
-        return false;
-    }
+    { return currentCount <= 0; }
 
+    // Removes all items from the queue
     void clear()
     {
         currentCount = 0;
         front = 0;
-        back = 0;
+        back = -1;
     }
 
 private:
@@ -88,6 +90,8 @@ private:
     size_t currentCount;
     size_t currentSize;
 
+    // Resize the arrayQueue by multipling the currentSize with the SCALING_FACTOR
+    // when a new item to be enqueued will exceed the currentSize
     void resize()
     {
         size_t previousSize{currentSize};
