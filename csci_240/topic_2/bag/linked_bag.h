@@ -1,7 +1,7 @@
 #include <stdexcept>
 
 #include "bag.h"
-#include "C:\Users\ivanl\OneDrive\Desktop\dev\broken_code\csci_240\topic_2\bag\node.h"
+#include "node.h"
 
 #ifndef LINKED_BAG_H
 #define LINKED_BAG_H
