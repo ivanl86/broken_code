@@ -2,6 +2,7 @@
 
 #include "queue.h"
 #include "arrayQueue.h"
+#include "linkedQueue.h"
 
 const int TEST_VAL{1};
 const int TEST_VALS_1[]{1,2,3,4,5,6};
@@ -18,13 +19,23 @@ void testCircularResize(Queue<int> *);
 
 int main(int argc, char const *argv[])
 {
-//    testEnqueueDequeue(new ArrayQueue<int>);
-//    std::cout << std::endl;
-//    testCircularQueue(new ArrayQueue<int>);
-//    std::cout << std::endl;
-//    testResize(new ArrayQueue<int>);
-    testCircularResize(new ArrayQueue<int>);
-    std::cout << std::endl;
+    try
+    {
+//        testEnqueueDequeue(new ArrayQueue<int>);
+//        std::cout << std::endl;
+//        testCircularQueue(new ArrayQueue<int>);
+//        td::cout << std::endl;
+//        testResize(new ArrayQueue<int>);
+//        testCircularResize(new ArrayQueue<int>);
+//        std::cout << std::endl;
+//        testEnqueueDequeue(new LinkedQueue<int>);
+        testResize(new LinkedQueue<int>);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what();
+    }
+
     return 0;
 }
 
@@ -41,10 +52,10 @@ void testEnqueueDequeue(Queue<int> *queue)
         throw std::runtime_error("FAILED: The dequeue function did not remove the correct value\n");
     
     std::cout << (queue->isEmpty() ? "The queue is empty\n" : "The queue is not empty\n");
-    
-        std::cout << "SUCCEED: The enqueue and dequeue function passed\n";
 
     delete queue;
+
+        std::cout << "SUCCEED: The enqueue and dequeue function passed\n";
 }
 
 void testCircularQueue(Queue<int> *queue)
@@ -77,6 +88,8 @@ void testCircularQueue(Queue<int> *queue)
 
     std::cout << std::endl;
 
+    delete queue;
+
     std::cout << "SUCCEED: The enqueue and dequeue function in circular passed\n";
 }
 
@@ -91,6 +104,8 @@ void testResize(Queue<int> *queue)
         std::cout << queue->dequeue() << ' ';
 
     std::cout << std::endl;
+
+    delete queue;
 
     std::cout << "SUCCEED: The resize function passed\n";
 }
@@ -113,6 +128,8 @@ void testCircularResize(Queue<int> *queue)
         std::cout << queue->dequeue() << ' ';
 
     std::cout << std::endl;
+
+    delete queue;
 
     std::cout << "SUCCEED: The resize function in circular passed\n";
 }
