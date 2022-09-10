@@ -26,7 +26,7 @@ public:
         if (currentCount >= currentSize)
             resize();
         
-        if (back == currentSize - 1)
+        if (back >= currentSize - 1)
         {
             back = 0;
             inQueue[back] = item;
@@ -52,7 +52,6 @@ public:
             front = 0;
             --currentCount;
         }
-            
         else
         {
             ++front;
@@ -94,21 +93,13 @@ private:
     // when a new item to be enqueued will exceed the currentSize
     void resize()
     {
-        size_t previousSize{currentSize};
-        T *newQueue{new T[currentSize]};
         currentSize *= SCALING_FACTOR;
+        T *newQueue{new T[currentSize]};
 
-        if (back < front)
-        {
-            for(size_t i{0}; front + i < previousSize; ++i)
-                newQueue[i] = inQueue[front + i];
-            for(size_t i{0}; i <= back; ++i)
-                newQueue[(front - back + 1) + i] = inQueue[i];
-        }
-        else
-            for(size_t i{0}; i < previousSize; ++i)
-                newQueue[i] = inQueue[i];
+        for(size_t i{0}; i < (currentSize / SCALING_FACTOR); ++i)
+                newQueue[i] = inQueue[++back % (currentSize / SCALING_FACTOR)];       
 
+        delete[] inQueue;
         inQueue = newQueue;
         front = 0;
         back = currentCount - 1;

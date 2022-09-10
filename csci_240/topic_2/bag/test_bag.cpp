@@ -72,7 +72,7 @@ void testContainsUsingArray(Bag<int> *bag)
     if (bag->contains(0))
         throw std::runtime_error("FAILED: Tested Contains function on value not added. Did not report membership");
 
-    std::cout << "PASSED! Contains on multiple values passed\n";
-
     delete bag;
+
+    std::cout << "PASSED! Contains on multiple values passed\n";
 }

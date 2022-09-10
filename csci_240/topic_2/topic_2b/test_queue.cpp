@@ -20,16 +20,27 @@ void testCircularResize(Queue<int> *);
 int main(int argc, char const *argv[])
 {
     try
-    {
-//        testEnqueueDequeue(new ArrayQueue<int>);
-//        std::cout << std::endl;
-//        testCircularQueue(new ArrayQueue<int>);
-//        td::cout << std::endl;
-//        testResize(new ArrayQueue<int>);
-//        testCircularResize(new ArrayQueue<int>);
-//        std::cout << std::endl;
-//        testEnqueueDequeue(new LinkedQueue<int>);
+    {/**/
+        std::cout << "Start testing ArrayQueue\n";
+        testEnqueueDequeue(new ArrayQueue<int>);
+        std::cout << std::endl;
+        testCircularQueue(new ArrayQueue<int>);
+        std::cout << std::endl;
+        testResize(new ArrayQueue<int>);
+        std::cout << std::endl;
+        testCircularResize(new ArrayQueue<int>);
+        std::cout << std::endl;
+
+        std::cout << "Start testing LinkedQueue\n";
+        testEnqueueDequeue(new LinkedQueue<int>);
+        std::cout << std::endl;
+        testCircularQueue(new LinkedQueue<int>);
+        std::cout << std::endl;
         testResize(new LinkedQueue<int>);
+        std::cout << std::endl;
+        testCircularResize(new LinkedQueue<int>);
+        std::cout << std::endl;
+
     }
     catch(const std::exception& e)
     {
@@ -55,7 +66,7 @@ void testEnqueueDequeue(Queue<int> *queue)
 
     delete queue;
 
-        std::cout << "SUCCEED: The enqueue and dequeue function passed\n";
+    std::cout << "SUCCEED: The enqueue and dequeue function passed\n";
 }
 
 void testCircularQueue(Queue<int> *queue)
