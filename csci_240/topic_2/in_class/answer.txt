@@ -1,0 +1,4 @@
+1) No, the queue is not meant for user interface and it should not have any output statement inside the queue.
+2) No, any change should be made before sharing.
+3) Because there is name collision between the memeber function "front" and the variables "front,"
+that is why the variables "front" have to change name.
