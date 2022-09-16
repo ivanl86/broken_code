@@ -25,7 +25,7 @@ public:
         store[backIdx] = item;
         ++count;
 
-        if (front = -1)
+        if (frontIdx == -1)
             frontIdx = backIdx;
     }
 
@@ -51,7 +51,7 @@ public:
     }
 
     bool empty()
-    { return count = 0; }
+    { return count == 0; }
 
     void clear()
     {
@@ -77,6 +77,7 @@ private:
             ++frontIdx;
             frontIdx %= currentSize;
         }
+
         delete[] store;
 
         store = newStore;

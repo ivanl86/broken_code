@@ -7,7 +7,7 @@ struct Node
     T item;
     Node<T> *next;
 
-    Node(T item, Node<T> *item) : item{item}, next{next} {}
+    Node(T item, Node<T> *next) : item{item}, next{next} {}
     Node(T item) : Node<T>(item, nullptr) {}
 };
 
