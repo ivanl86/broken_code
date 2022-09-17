@@ -10,22 +10,26 @@ template<typename T>
 class Stack
 {
 public:
-    Stack() : currentCount{0}, currentSize{DEFAULT_SIZE} {}
+    Stack() : item{new T[DEFAULT_SIZE]}, currentCount{0}, currentSize{DEFAULT_SIZE} {}
 
     void push(T newItem)
     {
-        if (currentCount >= currentSize)
+        if (currentCount >= currentSize - 1)
             resize();
         
-        item[currentCount++] = newItem;
+        item[currentCount] = newItem;
+        ++currentCount;
     }
 
     T pop()
     {
-        if (empty)
+        if (empty())
             throw std::runtime_error("The stack is empty");
 
-        return item[currentCount--];
+        T popItem{item[currentCount]};
+        --currentCount;
+
+        return popItem;
     }
 
     T peek()
@@ -35,7 +39,7 @@ public:
     { return currentCount == 0; }
 
     void clear()
-    { currentCount == 0; }
+    { currentCount = 0; }
 
 private:
     T *item;
