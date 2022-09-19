@@ -19,7 +19,7 @@ public:
     {
         if (count == currentSize)
             resize();
-        
+
         ++backIdx;
         backIdx %= currentSize;
         store[backIdx] = item;

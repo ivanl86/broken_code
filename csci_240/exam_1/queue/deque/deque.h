@@ -15,18 +15,42 @@ public:
     void enqueueFront(T item)
     {
         (isEmpty() ? frontPtr : frontPtr->previous) = new Node<T>(item);
-        (isEmpty() ? backPtr = frontPtr : frontPtr = frontPtr->previous);
+        //(isEmpty() ? backPtr = frontPtr : frontPtr = frontPtr->previous);
+        if (isEmpty())
+        {
+            /// frontPtr = new Node<T>(item);
+            backPtr = frontPtr;
+            // frontPtr->next = backPtr;
+            // backPtr->previous = frontPtr;
+        }
+        else
+        {
+            // frontPtr->previous = new Node<T>(item);
+            frontPtr->next = frontPtr;
+            frontPtr = frontPtr->previous;
+        }
     }
 
     void enqueueBack(T item)
     {
         (isEmpty() ? backPtr : backPtr->next) = new Node<T>(item);
-        (isEmpty() ? frontPtr = backPtr : backPtr = backPtr->next);
-//        if (frontPtr == backPtr)
-//        {
-//            frontPtr->next = backPtr;
-//            backPtr->previous = frontPtr;
-//        }
+        // (isEmpty() ? frontPtr = backPtr : backPtr = backPtr->next);
+        if (isEmpty())
+        {
+            frontPtr = backPtr;
+        }
+        else
+        {
+            backPtr->previous = backPtr;
+            backPtr = backPtr->next;
+        }
+
+/*
+        if (frontPtr == backPtr)
+        {
+            frontPtr->next = backPtr;
+            backPtr->previous = frontPtr;
+        }*/
     }
 
     T dequeueFront()
@@ -38,6 +62,7 @@ public:
         T tempItem{frontPtr->item};
 
         frontPtr = frontPtr->next;
+
         delete tempPtr;
 
         return tempItem;
@@ -52,6 +77,7 @@ public:
         T tempItem{backPtr->item};
 
         backPtr = backPtr->previous;
+
         delete tempPtr;
 
         return tempItem;

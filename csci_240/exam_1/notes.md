@@ -57,13 +57,13 @@
 - cg(n) = 11n^4, where n >= 1
 - c = 11, g(n) = n^4
 - O(n^4) = f(n)
-#### Recursive Function
+#### Recursive Function (n - k)
 - T(n) = 1 + T(n - k)
 - n - k = 1
 - k = n - 1
 - T(n) = n - 1 + 1 = n
 - O(n) = f(n)
-#### Recursive Function
+#### Recursive Function (n - n/2^k)
 - T(n) = 1 + T(n - n/2^k)
 - n/2^k = 1
 - n = 2^k

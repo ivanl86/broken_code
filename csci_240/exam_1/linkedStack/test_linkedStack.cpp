@@ -65,7 +65,7 @@ void test_Pop_Clear(LinkedStack<int> *stack)
     if (stack->empty())
         throw std::runtime_error("FAILED: Stack empty after push");
     stack->clear();
-    if (!stack->empty())
+    if (stack->empty())
         throw std::runtime_error("FAILED: Stack not empty after clear");
     delete stack;
     std::cout << "SUCCESS: test_Pop_Clear\n";

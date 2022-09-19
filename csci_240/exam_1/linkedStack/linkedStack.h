@@ -42,20 +42,16 @@ public:
 
     void clear()
     {
-        
         while (!empty())
         {
             Node<T> *temp{head->next};
             delete head;
             head = temp;
         }
-        
     }
 
 private:
     Node<T> *head;
-
-
 };
 
 
