@@ -21,7 +21,6 @@ public:
         
         ++backIdx %= currentSize;
         item[backIdx] = newItem;
-
     }
 private:
     T *item;
