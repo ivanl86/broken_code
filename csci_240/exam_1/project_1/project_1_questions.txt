@@ -1,0 +1,9 @@
+
+
+1) a bag class representing a floor
+or a floor class contains a bag?
+2) create a bag class for floor and elevator?
+3) create a separate queue class for elevator class
+or a queue inside the elevator class
+4) how to simulate up and down movement for elevator
+5) how to simulate which floor the elevator is at
