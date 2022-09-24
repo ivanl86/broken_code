@@ -7,13 +7,31 @@
 - unsigned: [0,2^(n)-1]
 - signed:   [-2^(n-1),2^(n-1)-1]
 
-## registers
-- eax
-- ebx
-- ecx
-- edx
+## Registers
+- registers are named storage locations in the CPU that hold intermediate results of operations
+## eax
+- called accumulator register
+- automatically used by multiplication and division instructions
+## ebx
+- base register
+## ecx
+- automatically used as loop counter
+## edx
+- data register
+## ebp
+- base pointer
+- point to the base address of the stack
+## esp
+- stack pointer
+- address data to the next item on the stack
+## esi
+- source index
+- high speed memory transfer instructions
+## edi
+- destination index
+- high speed memory transfer instructions
 
-## lablel
+## Lablel
 - symbols for memory addresses
 
 ## Status Flags
@@ -31,7 +49,7 @@
 ## Memory Address
 - find out where a lable's memory address is
 
-## Define Label Size
+## Memory Offset
 ### byte size
 - byte  start
 - resb  BSS
@@ -51,9 +69,9 @@
 
 ## Operators
 ### mov
-- move a value from a reg/memory/immediate value to another label/reg
+- move a value from a reg/memory/immediate value to another memory/reg
 ### movzx
-- move with zero-extend: all new bits will filled with zero
+- move with zero-extend; all new bits will filled with zero
 ### xchg
 - exchange reg/memory with reg
 ### inc
@@ -67,7 +85,7 @@
 ### $
 - refer to the current address
 ### [ ]
-- dereference memory
+- dereference memory address
 ## Loop
 - mov ecx, 5    ; set the counter to 5
 - .loop:        ; a local label
