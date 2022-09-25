@@ -51,21 +51,21 @@
 
 ## Memory Offset
 ### byte size
-- byte  start
-- resb  BSS
-- db    text
+- byte;  start
+- resb;  BSS
+- db;    text
 ### word size (2 byte)
-- word  start
-- resw  BSS
-- dw    text
+- word;  start
+- resw;  BSS
+- dw;    text
 ### double word size (4 byte)
-- dword start
-- resd  BSS
-- dd    text
+- dword; start
+- resd;  BSS
+- dd;    text
 ### quad word size (8 byte)
-- qword start
-- resq  BSS
-- dq    text
+- qword; start
+- resq;  BSS
+- dq;    text
 
 ## Operators
 ### mov
