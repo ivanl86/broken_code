@@ -1,6 +1,6 @@
 #include "elevator.h"
 
-Elevator::Elevator() : call{false}
+Elevator::Elevator() : call{false}, currentCapacity{0}
 {}
 
 void Elevator::set(Person person)

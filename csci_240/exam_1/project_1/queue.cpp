@@ -1,17 +1,17 @@
-#include "elevator_queue.h"
+#include "queue.h"
 
-ElevatorQueue::ElevatorQueue()
+Queue::Queue()
 : frontPtr{nullptr}, backPtr{nullptr} {}
 
 
-void ElevatorQueue::enqueue(Person person)
+void Queue::enqueue(Person person)
 {
     (empty() ? backPtr : backPtr->nextPerson) = new Node(person);
     (empty() ? frontPtr = backPtr : backPtr = backPtr->nextPerson);
 }
 
 
-Person ElevatorQueue::dequeue()
+Person Queue::dequeue()
 {
     if (empty())
         throw std::runtime_error("Empty Queue!");
@@ -29,6 +29,6 @@ Person ElevatorQueue::dequeue()
 }
 
 
-bool ElevatorQueue::empty()
+bool Queue::empty()
 { return frontPtr == nullptr; }
 

@@ -1,6 +1,6 @@
 # Elevator Sim
 ## The Tempo
-- a tick represent each loop
+- a tick represent each iteration of the central loop
 ## The Building
 - a clas has floors and elevator
 - 50 floors
@@ -8,8 +8,8 @@
 - floor 50 is highest floor
 ## People
 - a class with only two fields
-- id
-- destination floor
+    - id
+    - destination floor
 - 0.035 chance to enter the building
 - do not move from floor to floor
 ## The Floors
@@ -34,13 +34,15 @@
 - record and output any info
 - determine when a Person on any floor is ready to leave
 ## Questions
-1) a Bag class representing a floor or a floor class contains a Bag?
+1. Is a Bag class representing a floor or a floor class contains a Bag and a Elevator Queue?
 - 
-2) create a Bag class for floor and elevator?
+2. How to transfer a Person from one container to another container?
+
+3. Should I create a seprarte Bag class for Floor and Elevator?
 - 
-3) create a separate queue class for elevator class or a queue inside the elevator class
+4. Should I create a separate Queue class for Elevator class or a Queue inside the elevator class?
 - 
-4) how to simulate up and down movement for elevator
+5. How to simulate up and down movement for elevator?
 - 
-5) how to simulate which floor the elevator is at
+6. How to simulate which floor the elevator is at?
 - 

@@ -3,13 +3,13 @@
 #include "node.h"
 #include "person.h"
 
-#ifndef ELEVATOR_QUEUE_H
-#define ELEVATOR_QUEUE_H
+#ifndef QUEUE_H
+#define QUEUE_H
 
-class ElevatorQueue
+class Queue
 {
 public:
-    ElevatorQueue();
+    Queue();
     void enqueue(Person person);
     Person dequeue();
     bool empty();
@@ -18,4 +18,4 @@ private:
     Node *backPtr;
 };
 
-#endif  /* ELEVATOR_QUEUE_H */
+#endif  /* QUEUE_H */
