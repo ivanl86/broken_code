@@ -48,3 +48,6 @@
 - 
 7. What is main loop in Controller?
 - 
+8. Should the bag and queue be private or public members?
+- 
+9. Is Elevator setup correct?
