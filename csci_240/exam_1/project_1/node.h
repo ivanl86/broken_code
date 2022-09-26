@@ -6,11 +6,11 @@
 class Node
 {
 public:
-    Person person;
+    Person *person;
     Node *nextPerson;
 
-    Node(Person person, Node *nextPerson);
-    Node(Person person);
+    Node(Person *person, Node *nextPerson);
+    Node(Person *person);
 private:
 
 };

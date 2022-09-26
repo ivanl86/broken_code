@@ -1,7 +1,7 @@
 #include "node.h"
 
-Node::Node(Person person, Node *nextPerson)
+Node::Node(Person *person, Node *nextPerson)
     : person{person}, nextPerson{nextPerson} {}
 
-Node::Node(Person person)
+Node::Node(Person *person)
     : Node(person, nullptr) {}

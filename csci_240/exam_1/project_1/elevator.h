@@ -12,13 +12,18 @@ class Elevator
 {
 public:
     Elevator();
-    void set(Person person);
-    void unset(Person person);
+    void set(Person *person);
+    void unset(Person *person);
+    void increCapacity();
+    void decreCapacity();
+    size_t getCurCapacity();
+    void clearCapacity();
+
+    Bag *elevator;
 
 private:
     bool call[HIGHEST_FLOOR + 1];
-    Bag *elevator;
-    size_t currentCapacity;
+    size_t curCapacity;
 };
 
 #endif  /* ELEVATOR_H */

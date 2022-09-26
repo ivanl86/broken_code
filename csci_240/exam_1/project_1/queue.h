@@ -10,8 +10,8 @@ class Queue
 {
 public:
     Queue();
-    void enqueue(Person person);
-    Person dequeue();
+    void enqueue(Person *person);
+    Person *dequeue();
     bool empty();
 private:
     Node *frontPtr;

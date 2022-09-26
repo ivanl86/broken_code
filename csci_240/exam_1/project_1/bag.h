@@ -10,8 +10,8 @@ class Bag
 {
 public:
     Bag();
-    void embark(Person person);
-    Person disembark();
+    void embark(Person *person);
+    Person *disembark();
     bool empty();
 
 private:
