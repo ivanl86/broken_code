@@ -1,6 +1,6 @@
 #include "controller.h"
 
-Controller::Controller() : bdg{new Building}, tick{0} {}
+Controller::Controller() : bdg{new Building}, tick{0}, goUp{true} {}
 
 void Controller::newVisitor()
 {
@@ -15,10 +15,10 @@ void Controller::unSetCall()
 { bdg->elevator->unset(visitor); }
 
 void Controller::embarkElevator(size_t currentFloor)
-{ bdg->elevator->elevator->embark(bdg->floor[currentFloor].elevatorQueue->dequeue()); }
+{ bdg->elevator->occupant->embark(bdg->floor[currentFloor].elevatorQueue->dequeue()); }
 
 void Controller::disembarkElevator(size_t dstFloor)
-{ bdg->floor[dstFloor].floor->embark(bdg->elevator->elevator->disembark()); }
+{ bdg->floor[dstFloor].occupant->embark(bdg->elevator->occupant->disembark()); }
 
 void Controller::queueElevator(size_t currentFloor)
-{ bdg->floor[currentFloor].elevatorQueue->enqueue(bdg->floor[currentFloor].floor->disembark()); }
+{ bdg->floor[currentFloor].elevatorQueue->enqueue(bdg->floor[currentFloor].occupant->disembark()); }
