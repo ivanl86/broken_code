@@ -13,7 +13,7 @@ public:
     Controller();
     ~Controller();
     void newVisitor();
-    void setCall();
+    void setCall(size_t curFloor);
     void unSetCall();
     void embarkElevator(size_t curFloor);
     void disembarkElevator(size_t dstFloor);
@@ -22,6 +22,7 @@ public:
 private:
     size_t visitorCount;
     bool goUp;
+    bool call[HIGHEST_FLOOR + 1] {};
     Building *bdg;
     Person *visitor;
     Utility uty;

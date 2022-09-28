@@ -1,0 +1,15 @@
+void disembark()
+{
+    Bag temp;
+    while(!occupants.empty())
+    {
+        Person p = occ.remove()
+        if(p.floor == currentfloor)
+            add to floor q
+        else
+            temp.add(p)
+    }
+
+    while(!temp.empty)
+        occ.add(temp.remove)
+}

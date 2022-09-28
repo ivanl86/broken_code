@@ -1,12 +1,11 @@
 #include "elevator.h"
 
-Elevator::Elevator() : call{}, curCount{0}, occupants{new Bag}
+Elevator::Elevator() : curCount{0}, occupants{new Bag}
 {
     for(size_t i{1}; i <= HIGHEST_FLOOR; ++i)
     {
         call[i] = false;
-    }
-    
+    }    
 }
 
 void Elevator::set(Person *person)

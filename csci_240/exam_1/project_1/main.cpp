@@ -18,15 +18,21 @@ int main(int argc, char const *argv[])
             do
             {
                 Controller elevatorSim;
+                size_t curFloor{0};
 
                 if (uty.randRange(1, 1000) <= 35)
                 {
                     elevatorSim.newVisitor();
-                    // elevatorSim.setCall();
                     std::cout << "A new visitor has arrived!\n";
-                    elevatorSim.embarkElevator(1);
+                    elevatorSim.embarkElevator(LOBBY);
                     ++visitorCount;
                 }
+
+                if (uty.randRange(1, 1000) <= 15)
+                {
+                    elevatorSim.setCall();
+                }
+                
 
                 ++ticks;
                 std::cout << ticks << " ticks\n";

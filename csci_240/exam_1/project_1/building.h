@@ -6,6 +6,8 @@
 #ifndef BUILDING_H
 #define BUILDING_H
 
+#define FLOOR_QTY 50
+
 class Building
 {
 public:
