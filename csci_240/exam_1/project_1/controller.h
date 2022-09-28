@@ -11,15 +11,16 @@ class Controller
 {
 public:
     Controller();
+    ~Controller();
     void newVisitor();
     void setCall();
     void unSetCall();
-    void embarkElevator(size_t currentFloor);
+    void embarkElevator(size_t curFloor);
     void disembarkElevator(size_t dstFloor);
-    void queueElevator(size_t currentFloor);
+    void queueElevator(size_t curFloor);
 
 private:
-    size_t tick;
+    size_t visitorCount;
     bool goUp;
     Building *bdg;
     Person *visitor;

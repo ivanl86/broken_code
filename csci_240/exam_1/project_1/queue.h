@@ -10,9 +10,11 @@ class Queue
 {
 public:
     Queue();
-    void enqueue(Person *person);
-    Person *dequeue();
+    void enqueue(Person person);
+    Person dequeue();
+    Person front();
     bool empty();
+
 private:
     Node *frontPtr;
     Node *backPtr;
