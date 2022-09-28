@@ -15,7 +15,7 @@ class Floors
 {
 public:
     Floors();
-    Bag *occupant;
+    Bag *occupants;
     Queue *elevatorQueue;
 private:
 };

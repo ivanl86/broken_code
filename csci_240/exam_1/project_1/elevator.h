@@ -19,11 +19,11 @@ public:
     size_t getCurCapacity();
     void clearCapacity();
 
-    Bag *occupant;
+    Bag *occupants;
+    bool call[HIGHEST_FLOOR + 1];
+    size_t curCount;
 
 private:
-    bool call[HIGHEST_FLOOR + 1];
-    size_t curCapacity;
 };
 
 #endif  /* ELEVATOR_H */

@@ -1,6 +1,6 @@
 #include "elevator.h"
 
-Elevator::Elevator() : call{}, curCapacity{0}, elevator{new Bag}
+Elevator::Elevator() : call{}, curCount{0}, occupants{new Bag}
 {}
 
 void Elevator::set(Person *person)
@@ -10,13 +10,13 @@ void Elevator::unset(Person *person)
 { call[person->getDst()] = false; }
 
 void Elevator::increCapacity()
-{ ++curCapacity; }
+{ ++curCount; }
 
 void Elevator::decreCapacity()
-{ --curCapacity; }
+{ --curCount; }
 
 size_t Elevator::getCurCapacity()
-{ return curCapacity; }
+{ return curCount; }
 
 void Elevator::clearCapacity()
-{ curCapacity = 0; }
+{ curCount = 0; }

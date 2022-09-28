@@ -10,7 +10,7 @@ class Building
 {
 public:
     Building();
-    Floors *floor;
+    Floors *floors;
     Elevator *elevator;
 private:
 };

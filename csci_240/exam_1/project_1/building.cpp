@@ -1,3 +1,3 @@
 #include "building.h"
 
-Building::Building() : floor{new Floors}, elevator{new Elevator} {}
+Building::Building() : floors{new Floors}, elevator{new Elevator} {}
