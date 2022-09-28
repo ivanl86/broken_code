@@ -22,8 +22,9 @@ int main(int argc, char const *argv[])
                 if (uty.randRange(1, 1000) <= 35)
                 {
                     elevatorSim.newVisitor();
-                    //elevatorSim.setCall();
+                    // elevatorSim.setCall();
                     std::cout << "A new visitor has arrived!\n";
+                    elevatorSim.embarkElevator(1);
                     ++visitorCount;
                 }
 

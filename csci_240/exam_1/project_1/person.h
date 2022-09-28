@@ -8,10 +8,10 @@ class Person
 public:
     Person(size_t id, unsigned int floorDst);
     size_t getID();
-    unsigned int getDst();
+    size_t getDst();
 private:
     size_t id;
-    unsigned int floorDst;
+    size_t dst;
 };
 
 #endif  /* PERSON_H */
