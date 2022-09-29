@@ -21,3 +21,14 @@ Person Bag::disembark()
 
 bool Bag::empty()
 { return head == nullptr; }
+
+void Bag::clear()
+{
+    Node *temp;
+    while (!empty())
+    {
+        temp = head->nextPerson;
+        delete head;
+        head = temp;
+    }
+}

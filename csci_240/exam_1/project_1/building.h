@@ -1,7 +1,6 @@
 #include "floors.h"
 #include "elevator.h"
 #include "person.h"
-#include "utility.h"
 
 #ifndef BUILDING_H
 #define BUILDING_H

@@ -6,6 +6,7 @@
 int main(int argc, char const *argv[])
 {
     size_t ticks{0};
+    size_t totalTicks{0};
     size_t visitorCount{0};
     Utility uty;
 
@@ -15,30 +16,41 @@ int main(int argc, char const *argv[])
     {
         do
         {
+            Controller elevatorSim(LOBBY, HIGHEST_FLOOR, MAX_CAPACITY);
+            size_t curFloor{0};
+            directions curDrt{idle};
+
             do
             {
-                Controller elevatorSim;
-                size_t curFloor{0};
-
-                if (uty.randRange(1, 1000) <= 35)
+                try
                 {
-                    elevatorSim.newVisitor();
-                    std::cout << "A new visitor has arrived!\n";
-                    elevatorSim.embarkElevator(LOBBY);
-                    ++visitorCount;
-                }
+                    if (elevatorSim.newVisitor())
+                    {
+                        elevatorSim.newVisitorMsg();
+                        ++visitorCount;
+                    }
 
-                if (uty.randRange(1, 1000) <= 15)
-                {
+                    if (curFloor == LOBBY)
+                        elevatorSim.exitBuilding(curFloor);
+
+                    elevatorSim.disembarkElevator(curFloor);
+                    elevatorSim.embarkElevator(curFloor);
+
                     elevatorSim.setCall();
                 }
-                
+                catch(const std::exception& e)
+                {
+                    std::cerr << e.what() << '\n';
+                }
 
-                ++ticks;
-                std::cout << ticks << " ticks\n";
+                uty.updateCurFloor(curFloor, curDrt);
+                uty.updateDirections(curDrt, curFloor);
 
-            } while (uty.continueToPlay(ticks));
-            std::cout << "Total of " << visitorCount << " visitors has arrived!\n";
+                ++totalTicks;
+                //std::cout << totalTicks << " ticks\n";
+
+            } while (uty.continueToPlay(totalTicks));
+            std::cout << "Total of " << visitorCount << " visitors has visited the building!\n";
         } while (uty.wantToPlay("Do you want to play again? (Y/N): "));
     }
 

@@ -30,3 +30,21 @@ bool Utility::continueToPlay(size_t ticks)
     else 
         return true;
 }
+
+void Utility::updateCurFloor(size_t &curFloor, directions drt)
+{
+    if (drt == up)
+        ++curFloor;
+    if (drt == down)
+        --curFloor;
+}
+
+void Utility::updateDirections(directions &drt, size_t curFloor)
+{
+    if (curFloor >= HIGHEST_FLOOR)
+        drt = down;
+    if (curFloor <= LOBBY)
+        drt = up;
+    
+    
+}

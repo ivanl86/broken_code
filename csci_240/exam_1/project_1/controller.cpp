@@ -1,6 +1,7 @@
 #include "controller.h"
 
-Controller::Controller() : bdg{new Building}, visitorCount{0}, goUp{true}
+Controller::Controller(size_t lobby, size_t highestFloor, size_t maxCapacity) : bdg{new Building}, lobby{lobby},
+                                                                  highestFloor{highestFloor}, maxCapacity{maxCapacity}
 {
     bdg->elevator = new Elevator;
     bdg->floors = new Floors[HIGHEST_FLOOR + 1];
@@ -22,39 +23,62 @@ Controller::~Controller()
     delete bdg;
 }
 
-void Controller::newVisitor()
+bool Controller::newVisitor()
 {
-    Person visitor(++visitorCount, uty.randRange(LOBBY + 1, HIGHEST_FLOOR));
-    bdg->floors[LOBBY].elevatorQueue->enqueue(visitor);
+    if (uty.randRange(1, 1000) <= 35)
+    {
+        Person visitor(++visitorCount, uty.randRange(LOBBY + 1, highestFloor));
+        bdg->floors[LOBBY].elevatorQueue->enqueue(visitor);
+        return true;
+    }
 }
 
-void Controller::setCall(size_t curFloor)
+void Controller::setCall()
 {
-    size_t randFloor{};
-    do
+    if (uty.randRange(1, 1000) >= 15)
+        return;
+
+    size_t randFloor{uty.randRange(LOBBY + 1, HIGHEST_FLOOR)};
+
+    for(size_t i{LOBBY + 1}; i < HIGHEST_FLOOR; ++i)
     {
-        randFloor = uty.randRange(LOBBY, HIGHEST_FLOOR);
-        if (!bdg->floors[curFloor].occupants->empty())
+        if (!bdg->floors[i].occupants->empty())
+        do
+        {
+            if (!bdg->floors[randFloor].occupants->empty())
             {
                 call[randFloor] = true;
+                queueElevator(randFloor);
+                visitorLeavingMsg();
                 return;
             }
-    } while (true);
-    
-    
-    
+            randFloor = uty.randRange(LOBBY, HIGHEST_FLOOR);
+        } while (true);
+    }
 }
 
-void Controller::unSetCall()
-{ bdg->elevator->unset(visitor); }
+void Controller::unSetCall(size_t curFloor)
+{
+    if (bdg->floors[curFloor].elevatorQueue->empty())
+        call[curFloor] = false;
+}
 
 void Controller::embarkElevator(size_t curFloor)
-{ bdg->elevator->occupants->embark(bdg->floors[curFloor].elevatorQueue->dequeue()); }
+{
+    while (curCount < maxCapacity && !bdg->floors[curFloor].elevatorQueue->empty())
+    {
+        bdg->elevator->occupants->embark(bdg->floors[curFloor].elevatorQueue->dequeue());
+        ++curCount;
+    }
+    if (curFloor > LOBBY)
+        unSetCall(curFloor);
+}
 
 void Controller::disembarkElevator(size_t curFloor)
 {
     //bdg->floors[dstFloor].occupants->embark(bdg->elevator->occupants->disembark());
     Bag temp;
+
     while (!bdg->elevator->occupants->empty())
     {
         Person p = bdg->elevator->occupants->disembark();
@@ -63,9 +87,29 @@ void Controller::disembarkElevator(size_t curFloor)
         else
             temp.embark(p);
     }
+
     while (!temp.empty())
         bdg->elevator->occupants->embark(temp.disembark());
 }
 
 void Controller::queueElevator(size_t curFloor)
-{ bdg->floors[curFloor].elevatorQueue->enqueue(bdg->floors[curFloor].occupants->disembark()); }
+{
+    for(size_t i{2}; i <= highestFloor; ++i)
+        if (call[i])
+            bdg->floors[curFloor].elevatorQueue->enqueue(bdg->floors[curFloor].occupants->disembark());
+}
+
+void Controller::exitBuilding(size_t curFloor)
+{
+    bdg->floors[curFloor].occupants->clear();
+    exitBuildingMsg();
+}
+
+void Controller::newVisitorMsg()
+{ std::cout << "A new visitor has arrived!\n"; }
+
+void Controller::visitorLeavingMsg()
+{ std::cout << "A visitor is ready to leave!\n"; }
+
+void Controller::exitBuildingMsg()
+{ std::cout << "A visitor(s) has left!\n"; }

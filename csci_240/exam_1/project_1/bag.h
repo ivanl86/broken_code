@@ -13,6 +13,7 @@ public:
     void embark(Person person);
     Person disembark();
     bool empty();
+    void clear();
 
 private:
     Node *head;
