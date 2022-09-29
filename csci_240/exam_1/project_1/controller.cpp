@@ -31,6 +31,7 @@ bool Controller::newVisitor()
         bdg->floors[LOBBY].elevatorQueue->enqueue(visitor);
         return true;
     }
+    return false;
 }
 
 void Controller::setCall()
@@ -45,7 +46,7 @@ void Controller::setCall()
         if (!bdg->floors[i].occupants->empty())
         do
         {
-            if (!bdg->floors[randFloor].occupants->empty())
+            if (!bdg->floors[randFloor].occupants->empty() && call[randFloor] != true)
             {
                 call[randFloor] = true;
                 queueElevator(randFloor);
