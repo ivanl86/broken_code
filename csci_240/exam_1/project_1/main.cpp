@@ -32,20 +32,26 @@ int main(int argc, char const *argv[])
 
                     if (curFloor == LOBBY)
                         elevatorSim.exitBuilding(curFloor);
-
-                    elevatorSim.disembarkElevator(curFloor);
-                    elevatorSim.embarkElevator(curFloor);
+                    if (elevatorSim.disembarkElevator(curFloor) || elevatorSim.embarkElevator(curFloor))
+                    {
+                        curDrt = idle;
+                    }
 
                     elevatorSim.setCall();
                 }
                 catch(const std::exception& e)
-                {
-                    std::cerr << e.what() << '\n';
-                }
+                { std::cerr << e.what() << '\n'; }
 
-                uty.updateCurFloor(curFloor, curDrt);
+                if (ticks % 4 == 0)
+                {
+                    uty.updateCurFloor(curFloor, curDrt);
+                    ticks = 0;
+                }
+                
+                
                 uty.updateDirections(curDrt, curFloor);
 
+                ++ticks;
                 ++totalTicks;
                 //std::cout << totalTicks << " ticks\n";
 

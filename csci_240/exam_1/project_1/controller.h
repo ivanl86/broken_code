@@ -21,8 +21,10 @@ public:
     bool newVisitor();
     void setCall();
     void unSetCall(size_t curFloor);
-    void embarkElevator(size_t curFloor);
-    void disembarkElevator(size_t dstFloor);
+    bool embarkElevator(size_t curFloor);
+    bool disembarkElevator(size_t dstFloor);
+    bool isEmbarking(size_t curFloor);
+    bool isDisembarking(size_t curFloor);
     void queueElevator(size_t curFloor);
     void exitBuilding(size_t curFloor);
     void newVisitorMsg();

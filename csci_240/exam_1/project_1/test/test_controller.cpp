@@ -15,7 +15,7 @@ int main(int argc, char const *argv[])
         Person p(i, i);
         occupants->embark(p);
     }
-    for(size_t i{1}; i < 11; ++i)
+    while (!occupants->empty())
     {
         Person p = occupants->disembark();
         std::cout << p.getID() << ' ';
@@ -26,7 +26,7 @@ int main(int argc, char const *argv[])
         Person p(i, i);
         queue->enqueue(p);
     }
-    for(size_t i{1}; i < 11; ++i)
+    while (!queue->empty())
     {
         Person p = queue->dequeue();
         std::cout << p.getID() << ' ';

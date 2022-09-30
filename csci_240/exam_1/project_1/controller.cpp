@@ -39,22 +39,14 @@ void Controller::setCall()
     if (uty.randRange(1, 1000) >= 15)
         return;
 
-    size_t randFloor{uty.randRange(LOBBY + 1, HIGHEST_FLOOR)};
-
     for(size_t i{LOBBY + 1}; i < HIGHEST_FLOOR; ++i)
     {
         if (!bdg->floors[i].occupants->empty())
-        do
         {
-            if (!bdg->floors[randFloor].occupants->empty() && call[randFloor] != true)
-            {
-                call[randFloor] = true;
-                queueElevator(randFloor);
+                call[i] = true;
+                queueElevator(i);
                 visitorLeavingMsg();
-                return;
-            }
-            randFloor = uty.randRange(LOBBY, HIGHEST_FLOOR);
-        } while (true);
+        }
     }
 }
 
@@ -64,8 +56,11 @@ void Controller::unSetCall(size_t curFloor)
         call[curFloor] = false;
 }
 
-void Controller::embarkElevator(size_t curFloor)
+bool Controller::embarkElevator(size_t curFloor)
 {
+    bool embarking{false};
+    if (curCount < maxCapacity && !bdg->floors[curFloor].elevatorQueue->empty())
+        embarking = true;
     while (curCount < maxCapacity && !bdg->floors[curFloor].elevatorQueue->empty())
     {
         bdg->elevator->occupants->embark(bdg->floors[curFloor].elevatorQueue->dequeue());
@@ -73,37 +68,50 @@ void Controller::embarkElevator(size_t curFloor)
     }
     if (curFloor > LOBBY)
         unSetCall(curFloor);
+    return embarking;
 }
 
-void Controller::disembarkElevator(size_t curFloor)
+bool Controller::disembarkElevator(size_t curFloor)
 {
     //bdg->floors[dstFloor].occupants->embark(bdg->elevator->occupants->disembark());
     Bag temp;
+    bool disembarking{false};
 
     while (!bdg->elevator->occupants->empty())
     {
         Person p = bdg->elevator->occupants->disembark();
         if (p.getDst() == curFloor)
+        {
             bdg->floors[curFloor].occupants->embark(p);
+            disembarking = true;
+        }
         else
             temp.embark(p);
     }
 
     while (!temp.empty())
         bdg->elevator->occupants->embark(temp.disembark());
+
+    return disembarking;
 }
+
+bool Controller::isEmbarking(size_t curFloor)
+{ return (curCount < maxCapacity && !bdg->floors[curFloor].elevatorQueue->empty()); }
 
 void Controller::queueElevator(size_t curFloor)
 {
-    for(size_t i{2}; i <= highestFloor; ++i)
+    for(size_t i{LOBBY + 1}; i <= highestFloor; ++i)
         if (call[i])
             bdg->floors[curFloor].elevatorQueue->enqueue(bdg->floors[curFloor].occupants->disembark());
 }
 
 void Controller::exitBuilding(size_t curFloor)
 {
-    bdg->floors[curFloor].occupants->clear();
-    exitBuildingMsg();
+    if (!bdg->floors[curFloor].occupants->empty())
+    {
+        bdg->floors[curFloor].occupants->clear();
+        exitBuildingMsg();
+    }
 }
 
 void Controller::newVisitorMsg()
