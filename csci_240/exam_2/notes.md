@@ -29,8 +29,10 @@ children: the nodes at each succesive level of a tree are the children of the no
 - ternary tree: each node has at most three children
 ## full binary tree
 - all interanl nodes have two children, and all leaves are at the same depth
+- a complete tree with all leaf nodes filling their level
 ## complete binary tree
 - an almost full binary tree; the  bottom level of the tree is filling from left to right but may not have its full complement of leaves
+- all internal nodes have two children and leaf nodes and all of the leaves are on the same level filling left to right
 
 ### the nubmer of nodes in a full binary tree of height h is:
 - n = 2^h - 1
@@ -109,3 +111,30 @@ struct Node
     Node<T> leftChild;
     Node<T> rightChild;   
 };
+## Heap ADT
+- is a complete binary tree
+- add: adds an item to the heap in a way that maintains the heaps structure
+- remove: removes and returns an item while maintains the structure of the heap
+- root: return but does not remove the root of the heap
+- clear: empties the heap
+- size: return quantity of items in the heap
+### Max Heap
+- is a heap where every child item is <= parent
+- add: adds an item such that the requirement of the max heap is satisfied
+- max (root): return the max value in the heap without removing it
+- remove: removes and returns the max item
+- clear:
+- size:
+### Max Heap Example
+- when adding an item, it becomes the last leaf
+- upheap: compare root of subtree with  its children, if lesser, then swap with greatest child
+- upheap is recursive if swap call on parent
+- downheap: compare changed element with children, if lesser, then swap with grestest cild
+### Min Heap
+- is a heap where every child item is >= parent
+- add: adds an item such that the requirement of the min heap is satisfied
+- min (root): return the min value in the heap without removing it
+- remove: removes and returns the min item
+- clear: 
+- size:
+## Priority Queue
