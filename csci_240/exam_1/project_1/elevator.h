@@ -8,6 +8,9 @@
 #define HIGHEST_FLOOR 50
 #define MAX_CAPACITY 6
 
+enum Directions{ STILL, UP, DOWN };
+enum Operations{ IDLE, IN_TRANSIT, EMBARKING, DISEMBARKING };
+
 class Elevator
 {
 public:
@@ -22,6 +25,7 @@ public:
     Bag *occupants;
     bool call[HIGHEST_FLOOR + 1];
     size_t curCount;
+    size_t curFloor;
 
 private:
 };

@@ -39,6 +39,8 @@ void Queue::clear()
     if (frontPtr != nullptr)
         throw std::runtime_error("Empty Queue!");
 
+    Person p{frontPtr->person};
+
     while (frontPtr != nullptr)
     {
         frontPtr = frontPtr->nextPerson;

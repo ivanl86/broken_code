@@ -16,47 +16,48 @@ int main(int argc, char const *argv[])
     {
         do
         {
-            Controller elevatorSim(LOBBY, HIGHEST_FLOOR, MAX_CAPACITY);
-            size_t curFloor{0};
-            directions curDrt{idle};
+            Controller elevatorSim;
 
             do
             {
                 try
                 {
-                    if (elevatorSim.newVisitor())
-                    {
-                        elevatorSim.newVisitorMsg();
-                        ++visitorCount;
-                    }
+                    elevatorSim.update();
+//                    if (elevatorSim.newVisitor())
+//                    {
+//                        elevatorSim.newVisitorMsg();
+//                        ++visitorCount;
+//                    }
+//
+//                    elevatorSim.setCall();
+//
+//                    if (curFloor == LOBBY)
+//                        elevatorSim.exitBuilding();
+//                    if (elevatorSim.disembarkElevator() || elevatorSim.embarkElevator())
+//                    {
+//                        curDrt = STILL;
+//                    }
 
-                    if (curFloor == LOBBY)
-                        elevatorSim.exitBuilding(curFloor);
-                    if (elevatorSim.disembarkElevator(curFloor) || elevatorSim.embarkElevator(curFloor))
-                    {
-                        curDrt = idle;
-                    }
-
-                    elevatorSim.setCall();
                 }
                 catch(const std::exception& e)
                 { std::cerr << e.what() << '\n'; }
 
-                if (ticks % 4 == 0)
-                {
-                    uty.updateCurFloor(curFloor, curDrt);
-                    ticks = 0;
-                }
-                
-                
-                uty.updateDirections(curDrt, curFloor);
 
-                ++ticks;
+//                if (ticks % 4 == 0)
+//                {
+//                    uty.updateCurFloor(curFloor, curDrt);
+//                    ticks = 0;
+//                }
+//                
+//                
+//                uty.updateDirections(curDrt, curFloor);
+//
+//                ++ticks;
                 ++totalTicks;
                 //std::cout << totalTicks << " ticks\n";
 
             } while (uty.continueToPlay(totalTicks));
-            std::cout << "Total of " << visitorCount << " visitors has visited the building!\n";
+            // std::cout << "Total of " << visitorCount << " visitors has visited the building!\n";
         } while (uty.wantToPlay("Do you want to play again? (Y/N): "));
     }
 

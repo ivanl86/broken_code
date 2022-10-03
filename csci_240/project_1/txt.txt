@@ -1,0 +1,41 @@
+
+void Elevator::updatePrvState()
+{
+    size_t dstFloor{setDstFloor()};
+
+    if (curFloor == LOBBY && zeroCounter())
+        prvState = GOING_UP;
+    if (occupants.empty() && zeroCounter() && prvState == GOING_UP && state == IDLE)
+        prvState = IDLE;
+    if (prvState == IDLE && dstFloor > curFloor)
+        prvState = GOING_UP;
+    if (prvState == IDLE && dstFloor <= curFloor)
+        prvState = GOING_DOWN;
+}
+
+void Elevator::updateState()
+{
+    size_t dstFloor{setDstFloor()};
+
+    if (zeroCounter() && state != IDLE)
+    { state = IDLE; }
+    else if (prvState == GOING_UP && state == IDLE && !occupants.empty() && zeroCounter())
+    {
+        state = GOING_UP;
+        setGoUpCounter();
+    }
+    else if (prvState == GOING_UP && state == IDLE && dstFloor > curFloor && zeroCounter())
+    {
+        state = GOING_UP;
+        setGoUpCounter();
+    }
+    else if (prvState == GOING_DOWN && state == IDLE && dstFloor < curFloor && zeroCounter())
+    {
+        state = GOING_DOWN;
+        setGoDownCounter();
+    }
+    else if (embarkCounter > 0)
+        state = EMBARKING;
+    else if (disembarkCounter > 0)
+        state = DISEMBARKING;
+}

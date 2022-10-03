@@ -25,26 +25,18 @@ bool Utility::wantToPlay(std::string prompt)
 
 bool Utility::continueToPlay(size_t ticks)
 {
-    if (ticks % 1000 == 0)
+    ticks %= 1000;
+    if (ticks == 0)
         return wantToPlay("Do you want to keep playing? (Y/N): ");
     else 
         return true;
 }
 
-void Utility::updateCurFloor(size_t &curFloor, Directions drt)
-{
-    if (drt == UP)
-        ++curFloor;
-    if (drt == DOWN)
-        --curFloor;
-}
+void Utility::arrivalMsg()
+{ std::cout << "A new visitor has arrived\n"; }
 
-void Utility::updateDirections(Directions &drt, size_t curFloor)
-{
-    if (curFloor >= HIGHEST_FLOOR)
-        drt = DOWN;
-    if (curFloor <= LOBBY)
-        drt = UP;
-    
-    
-}
+void Utility::enterQueueMsg()
+{ std::cout << "A visitor is ready to leave\n"; }
+
+void Utility::departBdgMsg()
+{ std::cout << "A visitor exited the building\n"; }

@@ -7,41 +7,44 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#define LOBBY 1
-#define HIGHEST_FLOOR 50
-#define MAX_CAPACITY 6
-
 // enum directions{ idle, down, up };
 
 class Controller
 {
 public:
-    Controller(size_t lobby, size_t highestFloor, size_t maxCapacity);
+    Controller();
     ~Controller();
+    void update();
     bool newVisitor();
     void setCall();
-    void unSetCall(size_t curFloor);
-    bool embarkElevator(size_t curFloor);
-    bool disembarkElevator(size_t dstFloor);
-    bool isEmbarking(size_t curFloor);
-    bool isDisembarking(size_t curFloor);
-    void queueElevator(size_t curFloor);
-    void exitBuilding(size_t curFloor);
+    void unSetCall();
+    void embarkElevator();
+    void disembarkElevator();
+    void queueElevator();
+    void exitBuilding();
     void newVisitorMsg();
     void visitorLeavingMsg();
+    void visitorEnterFloorMsg();
     void exitBuildingMsg();
-
-    size_t lobby;
-    size_t highestFloor;
-    size_t maxCapacity;
+    void updateCurFloor();
+    void updateCurDrt();
+    void updateCurOp();
+    void updateCounter();
 
 private:
-    size_t visitorCount{};
-    bool call[HIGHEST_FLOOR + 1] {};
-    size_t curCount{};
+    size_t visitorCount;
+    //bool call[HIGHEST_FLOOR + 1] {};
+    size_t curCount;
+    size_t curFloor;
     Building *bdg;
     Person *visitor;
     Utility uty;
+    size_t transitCounter;
+    size_t embarkCounter;
+    size_t disembarkCounter;
+    size_t ticks;
+    Directions curDrt;
+    Operations curOp;
 };
 
 #endif  /* CONTROLLER_H */

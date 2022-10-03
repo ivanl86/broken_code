@@ -18,8 +18,9 @@ public:
     size_t randRange(size_t start, size_t end);
     bool wantToPlay(std::string prompt);
     bool continueToPlay(size_t ticks);
-    void updateCurFloor(size_t &curFloor, Directions drt);
-    void updateDirections(Directions &drt, size_t curFloor);
+    void arrivalMsg();
+    void enterQueueMsg();
+    void departBdgMsg();
 private:
 };
 
