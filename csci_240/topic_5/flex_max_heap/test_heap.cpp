@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "heap.h"
-#include "max_heap.h"
+#include "f_max_heap.h"
 
 #define TEST_VAL 10
 #define TEST_VAL_2 13

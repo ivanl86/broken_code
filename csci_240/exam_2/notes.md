@@ -138,3 +138,16 @@ struct Node
 - clear: 
 - size:
 ## Priority Queue
+
+
+##
+- n p = ceil((n-1)/2)
+
+##
+- heapify
+-   for i = np to 1
+-       idx = compare(i)
+-           if idx != i
+                swap(i, idx)
+            end if
+        next i
