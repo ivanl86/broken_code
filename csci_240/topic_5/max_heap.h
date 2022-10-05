@@ -11,11 +11,14 @@ template<typename T, size_t S>
 class MaxHeap : public Heap<T> // Heap<T> T is referred from the T in MaxHeap and will be passed into Heap
 {
 public:
-    MaxHeap()
+    MaxHeap() : itemQty{0}
     {}
 
     void add(T item)
     {
+        if (itemQty >= S)
+            throw std::runtime_error("Add on full heap");
+
         store[++itemQty] = item;
 
         upHeap(itemQty >> 1);
@@ -94,10 +97,12 @@ private:
         size_t lChild{pIdx << 1};
         size_t rChild{lChild + 1};
 
-        rtnIdx = (store[pIdx] <= store[lChild] ? pIdx : lChild);
+        // rtnIdx = (store[pIdx] <= store[lChild] ? pIdx : lChild);
+        rtnIdx = (lChild <= itemQty && store[pIdx] <= store[lChild] ? lChild : pIdx);
 
-        if (rChild <= itemQty)
-            rtnIdx = (store[rtnIdx] <= store[rChild] ? rtnIdx : rChild);
+        // if (rChild <= itemQty)
+            // rtnIdx = (store[rtnIdx] <= store[rChild] ? rtnIdx : rChild);
+        rtnIdx = (rChild <= itemQty && store[rtnIdx] <= store[rChild] ? rChild : rtnIdx);
 
         return rtnIdx;
     }

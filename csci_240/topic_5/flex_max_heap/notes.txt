@@ -1,0 +1,51 @@
+/*
+void heapify(size_t idx)
+{
+    
+    size_t maxIdx;
+
+    if (idx == 0)
+        return;
+
+    maxIdx = compare(idx);
+    if (maxIdx != idx)
+    {
+        swap(idx, maxIdx);
+        downHeap(maxIdx);
+    }
+
+    heapify(idx - 1);
+}
+*/
+
+/*
+void heapify(size_t idx)
+{
+    if (idx == 0)
+        return;
+
+    downHeap(idx);
+
+    heapify(idx - 1);
+}
+*/
+
+/*
+    void heapify(size_t lastParent)
+    {
+        size_t maxIdx{};
+
+        if (lastParent == 0)
+            return;
+
+        for(size_t i{lastParent}; i >= ROOT; --i)
+        {
+            maxIdx = compare(i);
+            if (maxIdx != i)
+            {
+                swap(i, maxIdx);
+                downHeap(maxIdx);
+            }
+        }
+    }
+*/

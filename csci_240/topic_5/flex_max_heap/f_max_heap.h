@@ -8,9 +8,9 @@
 
 #define ROOT 1
 #define SCALING_FACTOR 2
-#define DEFAULT_SIZE 16
+#define DEFAULT_SIZE 8
 
-template<typename T, size_t S>
+template<typename T>
 class MaxHeap : public Heap<T> // Heap<T> T is referred from the T in MaxHeap and will be passed into Heap
 {
 public:
@@ -19,6 +19,7 @@ public:
     MaxHeap(const T array[], size_t size)
     {
         size_t lastParent{getLastParent(size)};
+        currentSize = size * SCALING_FACTOR;
 
         for(size_t i{0}; i < size; ++i)
             store[i + 1] = array[i];
@@ -26,13 +27,13 @@ public:
         heapify(lastParent);
     }
 
-    MaxHeap(size_t initialSize) : store{new T[initialSize + 1]}
+    MaxHeap(size_t initialSize) : store{new T[initialSize + 1]}, currentSize{initialSize}, itemQty{0}
     {}
 
     void add(T item)
     {
-        if (itemQty > S)
-            throw std::runtime_error("add on full heap");
+        if (itemQty >= currentSize)
+            resize();
 
         store[++itemQty] = item;
 
@@ -114,10 +115,9 @@ private:
         size_t lChild{pIdx << 1};
         size_t rChild{lChild + 1};
 
-        rtnIdx = (store[pIdx] <= store[lChild] ? pIdx : lChild);
+        rtnIdx = (lChild <= itemQty && store[pIdx] <= store[lChild] ? lChild : pIdx);
 
-        if (rChild <= itemQty)
-            rtnIdx = (store[rtnIdx] <= store[rChild] ? rtnIdx : rChild);
+        rtnIdx = (rChild <= itemQty && store[rtnIdx] <= store[rChild] ? rChild : rtnIdx);
 
         return rtnIdx;
     }
@@ -155,58 +155,7 @@ private:
 
         for(size_t i{lastParent}; i >= ROOT; --i)
                 downHeap(i);
+    }
 };
 
 #endif  /* MAX_HEAP_H */
-/*
-void heapify(size_t idx)
-{
-    
-    size_t maxIdx;
-
-    if (idx == 0)
-        return;
-
-    maxIdx = compare(idx);
-    if (maxIdx != idx)
-    {
-        swap(idx, maxIdx);
-        downHeap(maxIdx);
-    }
-
-    heapify(idx - 1);
-}
-*/
-
-/*
-void heapify(size_t idx)
-{
-    if (idx == 0)
-        return;
-
-    downHeap(idx);
-
-    heapify(idx - 1);
-}
-*/
-
-/*
-    void heapify(size_t lastParent)
-    {
-        size_t maxIdx{};
-
-        if (lastParent == 0)
-            return;
-
-        for(size_t i{lastParent}; i >= ROOT; --i)
-        {
-            maxIdx = compare(i);
-            if (maxIdx != i)
-            {
-                swap(i, maxIdx);
-                downHeap(maxIdx);
-            }
-        }
-    }
-*/
-
