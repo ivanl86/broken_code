@@ -88,7 +88,6 @@ private:
         swap(maxIdx, pIdx);
 
         upHeap(pIdx >> 1);
-        
     }
 
     void downHeap(size_t pIdx)
@@ -99,7 +98,7 @@ private:
             return;
 
         maxIdx = compare(pIdx);
-        
+
         if (maxIdx == pIdx)
             return;
 
@@ -136,12 +135,10 @@ private:
     void resize()
     {
         size_t newSize{currentSize * SCALING_FACTOR};
-        T *newStore{new T[newSize]};
+        T *newStore{new T[newSize + 1]};
 
-        for(size_t i{ROOT}; i < currentSize; ++i)
-        {
+        for(size_t i{ROOT}; i <= currentSize; ++i)
             newStore[i] = store[i];
-        }
 
         delete store;
         store = newStore;
