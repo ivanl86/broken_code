@@ -114,9 +114,9 @@ private:
         size_t lChild{pIdx << 1};
         size_t rChild{lChild + 1};
 
-        rtnIdx = (lChild <= itemQty && store[pIdx] <= store[lChild] ? lChild : pIdx);
+        rtnIdx = (lChild <= itemQty && store[lChild] > store[pIdx]  ? lChild : pIdx);
 
-        rtnIdx = (rChild <= itemQty && store[rtnIdx] <= store[rChild] ? rChild : rtnIdx);
+        rtnIdx = (rChild <= itemQty && store[rChild] > store[rtnIdx] ? rChild : rtnIdx);
 
         return rtnIdx;
     }
@@ -151,7 +151,7 @@ private:
             return;
 
         for(size_t i{lastParent}; i >= ROOT; --i)
-                downHeap(i);
+            downHeap(i);
     }
 };
 

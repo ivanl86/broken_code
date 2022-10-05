@@ -9,7 +9,9 @@
 
 int main(int argc, char const *argv[])
 {
-    MaxHeap<int> heap;
+    int array[]{1,2,3,4,5,6};
+
+    MaxHeap<int> heap(array, 6);
 
     heap.add(TEST_VAL_1);
     heap.add(TEST_VAL_3);
