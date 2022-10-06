@@ -151,3 +151,24 @@ struct Node
                 swap(i, idx)
             end if
         next i
+
+## Hashing (Hashmap or Hashtable)
+- a hashmap is a map that provide BigO(a) complexity on almost all operations
+
+## Map
+- is a ADT
+- size: returns number of items stored
+- empty: returns true if zero items or false otherwise
+- put: adds (K, V) to the map
+- find: finds and returns valus of the key
+- erase: remove (K, V) for K
+
+### Hash question
+- a hash function, h, is a one way function that takes an input and generates an almost unique ineger value (fingerprint)
+- given  h(k) = k' (k prime)
+- there is no function h'(k') = k
+### h2 - Compression
+- return h1(k) mod n
+- assume int is 4 byte
+- n is the size of array
+- h2 = (h1(k) & 0x7FFFFFFF) mod n
