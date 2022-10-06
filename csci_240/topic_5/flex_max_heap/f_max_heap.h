@@ -135,7 +135,7 @@ private:
     void resize()
     {
         size_t newSize{currentSize * SCALING_FACTOR};
-        T *newStore{new T[newSize + 1]};
+        T *newStore{new T[newSize]};
 
         for(size_t i{ROOT}; i <= currentSize; ++i)
             newStore[i] = store[i];
