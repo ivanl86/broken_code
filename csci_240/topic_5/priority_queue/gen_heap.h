@@ -14,13 +14,13 @@ template<typename T>
 class GenHeap : public Heap<T>
 {
 public:
-    // GenHeap(std::function<size_t(T, T)> comparator)
-    // : GenHeap(DEFAULT_SIZE), comparator{comparator} {}
+    GenHeap(std::function<bool(T, T)> comparator)
+    : GenHeap(comparator, DEFAULT_SIZE) {}
 
-    GenHeap(size_t initialSize)
-    : store{new T[initialSize + 1]}, currentSize{initialSize}, itemQty{0} {}
+    GenHeap(std::function<bool(T, T)> comparator, size_t initialSize)
+    : store{new T[initialSize + 1]}, comparator{comparator}, currentSize{initialSize}, itemQty{0} {}
 
-    GenHeap(std::function<size_t(T, T)> comparator, const T array[], const size_t size)
+    GenHeap(std::function<bool(T, T)> comparator, const T array[], const size_t size)
     : comparator{comparator}
     {
         size_t lastPIdx{getlastPIdx(size)};
@@ -38,7 +38,7 @@ public:
             resize();
         
         store[++itemQty] = item;
-        upHeap(itemQty + 1);
+        upHeap(itemQty >> 1);
     }
 
     T root()
@@ -72,7 +72,7 @@ private:
     size_t itemQty;
     size_t currentSize;
 
-    std::function<size_t(T, T)> comparator;
+    std::function<bool(T, T)> comparator;
 
     void upHeap(size_t pIdx)
     {
@@ -81,7 +81,7 @@ private:
         if (pIdx < ROOT)
             return;
 
-        maxIdx = comparator(pIdx);
+        maxIdx = compare(pIdx);
 
         if (maxIdx == pIdx)
             return;
@@ -98,7 +98,7 @@ private:
         if (pIdx >= itemQty)
             return;
 
-        maxIdx = comparator(pIdx);
+        maxIdx = compare(pIdx);
 
         if (maxIdx == pIdx)
             return;
@@ -106,6 +106,20 @@ private:
         swap(maxIdx, pIdx);
 
         downHeap(maxIdx);
+    }
+
+    size_t compare(size_t pIdx)
+    {
+        size_t rtnIdx;
+
+        size_t lChild{pIdx << 1};
+        size_t rChild{lChild + 1};
+
+        rtnIdx = ((lChild <= itemQty && comparator(store[lChild], store[pIdx])) ? lChild : pIdx);
+
+        rtnIdx = ((rChild <= itemQty && comparator(store[rChild], store[rtnIdx])) ? rChild : rtnIdx);
+
+        return rtnIdx;
     }
 
     void swap(size_t pIdx_1, size_t pIdx_2)

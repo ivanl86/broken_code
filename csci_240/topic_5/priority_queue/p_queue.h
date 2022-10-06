@@ -8,9 +8,7 @@ template<typename T>
 class PriorityQueue : public Queue<T>
 {
 public:
-    //Queue(std::function<size_t(T ,T)> comparator) : GenHeap(comparator) {}
-
-    Queue() {}
+    PriorityQueue(std::function<bool(T ,T)> comparator) : gHeap{comparator} {}
 
     void enqueue(T item)
     { gHeap.add(item); }
