@@ -1,9 +1,10 @@
 #include <iostream>
 #include <ctime>
+#include <stdio.h>
 
 #include "p_queue.h"
 
-size_t randRange(size_t, size_t);
+int randRange(size_t, size_t);
 
 void test_Max_Enqueue_Front_Dequeue();
 void test_Max_Enqueue_Dequeue_Empty();
@@ -12,6 +13,8 @@ void test_Max_Enqueue_Dequeue_Resize();
 void test_Min_Enqueue_Front_Dequeue();
 void test_Min_Enqueue_Dequeue_Empty();
 void test_Min_Enqueue_Dequeue_Resize();
+
+void test_Array_Constructor();
 
 #define TEST_VAL_1 18
 #define TEST_VAL_2 20
@@ -35,6 +38,9 @@ int main(int argc, char const *argv[])
         test_Min_Enqueue_Dequeue_Empty();
         test_Min_Enqueue_Dequeue_Resize();
 
+        std::cout << "\nTesting Max Priority Queue: \n";
+
+        test_Array_Constructor();
     }
     catch(const std::exception& e)
     { std::cerr << e.what() << '\n'; }
@@ -43,7 +49,7 @@ int main(int argc, char const *argv[])
 }
 
 // Random number generator
-size_t randRange(size_t start, size_t end)
+int randRange(size_t start, size_t end)
 { return (rand() % (end - start + 1)) + start; }
 
 void test_Max_Enqueue_Front_Dequeue()
@@ -70,7 +76,7 @@ void test_Max_Enqueue_Front_Dequeue()
     if (!pQueue.isEmpty())
         std::cout << "FAILED: Queue is not empty after dequeue\n";
 
-    std::cout << "SUCCEED: Queue works properly\n";
+    std::cout << "SUCCEED: enqueue_front_dequeue passed\n";
 }
 
 void test_Max_Enqueue_Dequeue_Empty()
@@ -94,7 +100,7 @@ void test_Max_Enqueue_Dequeue_Empty()
     if (!pQueue.isEmpty())
         std::cout << "FAILED: Queue is not empty after dequeue\n";
 
-    std::cout << "SUCCEED: Queue works properly\n";
+    std::cout << "SUCCEED: enqueue_dequeue_empty passed\n";
 }
 
 void test_Max_Enqueue_Dequeue_Resize()
@@ -118,7 +124,7 @@ void test_Max_Enqueue_Dequeue_Resize()
     if (!pQueue.isEmpty())
         std::cout << "FAILED: Queue is not empty after dequeue\n";
 
-    std::cout << "SUCCEED: Queue and resize work properly\n";
+    std::cout << "SUCCEED: enqueue_dequeue_resize work properly\n";
 }
 
 void test_Min_Enqueue_Front_Dequeue()
@@ -145,7 +151,7 @@ void test_Min_Enqueue_Front_Dequeue()
     if (!pQueue.isEmpty())
         std::cout << "FAILED: Queue is not empty after dequeue\n";
 
-    std::cout << "SUCCEED: Queue works properly\n";
+    std::cout << "SUCCEED: enqueue_front_dequeue passed\n";
 }
 
 void test_Min_Enqueue_Dequeue_Empty()
@@ -169,7 +175,7 @@ void test_Min_Enqueue_Dequeue_Empty()
     if (!pQueue.isEmpty())
         std::cout << "FAILED: Queue is not empty after dequeue\n";
 
-    std::cout << "SUCCEED: Queue works properly\n";
+    std::cout << "SUCCEED: enqueue_dequeue_empty passed\n";
 }
 
 void test_Min_Enqueue_Dequeue_Resize()
@@ -193,5 +199,25 @@ void test_Min_Enqueue_Dequeue_Resize()
     if (!pQueue.isEmpty())
         std::cout << "FAILED: Queue is not empty after dequeue\n";
 
-    std::cout << "SUCCEED: Queue and resize work properly\n";
+    std::cout << "SUCCEED: enqueue_dequeue_resize work properly\n";
+}
+
+void test_Array_Constructor()
+{
+    int array[] {randRange(1, 1000), randRange(1, 1000), randRange(1, 1000), randRange(1, 1000)};
+    int arraySz{4};
+    PriorityQueue<int> pQueue([] (int l, int r) { return l > r; }, array, arraySz);
+
+    if (pQueue.isEmpty())
+        std::cout << "FAILED: Queue constructor does not take in the array\n";
+
+    while (!pQueue.isEmpty())
+        std::cout << pQueue.dequeue() << ' ';
+
+    std::cout << '\n';
+
+    if (!pQueue.isEmpty())
+        std::cout << "FAILED: Queue is not empty after dequeue\n";
+
+    std::cout << "SUCCEED: array_constructor passed\n";
 }
