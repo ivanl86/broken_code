@@ -36,7 +36,7 @@ public:
     {
         if (itemQty >= currentSize)
             resize();
-        
+
         store[++itemQty] = item;
         upHeap(itemQty >> 1);
     }
