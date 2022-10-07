@@ -11,7 +11,9 @@ int main(int argc, char const *argv[])
 {
     int array[]{1,2,3,4,5,6};
 
-    MaxHeap<int> heap(array, 6);
+    // MaxHeap<int> heap(array, 6);
+
+    MaxHeap<int> heap;
 
     heap.add(TEST_VAL_1);
     heap.add(TEST_VAL_3);
@@ -24,7 +26,7 @@ int main(int argc, char const *argv[])
     for(size_t i{1}; i <= 10; ++i)
     { heap.add(i); }
 
-    for(size_t i{1}; i <= 10; ++i)
+    while (heap.size() != 0)
     { std::cout << heap.remove() << '\n'; }
 
     return 0;

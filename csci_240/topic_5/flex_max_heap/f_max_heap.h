@@ -20,6 +20,7 @@ public:
     {
         size_t lastParent{getLastParent(size)};
         currentSize = size * SCALING_FACTOR;
+        store = new T[currentSize + 1];
 
         for(size_t i{0}; i < size; ++i)
             store[i + 1] = array[i];
@@ -140,7 +141,7 @@ private:
         for(size_t i{ROOT}; i <= currentSize; ++i)
             newStore[i] = store[i];
 
-        delete store;
+        delete[] store;
         store = newStore;
         currentSize = newSize;
     }
