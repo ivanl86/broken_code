@@ -18,16 +18,17 @@ public:
     : GenHeap(comparator, DEFAULT_SIZE) {}
 
     GenHeap(std::function<bool(T, T)> comparator, size_t initialSize)
-    : store{new T[initialSize + 1]}, comparator{comparator}, currentSize{initialSize}, itemQty{0} {}
+    : store{new T[initialSize]}, comparator{comparator}, currentSize{initialSize}, itemQty{0} {}
 
     GenHeap(std::function<bool(T, T)> comparator, const T array[], const size_t size)
-    : comparator{comparator}
+    : comparator{comparator}, itemQty{size}
     {
         size_t lastPIdx{getlastPIdx(size)};
         currentSize = size * SCALING_FACTOR;
+        store = new T[currentSize];
 
         for (size_t i{0}; i < size; ++i)
-            store[i] = array[i];
+            store[i + 1] = array[i];
 
         heapify(lastPIdx);
     }
@@ -134,7 +135,7 @@ private:
         size_t newSize{currentSize * SCALING_FACTOR};
         T *newStore{new T[newSize]};
 
-        for(size_t i{0}; i < currentSize; ++i)
+        for(size_t i{ROOT}; i <= currentSize; ++i)
             newStore[i] = store[i];
 
         delete[] store;

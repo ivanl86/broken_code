@@ -10,6 +10,9 @@ class PriorityQueue : public Queue<T>
 public:
     PriorityQueue(std::function<bool(T ,T)> comparator) : gHeap{comparator} {}
 
+    PriorityQueue(std::function<bool(T ,T)> comparator, const T array[], const size_t size)
+    : gHeap{comparator, array, size} {}
+
     void enqueue(T item)
     { gHeap.add(item); }
 
