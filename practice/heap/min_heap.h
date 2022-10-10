@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <cmath>
 #include "heap.h"
 
 #ifndef MIN_HEAP_H
@@ -118,6 +119,10 @@ private:
         store = newStore;
         currentSize = newSize;
     }
+
+    uint64_t getLastPIdx(uint64_t size)
+    { return static_cast<uint64_t>(
+        ceil(static_cast<double>((size - 1) / 2.0))); }
 
     uint64_t currentSize;
     uint64_t itemQty;

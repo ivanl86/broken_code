@@ -31,7 +31,7 @@ children: the nodes at each succesive level of a tree are the children of the no
 - all interanl nodes have two children, and all leaves are at the same depth
 - a complete tree with all leaf nodes filling their level
 ## complete binary tree
-- an almost full binary tree; the  bottom level of the tree is filling from left to right but may not have its full complement of leaves
+- an almost full binary tree; the bottom level of the tree is filling from left to right but may not have its full complement of leaves
 - all internal nodes have two children and leaf nodes and all of the leaves are on the same level filling left to right
 
 ### the nubmer of nodes in a full binary tree of height h is:
