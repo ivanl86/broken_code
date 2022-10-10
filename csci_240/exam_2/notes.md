@@ -88,7 +88,7 @@ postOrder(root)
 }
 ## Level-order Traversal
 - process the root
-- process nodes one level at at time (visiting nodes in each level from left to right)
+- process nodes one level at a time (visiting nodes in each level from left to right)
 - call in the queue
 ## Find out how each traversal work
 
@@ -141,7 +141,8 @@ struct Node
 
 
 ##
-- n p = ceil((n-1)/2)
+- n = number of nodes in a complete binary tree
+- number of non-leaf nodes = ceil((n-1)/2)
 
 ##
 - heapify
