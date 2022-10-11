@@ -10,13 +10,13 @@ union U
 int h1(int k) { return k; }
 
 int h1(uint64_t k)
-{ return static_cast<int>((k >> 32) + k); }
+{ return static_cast<int>((k >> 32) + k); } // return static_cast<int>((k >> 32) ^ k);
 
 int h1(double k)
 {
     U u;
     u.d = k;
-    return h1(u.d);
+    return h1(u.i);
 
     uint64_t *ki {reinterpret_cast<uint64_t *>(&k)};
     return h1(*ki);

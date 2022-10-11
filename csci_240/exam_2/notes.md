@@ -167,9 +167,42 @@ struct Node
 ### Hash question
 - a hash function, h, is a one way function that takes an input and generates an almost unique ineger value (fingerprint)
 - given  h(k) = k' (k prime)
-- there is no function h'(k') = k
+- there is no function h'(k') = k 
 ### h2 - Compression
 - return h1(k) mod n
 - assume int is 4 byte
-- n is the size of array
+- n is the size of array of the buckets, is best when its prime
 - h2 = (h1(k) & 0x7FFFFFFF) mod n
+### Compression Methods
+- assume n is the size of array and is prime
+- Division: |h1(k)| % n = h2(k)
+- MAD: [(a|h1(k)| + b) % p] % n = h2(k), p is prime and p > n, a & b [p, p - 1], a > 0, a and b are co-prime
+
+### Keyvalue
+- available
+    - was used but is now unused
+- occupied
+    - used
+- unoccupied
+    - never been used
+### Example
+- enum State{ available, occupied, unoccupied }
+- struct KVPair
+- {
+-   K key;
+-   V value;
+-   State state;
+- }
+### Linear Probing
+- i = h(k)
+- for j = 0 to n - 1
+-   i = (h2(k) + j) % n
+- i is the subscript under inspection
+### Quadratic Probing
+- f(j) = j * j
+- i = h(k) + f(j)
+- for j = 0, 1, 2,...
+- h(k1) = h(k2)
+### Loading Factor
+- qty/n
+- resize when >= 0.75
