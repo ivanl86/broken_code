@@ -202,7 +202,32 @@ struct Node
 - f(j) = j * j
 - i = h(k) + f(j)
 - for j = 0, 1, 2,...
-- h(k1) = h(k2)
+- h(k1) = h(k<sub>2</sub>)
 ### Loading Factor
 - qty/n
 - resize when >= 0.75
+### Linked list
+- con: add, search, remove of an ordered link list is usually O(n)
+### Skip list
+- add, remove, search of a skip list is O( $log_2 n) with a high probability
+- def: skip list is a probabilistic DS that allows a high prob of O( $log<sub>2</sub>(n) ) complexity
+- add: start at highest level
+- search for the greatest key that is <= the search term. If found or null, begin at that node or null on the next lower level
+- if a key is found, replace value with the new value
+- insert: for item, the element to be inserted, search the list to find where the item fits
+    - this will be the node with the greatest item less than or equal to the item being inserted
+    - always insert the element into the bottom level (L0)
+- with a probability of 0.5, insert the item into level 1 (L1) of the list
+    - this is called a promotion
+- if inserted into L1, then with a 0.5 probability, insert into L2
+- follow thi procedure until the item is not inserted into a level or there are no more levels to insert into
+- delete: seach for the item to remove
+- if it exists, remove it and its tower, otherwise, do nothing
+- search: start at the beginning of the highest level and search for the node with  the  greatest item value <= the search item
+    - if an item was found that equals search term then return a reference to the bottom most node in that column
+- drop to the level below and continue the search from the node that was found in the previous step
+    - if an item was found with  the same value as the search term then return a reference to the bottom most node in the column
+- continue the same process droppping down each level until the bottom level is reached
+    - return a reference to the node that contains the greatest item <= the search item
+- question: can this be implemented as a single linked list with a finite number of levels and a modified node?
+### Graph
