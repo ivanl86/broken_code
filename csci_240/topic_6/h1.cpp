@@ -14,9 +14,9 @@ int h1(uint64_t k)
 
 int h1(double k)
 {
-    U u;
-    u.d = k;
-    return h1(u.i);
+    // U u;
+    // u.d = k;
+    // return h1(u.i);
 
     uint64_t *ki {reinterpret_cast<uint64_t *>(&k)};
     return h1(*ki);
