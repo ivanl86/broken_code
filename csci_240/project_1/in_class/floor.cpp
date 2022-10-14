@@ -11,12 +11,17 @@ bool Floor::update()
         occupants.remove(p);
         elevQueue.enqueue(p);
     }
-    
+
     return !elevQueue.empty();
 }
 
-void Floor::add(Person p)
+void Floor::add(const Person &p)
 { occupants.add(p); }
 
 Person Floor::get()
 { return elevQueue.dequeue(); }
+
+void Floor::addElevQueue(const Person &p)
+{
+    elevQueue.enqueue(p);
+}

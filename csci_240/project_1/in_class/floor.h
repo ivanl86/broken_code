@@ -9,8 +9,10 @@ class Floor
 {
 public:
     bool update();
-    void add(Person);
+    void add(const Person &);
     Person get();
+    void addElevQueue(const Person &);
+
 private:
     ArrayBag<Person> occupants;
     ArrayQueue<Person> elevQueue;

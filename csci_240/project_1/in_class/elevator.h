@@ -8,6 +8,8 @@ class Elevator
 {
 public:
     Elevator(Floor[], bool[]);
+    void update();
+
 private:
 
 };

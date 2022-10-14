@@ -10,6 +10,8 @@ class Building
 public:
     Building();
     void update();
+    void add(const Person &p);
+
 private:
     bool callSet[FLOOR_QTY];
     Floor floors[FLOOR_QTY];
