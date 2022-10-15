@@ -2,3 +2,4 @@ csci_150/*
 !csci_150/*.asm
 *.o
 *.exe
+*.out
