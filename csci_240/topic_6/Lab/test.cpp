@@ -1,8 +1,8 @@
 #include <iostream>
 
 #include "set.h"
-#include "HashSetLP.h"
-#include "HashSetQP.h"
+#include "hashset_lp.h"
+#include "hashset_qp.h"
 
 #define TEST_VAL_1 87
 #define TEST_VAL_2 7
