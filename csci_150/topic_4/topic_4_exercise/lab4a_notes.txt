@@ -1,0 +1,7 @@
+; who: Ivan Leung ileung2
+; what: Summarizing the work in lab 4b
+; why: Topic 4 Exercise
+; when: 9/21/2022
+
+When I started the sum_array program, I was mistaken that the move operator as an add operator, and I wonder why the value in sumArray was wrong.
+Soon after I realized my mistake, I corrected the code and it worked properly. On the other hand, I do not have much diffcuties working on flags.

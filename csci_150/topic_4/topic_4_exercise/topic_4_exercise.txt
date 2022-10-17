@@ -1,0 +1,20 @@
+1) Write a program called (sum_array.asm) that has an initialized double-word array (labeled intArray) containing 10 consecutive integers starting from 1 (use a hex values).
+Create an uninitialized double-word memory location (labeled arraySum) to store the sum of those numbers. The program should sum all of the values in the array and store that sum in arraySum.
+Use the debugger to execute the program. Set a breakpoint at the exit label and run the program. Print the value stored in array sum. Hint: use p/x (int)arraySum to print the value.
+
+2) Write a program called flag_test.asm to test all of the flag values on slide 40 of Lecture 4a Data Transfer. use the debugger to display the flags that were set for each instruction.
+Hint: set a breakpoint on the first instruction. Use n to step instruction by instruction.
+After each instruction, use p $eflags to print the status of the flags, If a flag is set then it will appear in the output, if not set, it will not be listed.
+
+What to submit:
+
+    sum_array.asm
+    flag_test.asm
+    A screenshot of the debugger displaying the value stored in arraySum.
+    A screenshot of the debugger displaying the values of the flags for each of the instructions. You might be able to fit it all in one screenshot but you can submit multiple images if you need
+    In a text document called lab4a_notes.txt, describe the approach you took and any problems that you encountered while testing. 
+
+Choose a submission type
+or
+ 
+Drag a file here, or click to select a file to uploadDrag a file here, orChoose a file to uploadFile permitted: ASM, JPG, PNG, TXT

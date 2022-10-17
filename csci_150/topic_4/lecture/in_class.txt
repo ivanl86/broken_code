@@ -1,0 +1,14 @@
+Write a program that rearranges the values of three double-word values in the following array to: 3, 1, 2.
+
+section .data
+array: dw  1, 2, 3
+
+Use the xchg instruction wherever you can.
+
+Run your program setting a break point at "exit" and take a screenshot of the a printout of the array.
+
+In GDB you can print the array with:
+
+p/x (short[3])array
+
+Submit your asm file and screenshot file.
