@@ -202,7 +202,7 @@ struct Node
 - f(j) = j * j
 - i = h(k) + f(j)
 - for j = 0, 1, 2,...
-- h(k1) = h(k<sub>2</sub>)
+- h(k<sub>1</sub>) = h(k<sub>2</sub>)
 ### Loading Factor
 - qty/n
 - resize when >= 0.75
