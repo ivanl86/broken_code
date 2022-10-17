@@ -171,3 +171,14 @@
 #### ROL rotate shifts each bit to the left
 - the highest bit is copied into both the Carry flag and into the lowest bit
 #### ROR rotate shifts each bit to the right
+
+### Convert size: provide signed extendion
+#### CBW
+- convert byte to word
+- extend AL into AH
+#### CWD
+- convert word to doubleword
+- extend AX into  DX
+#### CDQ
+- convert doubleword to quadword
+- extend EAX into EDX

@@ -1,7 +1,7 @@
 ;------------------------------------------------------------------------------
 <procedure_label>:
 ;
-; Calculates and returns the sum of three 32-bit integers.
+; Description:
 ; Receives: <argument list>
 ; Returns:  <return list>
 ; Requires: <requirements>
