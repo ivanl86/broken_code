@@ -182,3 +182,7 @@
 #### CDQ
 - convert doubleword to quadword
 - extend EAX into EDX
+### ADC
+- add with carry
+### SBB
+- subtract with borrow
