@@ -170,32 +170,53 @@ is_even:
 ;-------------------------------------------------------------------------------
 atoi:
 ;
-; Description: Convert numbers in a string to integer value.
-; Receives: EDX = the address of the string
-; Returns:  EAX = the converted integer value
+; Description: convert ascii representation of a unsigned integer to an unsigned integer
+; Receives: EDX = address of a NULL terminated string
+; Returns:  EAX = converted unsigned integer value
 ; Requires: nothing
 ; Notes:    none
-; Algo:     none
+; Algo:     use horner's method
 ;-------------------------------------------------------------------------------
 
-    xor     eax, eax        ; clear eax
-    xor     ebx, ebx        ; clear ebx
-    xor     ecx, ecx        ; clear ecx
-    mov     ebx, 10         ; set ebx to 10
-    mov     esi, edx        ; mov address of string from edx to esi
+    ; xor     eax, eax        ; clear eax
+    ; xor     ebx, ebx        ; clear ebx
+    ; xor     ecx, ecx        ; clear ecx
+    ; mov     ebx, 10         ; set ebx to 10
+    ; mov     esi, edx        ; mov address of string from edx to esi
 
-    .convert:
-    movzx   ecx, byte [esi] ; mov the nex char to ecx
-    cmp     ecx, 48         ; 0 in ASCII = 48
-    jl      .endConvert     ; end if it is less than 0
-    cmp     ecx, 57         ; 9 in ASCII = 57
-    jg      .endConvert     ; end if it is greater than 9
-    mul     ebx             ; mul eax by 10
-    sub     ecx, 48         ; sub 48 to convert the char to number 
-    add     eax, ecx        ; add the number to eax
-    inc     esi             ; go to the nex char
-    loop    .convert
-    .endConvert:
+    ; .convert:
+    ; movzx   ecx, byte [esi] ; mov the nex char to ecx
+    ; cmp     ecx, 48         ; 0 in ASCII = 48
+    ; jl      .endConvert     ; end if it is less than 0
+    ; cmp     ecx, 57         ; 9 in ASCII = 57
+    ; jg      .endConvert     ; end if it is greater than 9
+    ; mul     ebx             ; mul eax by 10
+    ; sub     ecx, 48         ; sub 48 to convert the char to number 
+    ; add     eax, ecx        ; add the number to eax
+    ; inc     esi             ; go to the nex char
+    ; jmp     .convert
+    ; .endConvert:
+
+    push    esi
+
+    mov     esi, eax
+    mov     eax, 1
+    mov     ecx, 10
+    movzx   edx, byte [esi]
+
+    .while:
+    test    edx, 0
+    jz      .wend
+    mul     ecx
+    movzx   edx, byte [esi]
+    add     eax, edx
+    sub     eax, 48
+    inc     esi
+    movzx   edx, byte [esi]
+    jmp     .while
+    .wend:
+
+    pop     esi
 
     ret
     
