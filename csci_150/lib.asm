@@ -200,12 +200,12 @@ atoi:
     push    esi
 
     mov     esi, eax
-    mov     eax, 1
+    mov     eax, 0
     mov     ecx, 10
     movzx   edx, byte [esi]
 
     .while:
-    test    edx, 0
+    test    edx, edx
     jz      .wend
     mul     ecx
     movzx   edx, byte [esi]
