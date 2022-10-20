@@ -5,6 +5,7 @@ global strlen
 global srand
 global rand
 global atoi
+global itoa
 global current_time
 
 global NL
@@ -221,6 +222,68 @@ atoi:
     ret
     
 ; End atoi ---------------------------------------------------------------------
+
+;------------------------------------------------------------------------------
+itoa:
+;
+; Description: converts an unsigned integer to a null-terminated string representation
+; Receives: eax = unsigned integer value
+;           ebx = address of the string buffer
+;           ecx = size of buffer
+; Returns:  nothing
+; Requires: nothing
+; Notes:    none
+; Algo:     none
+;-------------------------------------------------------------------------------
+
+    push    ebp             ; preserve caller's base pointer
+    push    edi
+
+    mov     ebp, esp        ; set base of frame
+
+    sub     esp, 8          ; allocate counter var
+    mov     dword [ebp - 4], 0 ; initialzing counter
+    mov     dword [ebp - 8], 10; divisor
+
+    mov     edi, ebx
+
+    ; sub     esp, 8          ; added two vars
+    ;                         ; var1 ebp - 8
+    ;                         ; var2 ebp - 4
+    ; mov     [ebp - 4], 0
+    ; push    dword 0         ; declare a space for a local variable
+
+    ; loop over eax (until 0)
+    ; div by  10
+    ; use remainder + 48 as the character
+    .while:
+    test    eax, eax
+    jz      .wend
+    mov     edx, 0
+    div     dword [ebp - 8] ; div eax by 10
+
+    add     edx, 48         ; add 48 to the remainder to convert number to char
+    push    edx             ; push edx into stack
+    inc     dword [ebp - 4] ; inc the counter
+    jmp     .while
+    .wend:
+
+    mov     ecx, [ebp - 4]  ; mov counter into ecx
+    .loop:
+    pop     eax             ; pop the char into eax
+    mov     [edi], al       ; mov al into edi
+    inc     edi             ; inc edi to mov to next char
+    loop    .loop
+
+    mov     byte [edi], NULL; null terminate the string
+
+    mov     esp, ebp
+    pop     edi
+    pop     ebp
+    
+    ret
+    
+; End  <procedure_label> -------------------------------------------------------
 
 ;-------------------------------------------------------------------------------
 srand:
