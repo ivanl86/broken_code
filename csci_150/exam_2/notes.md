@@ -26,7 +26,7 @@
 ## PopFD
 
 ## Procedure
-- is the ASM equvalent to the c++ functions
+- is the ASM equivalent to the c++ functions
 ### Suggested documentation
 - 
 - receives: a list of input parameters
@@ -42,7 +42,7 @@
 - the procedure that is being called
 - ebx, edi, esi only if it changes them
 ### Call instruction
-- push eip into the stack
+- push eip into the stack (eip is the extended instrcution pointer that holds the next instruction address)
 - mov eip, label
 ### Ret
 - pop top of stack into eip
