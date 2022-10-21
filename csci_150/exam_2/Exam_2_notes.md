@@ -268,24 +268,107 @@
 - rotate (shift) bits to the left
 - the highest bit is copied into the carry flag and into lowest bit
 - no bit lost
+- example:
+##
+    mov al, 0b11110000 ; CF == 0
+    rol al,1           ; CF:AL == 1 0b11100001
 ### ROR INSTRUCTION
 - rotate (shift) bits to the right
 - the lowest bit is copied into the carry flag and into highest bit
 - no bit lost
+- example:
+##
+    mov al, 0b111100 ; CF == 0
+    ror al, 1        ; CF:AL 0 0b01111000
 ### RCL INSTRUCTION
 - rotate (shift) with carry bits to the left
 - copies the carry flag to the lowest bit
 - copies the highest bit into carry flag
+- example:
+##
+    mov al, 0b01111000 ; CF == 1
+    rcl al, 1          ; CF:AL == 0 0b11110001
 ### RCR INSTRUCTION
 - rotate (shift) with carry bits to the right
 - copies the carry flag to the highest bit
 - copies the lowest bit into carry flag
+- example:
+    mov al, 0b11110000 ; CF == 1
+    rcl al, 1          ; CF:AL == 0 0b11111000
+##
 ### SHLD INSTRUCTION
 - shift a destination operand to the left
+- copies highest bit into carry flag
 - the lowest bit is filled with the source operand's highest bit
+- source operand is not affected
+- example:
+##
+    mov al, 0b00001111 ; CF == 1
+    mov bl, 0b10000000
+    shld al, bl        ; CF:AL == 0 0b00011111
 ### SHRD INSTRUCTION
 - shift a destination operand to the right
+- copies lowest bit into carry flag
 - the highest bit is filled with the source operand's lowest bit
+- source operand is not affected
+- example:
+##
+    mov al, 0b00001111 ; CF == 0
+    mov bl, 0b00000001
+    shrd al, bl        ; CF:AL == 1 0b10000111
+### UNSIGNED MULTIPLICATION INSTRUCTION
+- use same size mulitplicand as the multiplier
+##
+    Multiplicand Multiplier Product
+        AL        reg/mem8    AX
+        AX        reg/mem16   DX:AX
+        EAX       reg/mem32   EDX:EAX
+- carry flag is set if upper half of the product contains significant digits
+- example:
+##
+    mov ax, 20  ; multiplicand
+    mov bx, 2   ; multiplier
+    mul bx      ; AX = 40, CF == 0
+### SIGNED MULTIPLICATION INSTRUCTION
+- preserve the sign of the product by sign extend it into upper half of the product
+- affects overflow flag instead of carry flag
+- overflow is set when upper half of the product is not a sign extension
+- example:
+##
+    mov eax, 4823424; multiplicand
+    mov ebx, -423   ; multiplier
+    imul ebx        ; EDX:EAX == FFFFFFFF86635D80h, OF == 0
+    ; OF == 0 becasue EDX is a sigin extension of EAX
+### DIVISION INSTRUCTION
+- use same szie dividend as the divisor
+##
+    Dividend Divisor Quotient Remainder
+    AX        r/m8      AL      AH
+    DX:AX     r/m16     AX      DX
+    EDX:EAX   r/m32     EAX     EDX
+- example:
+##
+    mov dx, 0   ; clear dividend
+    mov ax, 100 ; dividend, low
+    mov cx, 9   ; divisor
+    div cx      ; Quotient: AX = 11, Remainder: DX 1
+### CBW CWD CDQ INSTRUCTIONS
+- cbw, cwd, cdq provide sign extension operations:
+    - cbw (convert byte to word) extends AL into AH
+    - cwd (convert word to dword) extends AX into DX
+    - cdq (convert dword to qword) extend EAX into EDX
+- example:
+##
+    mov eax, -101
+    cdq             ; EDX:EAX == FFFFFFFFFFFFFF9Bh
+### SIGNED DIVISION INSTRUCTION
+- same syntax and operands as DIV instruction
+- example:
+##
+    mov al, -48 ; dividend
+    cbw         ; extend AL into AH
+    mov bl, 5   ; divisor
+    idiv bl     ; Quotient: AL = -9, Remainder: AH = -3
 ## PROCEFURES
 - call instruction is a ASM equivalent to c/c++ functions
     - push EIP on the stack
