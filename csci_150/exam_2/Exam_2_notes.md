@@ -45,6 +45,43 @@
         mov al, -1
         cmp al, 5 ; sign flag != overflow flag
 
+### BITWISE OPERATIONS
+#### AND
+##
+    Syntax: and dst, src
+- example:
+##
+    mov al, 0b00111100
+    and al, 0b00001111 ; al == 0b00001100
+#### OR
+##
+    Syntax: or dst, src
+- example:
+##
+    mov al, 0b00110011
+    or  al, 0b00011110 ; al == 0b00111111
+#### XOR
+##
+    Syntax: xor dst, src
+- example:
+##
+    mov al, 0b00110011
+    xor al, 0b00001111 ; al = 0b00111100
+#### NOT
+##
+    Syntax: not dst
+- example:
+##
+    mov al, 0b00110011
+    not al ; al == 0b11001100
+#### BITTEST
+##
+    Syntax: bt bitBase, n
+- example: jump if bit 9 is set in AX
+##
+    bt ax, 9 ; CF = bit 9
+    jc .label ; jump if carry
+
 ### UNCONDITIONAL JUMP
 - jmp is an unconditional jump to a label that is usually within the same procedure
 
@@ -68,6 +105,7 @@
 ##
     je: jump if equal (left == right)
     jne: jump if not equal (left != right)
+    jcxz: jump if cx == 0
     jecxz: jump if ECX == 0
 
 #### JUMPS BASED ON UNSIGNED COMPARISONS
@@ -91,6 +129,14 @@
     jnge: jump if not greater or equal (same as jl)
     jle: jump if less or equal (if left <= right)
     jng: jump if not greater (same as jle)
+
+#### JUMPS BASED ON SPECIFIC REGISTER OR FLAG CONDITIONS
+##
+    jb, jc: jump if carry flag is set
+    je, jz: jump if zero flag is set
+    js: jump if sign flag is set
+    jne, jnz: jump if zero flag is clear
+    jecxz: jump if ECX == 0
 
 ### FOUR BASIC CONTROL-FLOW STRUCTURES
 #### IF STATEMENT
@@ -192,5 +238,88 @@
     .end_switch
 ## INTEGER ARITHMETIC
 - Shift and rotate instructions with useful applications, multiplication and division, extended addition and subtraction, and ASCII and packed decimal arithmetic
+### SHL INSTRUCTION
+- a logical left shift
+- filling the lowest bit with 0
+- the highest bit is copied into carry flag
+- example:
+##
+    mov dl, 0b10101000 ; CF == 0
+    shl dl, 1          ; CF:DL == 1 0b01010000
+### SHR INSTRUCTION
+- a logical right shift
+- filling the highest bit with 0
+- the lowest bit is copied into carry flag
+- example:
+##
+    mov dl, 0b00010101 ; CF == 0
+    shr dl, 1          ; CF:DL == 1 0b00001010
+### SAL INSTRUCTION
+- a arithmetic left shift
+- identical to SHL
+### SAR INSTRUCTION
+- a arithmetic right shift
+- preserve the sign bit
+- example:
+##
+    mov dl, 0b10001001 ; CF == 0
+    sar dl, 1          ; CF:DL == 1 0b11000100
+### ROL INSTRUCTION
+- rotate (shift) bits to the left
+- the highest bit is copied into the carry flag and into lowest bit
+- no bit lost
+### ROR INSTRUCTION
+- rotate (shift) bits to the right
+- the lowest bit is copied into the carry flag and into highest bit
+- no bit lost
+### RCL INSTRUCTION
+- rotate (shift) with carry bits to the left
+- copies the carry flag to the lowest bit
+- copies the highest bit into carry flag
+### RCR INSTRUCTION
+- rotate (shift) with carry bits to the right
+- copies the carry flag to the highest bit
+- copies the lowest bit into carry flag
+### SHLD INSTRUCTION
+- shift a destination operand to the left
+- the lowest bit is filled with the source operand's highest bit
+### SHRD INSTRUCTION
+- shift a destination operand to the right
+- the highest bit is filled with the source operand's lowest bit
 ## PROCEFURES
-- a ASM equivalent to c/c++ functions
+- call instruction is a ASM equivalent to c/c++ functions
+    - push EIP on the stack
+    - copies the address of the called procedure into EIP
+- ret instruction returns from a procefure
+    - pops top of the stack into EIP
+### CALLER'S RULES
+- before calling a subroutine, the caller should save certain registers
+- the caller-saved registers are EAX, ECX, EDX
+### CALLEE'S RULES
+- at the beginning of the subroutine, the function should push the value of EBP onto the stack, and then copy the value of ESP into EBP
+- the function must restore any callee-saved registers before returning
+- the callee saved registers are EBX, EDI, ESI
+### ALLOCATE LOCAL VARIABLES
+    sub     esp, 8              ; reserve two 4 bytes variables
+    mov     dword [ebp - 4], 0  ; set first variable = 0
+    mov     dword [ebp - 8], 1  ; set second variable = 1
+### STACK OPERATIONS
+- PUSH operation
+    - a 32 bit operatoin decrements the stack pointer (ESP) by 4
+    - copies a value into the location pointed by ESP
+- POP operation
+    - copies value at ESP into a register or variable
+    - adds n to ESP, n usually equal to 4
+- example: nested loop, push outer loop counter before entering the inner loop
+##
+    mov ecx, 5      ; outer loop counter = 5
+    .outloop:       ; start outer loop
+    push ecx        ; preserve outer loop counter
+    mov ecx, 5      ; inner loop counter = 5
+
+    .innerloop:     ; start inner loop
+    call procedure  ; statement
+    loop .innerloop ; loop inner loop
+
+    pop ecx         ; restore outer loop counter
+    loop .outerloop ; loop outer loop
