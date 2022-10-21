@@ -179,25 +179,6 @@ atoi:
 ; Algo:     use horner's method
 ;-------------------------------------------------------------------------------
 
-    ; xor     eax, eax        ; clear eax
-    ; xor     ebx, ebx        ; clear ebx
-    ; xor     ecx, ecx        ; clear ecx
-    ; mov     ebx, 10         ; set ebx to 10
-    ; mov     esi, edx        ; mov address of string from edx to esi
-
-    ; .convert:
-    ; movzx   ecx, byte [esi] ; mov the nex char to ecx
-    ; cmp     ecx, 48         ; 0 in ASCII = 48
-    ; jl      .endConvert     ; end if it is less than 0
-    ; cmp     ecx, 57         ; 9 in ASCII = 57
-    ; jg      .endConvert     ; end if it is greater than 9
-    ; mul     ebx             ; mul eax by 10
-    ; sub     ecx, 48         ; sub 48 to convert the char to number 
-    ; add     eax, ecx        ; add the number to eax
-    ; inc     esi             ; go to the nex char
-    ; jmp     .convert
-    ; .endConvert:
-
     push    esi
 
     mov     esi, eax
