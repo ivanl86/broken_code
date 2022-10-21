@@ -102,7 +102,7 @@
 ##
     .if:
     cmp dword [ebp - 4], 1 ; compare i and 1
-    jle .endif             ; if i is less than or equal to 1 jump to endif
+    jle .endif             ; if i is less than or equal to 1 jump to .endif
     mov dword [ebp - 4], 2 ; i = 2
     .endif:
 #### IF-ELSE STATEMENT
@@ -130,10 +130,10 @@
 - asm code
 ##
     .while:
-    cmp dword [ebp - 4], 2
-    jle .wend
-    dec dword [ebp - 4]
-    jump .while
+    cmp dword [ebp - 4], 2 ; compare i and 2
+    jle .wend              ; if i is less than or equal to 2, jump to .wend
+    dec dword [ebp - 4]    ; --i
+    jump .while            ; jump to .while
     .wend
 #### DO WHILE LOOP
 - c++ code
@@ -145,14 +145,27 @@
 - asm code
 ##
     .do:
-    dec dword [ebp - 4]
-    cmp dword [ebp - 4]
-    jg .do
+    dec dword [ebp - 4]    ; --i
+    cmp dword [ebp - 4], 2 ; compare i and 2
+    jg .do                 ; if i is greater than 2, jump to .do
     .end_do:
 #### SWITCH
 - c++ code
 ##
-
+    switch(i)
+    {
+        case 1:
+        i = 4;
+        break;
+        case 2:
+        i = 5;
+        break;
+        case 3:
+        i = 6;
+        break;
+        default:
+        i = 7;
+    }
 - asm code
 ##
     mov eax, dword [ebp - 4]
@@ -164,6 +177,19 @@
     cmp eax, 3
     je .case3
     jump .default
+##
+    .case1:
+    mov dword [ebp - 4], 4
+    jmp .end_switch
+    .case2:
+    mov dword [ebp - 4], 5
+    jmp .end_switch
+    .case3:
+    mov dword [ebp - 4], 6
+    jmp .end_switch
+    .default:
+    mov dword [ebp - 4], 7
+    .end_switch
 ## INTEGER ARITHMETIC
 - Shift and rotate instructions with useful applications, multiplication and division, extended addition and subtraction, and ASCII and packed decimal arithmetic
 ## PROCEFURES
