@@ -14,8 +14,10 @@ _start:
     mov     eax, 1024
     mov     ebx, buffer
     call    itoa
+
     mov     eax, buffer
     call    printstr
+
     mov     eax, NL
     call    printstr
 
