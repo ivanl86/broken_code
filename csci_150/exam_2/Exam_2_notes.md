@@ -338,7 +338,7 @@
     mov eax, 4823424; multiplicand
     mov ebx, -423   ; multiplier
     imul ebx        ; EDX:EAX == FFFFFFFF86635D80h, OF == 0
-    ; OF == 0 becasue EDX is a sigin extension of EAX
+    ; OF == 0 becasue EDX is a sign extension of EAX
 ### DIVISION INSTRUCTION
 - use same szie dividend as the divisor
 ##
@@ -369,6 +369,26 @@
     cbw         ; extend AL into AH
     mov bl, 5   ; divisor
     idiv bl     ; Quotient: AL = -9, Remainder: AH = -3
+### ADC INSTRUCTION
+- add with carry
+- dst = dst + src + CF
+- example:
+##
+    mov edx, 0          ; set upper half
+    mov eax, 0FFFFFFFFh ; set lower half, CF == 0
+    add eax, 1          ; add lower half, CF == 1
+    add edx, 0          ; add upper half
+    ; EDX:EAX == 00000001 00000000
+### SBB INSTRUCTION
+- subtract with burrow
+- dst = dest - (src + CF)
+- example:
+##
+    mov edx, 1 ; set upper half
+    mov eax, 0 ; set lower half
+    sub eax, 1 ; subtract lower half
+    sbb edx, 0 ; subtract upper half
+    ; EDX:EAX == 00000000 FFFFFFFF
 ## PROCEFURES
 - call instruction is a ASM equivalent to c/c++ functions
     - push EIP on the stack
