@@ -16,7 +16,7 @@ endMul:
 
     mov     eax, 0ffff8760h
     mov     ebx, 100h
-    imul     ebx
+    imul    ebx
 endIMul:
 
     xor     ah, ah
