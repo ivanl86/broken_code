@@ -329,6 +329,10 @@
     mov ax, 20  ; multiplicand
     mov bx, 2   ; multiplier
     mul bx      ; AX = 40, CF == 0
+##
+    mov al, 10          ; multiplicand
+    mov byte [var], 2   ; multiplier
+    mul byte [var]      ; AX = 20, CF == 0
 ### SIGNED MULTIPLICATION INSTRUCTION
 - preserve the sign of the product by sign extend it into upper half of the product
 - affects overflow flag instead of carry flag
