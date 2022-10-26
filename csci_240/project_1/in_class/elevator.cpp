@@ -1,3 +1,4 @@
+#include <functional>
 #include "elevator.h"
 
 Elevator::Elevator(Floor floors[], bool callset[])
@@ -29,7 +30,7 @@ void Elevator::idle()
     if (currentFloor == LOBBY)
         currentState = (callset[LOBBY]) ? DELIVER : PICKUP;
     else
-        currentState = (noneLobbyWaiting()) ? PICKUP : DELIVER;
+        currentState = (waiting(LOBBY + 1, TOP_FLOOR) >= 0) ? PICKUP : DELIVER;
 }
 
 void Elevator::deliver()
@@ -43,7 +44,7 @@ bool Elevator::noneWaiting()
     for(size_t i{0}; i < FLOOR_QTY; ++i)
         if (callset[i])
             return false;
-    
+
     return true;
 }
 
@@ -54,4 +55,23 @@ bool Elevator::noneLobbyWaiting()
             return true;
 
     return false;
+}
+
+size_t Elevator::waiting(size_t floor)
+{ return callset[floor] ? floor : -1; }
+
+size_t Elevator::waiting(size_t start, size_t end)
+{
+    int step{(start >= end) ? 1 : -1};
+
+    std::function<bool(size_t, size_t)> compare
+    {(start < end)
+    ? [](size_t a, size_t b){ return a <= b; }
+    : [](size_t a, size_t b){ return a >= b; }};
+
+    for(size_t i{start}; compare(i, end); i += step)
+        if (callset[i])
+            return i;
+
+    return -1;
 }
