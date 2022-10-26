@@ -1,3 +1,4 @@
+#include<functional>
 #include<vector>
 #include<cstdlib>
 
@@ -11,10 +12,21 @@ template<typename T>
 class Skiplist
 {
 public:
+    Skiplist(std::function<boo(T,T)> comparator)
+        : comparator{comparator}, itemQty{0}, levels{new SkiplistNode<T>}
+    {}
+
     // Adds an item into the container.
     void add(const T& item)
     {
+        levels.emplace_back(item);
+        ++itemQty;
 
+        if (getsPromoted())
+        {
+            ;
+        }
+        
     }
 
     // Removes and returns an item from the container
@@ -35,6 +47,8 @@ public:
 private:
     std::vector<SkiplistNode<T>*> levels;
     size_t itemQty;
+
+    std::function<bool(T,T)> comparator;
 
     bool getsPromoted() { return static_cast<bool>(rand() & 1); }
 };

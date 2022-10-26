@@ -1,5 +1,13 @@
 # Skip List Design
 
+## Skiplist Node
+### Constructor
+- initialize to nullptr?
+
+## Constructor
+- passes in a function to determine list is in ascending or descending order
+- initialize itemQty to 0
+
 ## Add
 - adds an item to level 0
 - insert it based on its value in ascending order
@@ -27,7 +35,6 @@
 
 ## Questions
 ##
-    Anything we need to add to the skiplist node?
-    What does the vector "levels" do?
-    Is it to hold the first node of each level?
-    what is going to be returned by the remove function if the search item is not found?
+    Anything we need to add to the skiplist node? Upper level? Lower level?
+    What is going to be returned by the remove function if the search item is not found?
+    How to access the items in the vector?
