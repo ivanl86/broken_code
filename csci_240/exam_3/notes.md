@@ -51,5 +51,23 @@
     }
 
 ## Skip List
-##
-    vector<Node *> levels
+
+## BST Rules
+- entries stored only at internal nodes
+- key stored at nodes in the left subtree of v are less than or equal to the key stored at v
+- keys stored at nodes in the right subtree of v are greater than or equal to the key stored v
+- an in-order traversal will return the keys in order
+- search proceeds down the tree to found item or an external node
+- new operation: splay
+    - splay moves a node to the root using rotations
+        - right rotation:
+        - makes the left child x of a node node y into y's parent; y becomes the right child
+
+## Multi-Way Search Tree
+- a multi-way search tree is an ordered tree such that
+    - each internal node has at least two children and stores d -1 key-element items(k<sub>j</sub>, o<sub>k</sub>), where d is the number of children
+    - the leaves store no items and serve as placeholders
+- a (2,4) tree is a multi-way search with the following properties
+    - Node-size property: every internal node has at most 4 children
+- Underflow and Transfer
+    - to handle an underflow at node v with parent u, we consider two cases
