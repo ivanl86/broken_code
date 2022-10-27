@@ -2,10 +2,12 @@ global sum_array
 global printstr
 global get_input
 global strlen
-global srand
-global rand
 global atoi
 global itoa
+global swap
+global swap_xor
+global srand
+global rand
 global current_time
 
 global NL
@@ -107,6 +109,24 @@ printstr:
 
 ; End sum_array------------------------------------------------------------------
 
+;------------------------------------------------------------------------------
+print_array:
+;
+; Description:
+; Receives: EAX = address of the array
+;           EBX = the number of element in the array
+; Returns:  none
+; Requires: nothing
+; Notes:    none
+; Algo:     none
+;-------------------------------------------------------------------------------
+
+    .while:
+
+    
+    ret
+    
+; End  <procedure_label> -------------------------------------------------------
 
 ;--------------------------------------------------------------------------------
 get_input:
@@ -262,6 +282,59 @@ itoa:
     pop     edi
     pop     ebp
     
+    ret
+    
+; End  <procedure_label> -------------------------------------------------------
+
+;-------------------------------------------------------------------------------
+swap:
+;
+; Description: Swap the 32bit values located at the addresses passed in as args
+; Receives: EAX: address of first value (val1)
+;           EBX: address of second value (val2)
+; Returns:  <return list>
+; Requires: <requirements>
+; Notes:    The registers hold the addresses of two values to be swapped, not the values themselves
+; Algo:     <algorithm>
+;-------------------------------------------------------------------------------
+
+    push    ebp
+    mov     ebp, esp
+    sub     esp, 4
+
+    lea     esi, [ebp - 4]  ; move address of local var into esi
+    mov     esi, [eax]      ; move val1 into esi
+    xchg    esi, [ebx]      ; exchange val1 in esi with val2 in ebx
+    mov     [eax], esi      ; move val2 in esi into eax
+    
+    leave
+    ret
+    
+; End  <procedure_label> -------------------------------------------------------
+
+;-------------------------------------------------------------------------------
+swap_xor:
+;
+; Description: Swap the 32bit values located at the addresses passed in as args
+; Receives: EAX: address of first value (val1)
+;           EBX: address of second value (val2)
+; Returns:  <return list>
+; Requires: <requirements>
+; Notes:    The registers hold the addresses of two values to be swapped, not the values themselves
+; Algo:     <algorithm>
+;-------------------------------------------------------------------------------
+
+    mov     ecx, [eax]  ; mov val1 into ecx
+    mov     edx, [ebx]  ; mov val2 into edx
+
+    xor     ecx, [ebx]  ; a ^ b
+    xor     [ebx], ecx  ; b ^ a
+    xor     ecx, [ebx]  ; a ^ b
+
+    xor     edx, [eax]  ; b ^ a
+    xor     [eax], edx  ; a ^ b
+    xor     edx, [eax]  ; b ^ a
+
     ret
     
 ; End  <procedure_label> -------------------------------------------------------
