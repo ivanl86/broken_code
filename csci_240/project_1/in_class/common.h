@@ -8,6 +8,7 @@
 #define FLOOR_QTY 50
 #define NEW_PERSON_PROBABILITY 0.035
 #define EXIT_PROBABILITY 0.015
+#define TOP_FLOOR FLOOR_QTY - 1
 
 bool isProbable(double p)
 {

@@ -25,6 +25,8 @@ private:
     void pickup();
     bool noneWaiting();
     bool noneLobbyWaiting();
+    size_t waiting(size_t);
+    size_t waiting(size_t, size_t);
 };
 
 #endif  /* ELEVATOR_H */
