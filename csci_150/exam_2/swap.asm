@@ -18,16 +18,19 @@ _start:
     cmp eax, ebx
     jl  .while
 
-exit:  
+exit:
     mov     eax, 1      ; invoke SYS_EXIT (kernel opcode 1)
     mov     ebx, 0      ; return 0 status on exit - 'No Errors'
     int     80h
 
     swap:
-    mov     ecx, [eax]
-    mov     edx, [ebx]
-    xchg    [eax], edx
-    xchg    [ebx], ecx
+    ; mov     ecx, [eax]
+    ; mov     edx, [ebx]
+    ; mov    [eax], edx
+    ; mov    [ebx], ecx
+    mov     ecx, [eax]  ; move val1
+    xchg    ecx, [ebx]  ; exchange 
+    mov     [eax], ecx  ; mov
 
     ret
 
