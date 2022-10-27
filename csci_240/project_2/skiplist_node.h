@@ -7,7 +7,6 @@ template<typename T>
 struct SkiplistNode
 {
     T item;
-
     std::vector<SkiplistNode<T>*> levels;
 
     SkiplistNode(T item) : SkiplistNode<T>(item, nullptr) {}

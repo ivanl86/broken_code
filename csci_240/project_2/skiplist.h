@@ -19,10 +19,10 @@ public:
     // Adds an item into the container.
     void add(const T& item)
     {
-        levels.emplace_back(item);
+        levels.at(levels.begin())->levels = new SkiplistNode(item, levels.at(levels.begin)->levels);
         ++itemQty;
 
-        if (getsPromoted())
+        while (getsPromoted())
         {
             ;
         }
