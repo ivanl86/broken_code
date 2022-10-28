@@ -71,3 +71,6 @@
     - Node-size property: every internal node has at most 4 children
 - Underflow and Transfer
     - to handle an underflow at node v with parent u, we consider two cases
+
+## Merge Sort
+- divide and conquer
