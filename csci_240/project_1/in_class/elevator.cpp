@@ -62,16 +62,14 @@ size_t Elevator::waiting(size_t floor)
 
 size_t Elevator::waiting(size_t start, size_t end)
 {
-    int step{(start >= end) ? 1 : -1};
+    int step{(start > end) ? -1 : 1};
 
-    std::function<bool(size_t, size_t)> compare
-    {(start < end)
-    ? [](size_t a, size_t b){ return a <= b; }
-    : [](size_t a, size_t b){ return a >= b; }};
+    while (start != end + step) // while (start != end)
+    {
+        if (callset[start])
+            return start;
+        start += step;
+    }
 
-    for(size_t i{start}; compare(i, end); i += step)
-        if (callset[i])
-            return i;
-
-    return -1;
+    return -1; // return (callset[start]) ? start : -1
 }
