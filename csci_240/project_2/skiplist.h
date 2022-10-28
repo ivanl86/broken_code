@@ -15,36 +15,35 @@ class Skiplist
 {
 public:
     Skiplist(std::function<bool(T,T)> comparator)
-        : comparator{comparator}, itemQty{0}
+        : comparator{comparator}, itemQty{0}, emptyNode{new SkiplistNode<T>(0, nullptr)}
     {
-
+        levels.emplace_back(emptyNode);
     }
 
     // Adds an item into the container.
     void add(const T& item)
     {
-        SkiplistNode<T>* newNode{new SkiplistNode<T>(item, nullptr)};
-        std::vector<SkiplistNode<T>*> currentLevel(levels.size(), nullptr);
+        // size_t curLv{levels.size() - 1};
+        std::vector<SkiplistNode<T>*> itr{levels};
+        SkiplistNode<T> *newNode(new SkiplistNode<T>(item, newNode));
+
+        if (itemQty < 1)
+            levels.at(LEVEL_0)= newNode;
+            levels.at(LEVEL_0)->levels.at(LEVEL_0) = levels.at(LEVEL_0);
+            // levels.at(LEVEL_0) = new SkiplistNode<T>(item, levels.at(LEVEL_0));
 
 
-        if (levels.size() <= 0)
-            levels.emplace_back(newNode);
-        else
-        {
-            for (size_t i{levels.size() - 1}; i >= 0; --i)
-            {
-                while (levels.at(i) != nullptr)
-                {
-                    if (comparator(levels.at(i)->item, item))
-                        currentLevel.at(i)->item = item;
-                    else if (currentLevel.at(i)->levels.at(i) != nullptr)
-                        currentLevel.at(i) = currentLevel.at(i)->levels.at(i);
-                }
-            }
-        }
-        levels.at(LEVEL_0)->levels.at(LEVEL_0) = precedingNode(item, levels.size() - 1);
+        // for(size_t i{levels.size() - 1}; i >= 0; --i)
+        // {
+        //     while (itr.at(i) != nullptr)
+        //     {
+        //         if (itr.at(i)->item >= item)
+        //             break;
+        //         itr.at(i) = itr.at(i)->levels.at(i);
+        //     }
+        // }
+        
 
-        levels.at(LEVEL_0)->levels.at(LEVEL_0) = newNode;
 
         ++itemQty;
 
@@ -70,7 +69,7 @@ public:
     size_t size() { return itemQty; }
 
 private:
-    SkiplistNode<T> *next;
+    SkiplistNode<T> *emptyNode;
     std::vector<SkiplistNode<T>*> levels;
     size_t itemQty;
 
@@ -78,18 +77,12 @@ private:
 
     bool getsPromoted() { return static_cast<bool>(rand() & 1); }
 
-    SkiplistNode<T> *precedingNode(const T &item, size_t lv)
+    SkiplistNode<T> *precedingNode(const T &item)
     {
-        SkiplistNode<T>*preceNode;
-        std::vector<SkiplistNode<T>*>iterator{levels};
-        while (iterator.at(lv) != nullptr)
-        {
-            if (comparator(iterator.at(lv)->item, item))
-                preceNode = iterator.at(lv);
-            iterator.at(lv) = iterator.at(lv)->levels.at(lv);
-        }
-        return preceNode;
     }
+
+    void promoteNode()
+    {}
 };
 
 #endif /* SKIPLIST */

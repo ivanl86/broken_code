@@ -9,8 +9,10 @@
 - initialize itemQty to 0
 
 ## Add
-- adds an item to level 0
-- insert it based on its value in ascending order
+- start at the top level
+- find the preceding node
+- insert it after the preceding node
+- adds the item to level 0
 - promote it to next level if gets promoted
 - repeat promotion until not getting promoted
 - increment 1 to itemQty
