@@ -24,21 +24,23 @@ public:
     void add(const T& item)
     {
         std::vector<SkiplistNode<T>*> newNode{new SkiplistNode<T>(item)};
-        std::vector<SkiplistNode<T>*> itr{priorNode(item)};
+        std::vector<SkiplistNode<T>*> itr;
 
-        // while (getsPromoted())
-        // {
-        //     itr.at(LEVEL_0)->next.emplace_back(new SkiplistNode<T>(item));
-        // }
+        while (getsPromoted())
+        { promoteNode(newNode); }
 
-        if (itemQty == 0 && levels.size() == 0)
-        { levels.at(LEVEL_0)->next = newNode; }
-        else
+        itr = priorNode(item);
+
+        for(int i{static_cast<int>(newNode.size() - 1)}; i >= 0; --i)
         {
-        newNode.at(LEVEL_0)->next.at(LEVEL_0) = itr.at(LEVEL_0)->next.at(LEVEL_0); // the newNode.next points to itr.next
-        itr.at(LEVEL_0)->next.at(LEVEL_0) = newNode.at(LEVEL_0); // the itr.next points to newNode
+            if (itemQty == 0)
+            { levels.at(i)->next = newNode; }
+            else
+            {
+                newNode.at(i)->next.at(LEVEL_0) = itr.at(i)->next.at(LEVEL_0); // the newNode.next points to itr.next
+                itr.at(i)->next.at(LEVEL_0) = newNode.at(i);                   // the itr.next points to newNode
+            }
         }
-
         ++itemQty;
     }
 
@@ -81,6 +83,16 @@ private:
             }
         }
         return itr;
+    }
+
+    void promoteNode(std::vector<SkiplistNode<T>*>& newNode)
+    {
+        newNode.emplace_back(newNode.at(LEVEL_0));
+        if (levels.size() < newNode.size())
+        {
+            levels.emplace_back(levels.at(LEVEL_0));
+            levels.at(levels.size() - 1)->next.at(LEVEL_0) = nullptr;
+        }
     }
 };
 
