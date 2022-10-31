@@ -431,6 +431,59 @@ TRUE:       equ 0x01        ; true = 1
 FALSE:      equ 0x00        ; false = 0
 ; End constant------------------------------------------------------------------
 
+;------------------------------------------------------------------------------
+array_search:
+;
+; Description: search an array. return subscript of the value if found or -1 otherwise
+; Receives: EAX = array address
+;           EBX = size of array
+;           ECX = search term
+; Returns:  <return list>
+; Requires: return subscript or -1
+; Notes:    <notes>
+; Algo:     <algorithm>
+;-------------------------------------------------------------------------------
+
+    push    ebp             ; preserve caller's base pointer
+    mov     ebp, esp        ; set base of frame
+    sub     esp, 4          ; establish a local var
+
+    push    ebx
+    push    esi             ; preserve esi
+    push    edi             ; preserve edi
+
+    lea     edi, [ebp - 4]  ; edi holds address of local var
+    mov     dword [edi], 0  ; initial counter
+    mov     esi, eax        ; esi = address of array
+    add     ebx, eax        ; ebx is upper bound of array
+    mov     eax, -1
+
+    .while:
+    cmp     esi, ebx
+    jae     .wend
+    .if:
+    cmp     [esi], ecx
+    je      .wend
+    inc     dword [edi]
+    add     esi, 4
+    jump    .while
+    .wend:
+    cmp     esi, ebx
+    jae     .exit
+    mov     eax, [edi]
+    .exit:
+    
+    pop     edi
+    pop     esi
+    pop     ebx
+
+    mov     esp, ebp        ; deallocate local var
+    pop     ebp             ; restore caller's base pointer
+
+    ret
+    
+; End  array_search -------------------------------------------------------
+
 section     .bss
 
 section     .data
