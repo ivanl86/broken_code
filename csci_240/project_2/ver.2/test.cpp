@@ -33,18 +33,16 @@ void test_Add_Contains_Remove()
         std::cout << "SUCCEED: It contains " << TEST_VAL4 << "!\n";
     else
         std::cout << "FAILED: It does not contains " << TEST_VAL4 << "!\n";
-    std::cout << "Contians " << sList.size() << " items after remove\n";
 
     try
-    { sList.remove(TEST_VAL4); }
+    { std::cout << sList.remove(TEST_VAL4) << " is being removed!\n"; }
     catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-    }
+    { std::cerr << e.what() << '\n'; }
 
     if (sList.contains(TEST_VAL4))
         std::cout << "SUCCEED: It contains " << TEST_VAL4 << "!\n";
     else
         std::cout << "FAILED: It does not contains " << TEST_VAL4 << "!\n";
+
     std::cout << "Contians " << sList.size() << " items after remove\n";
 }
