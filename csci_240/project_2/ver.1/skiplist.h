@@ -154,3 +154,17 @@ private:
 
         ++itemQty;
 */
+
+/*
+        for(int i{static_cast<int>(newNode.size() - 1)}; i >= 0; --i)
+        {
+            if (itemQty == 0)
+            { levels.at(i)->next = newNode; }
+            else
+            {
+                newNode.at(i)->next = itr.at(i)->next; // the newNode.next points to itr.next
+                itr.at(i)->next = newNode;                   // the itr.next points to newNode
+            }
+        }
+        ++itemQty;
+*/
