@@ -10,6 +10,7 @@ global swap_xor
 global srand
 global rand
 global current_time
+global print_nl
 
 global NL
 global NULL
@@ -231,26 +232,45 @@ atoi:
 ; Algo:     use horner's method
 ;-------------------------------------------------------------------------------
 
-    push    esi
+    xor     eax, eax        ; clear eax
+    xor     ebx, ebx        ; clear ebx
+    xor     ecx, ecx        ; clear ecx
+    mov     ebx, 10         ; set ebx to 10
+    mov     esi, edx        ; mov address of string from edx to esi
 
-    mov     esi, eax
-    mov     eax, 0
-    mov     ecx, 10
-    movzx   edx, byte [esi]
+    .convert:
+    movzx   ecx, byte [esi] ; mov the nex char to ecx
+    cmp     ecx, 48         ; 0 in ASCII = 48
+    jl      .endConvert     ; end if it is less than 0
+    cmp     ecx, 57         ; 9 in ASCII = 57
+    jg      .endConvert     ; end if it is greater than 9
+    mul     ebx             ; mul eax by 10
+    sub     ecx, 48         ; sub 48 to convert the char to number 
+    add     eax, ecx        ; add the number to eax
+    inc     esi             ; go to the nex char
+    jmp     .convert
+    .endConvert:
 
-    .while:
-    test    edx, edx
-    jz      .wend
-    mul     ecx
-    movzx   edx, byte [esi]
-    add     eax, edx
-    sub     eax, 48
-    inc     esi
-    movzx   edx, byte [esi]
-    jmp     .while
-    .wend:
+    ; push    esi
 
-    pop     esi
+    ; mov     esi, eax
+    ; mov     eax, 0
+    ; mov     ecx, 10
+    ; movzx   edx, byte [esi]
+
+    ; .while:
+    ; test    edx, edx
+    ; jz      .wend
+    ; mul     ecx
+    ; movzx   edx, byte [esi]
+    ; add     eax, edx
+    ; sub     eax, 48
+    ; inc     esi
+    ; movzx   edx, byte [esi]
+    ; jmp     .while
+    ; .wend:
+
+    ; pop     esi
 
     ret
     
@@ -455,14 +475,6 @@ current_time:
     
 ; End current_time -------------------------------------------------------------
 
-;-------------------------------------------------------------------------------
-; constant
-NL:         equ 0x0a        ; a newline character
-NULL:       equ 0x00        ; a zero character
-TRUE:       equ 0x01        ; true = 1
-FALSE:      equ 0x00        ; false = 0
-; End constant------------------------------------------------------------------
-
 ;------------------------------------------------------------------------------
 array_search:
 ;
@@ -516,6 +528,33 @@ array_search:
     
 ; End  array_search -------------------------------------------------------
 
+;------------------------------------------------------------------------------
+print_nl:
+;
+; Description:
+; Receives: <argument list>
+; Returns:  <return list>
+; Requires: <requirements>
+; Notes:    <notes>
+; Algo:     <algorithm>
+;-------------------------------------------------------------------------------
+
+    mov     eax, NL_STR
+    call    printstr
+    
+    ret
+    
+; End  <procedure_label> -------------------------------------------------------
+
+;-------------------------------------------------------------------------------
+; constant
+NL:         equ 0x0a        ; a newline character
+NL_SZ:      equ $ - NL      ; size of newline character
+NULL:       equ 0x00        ; a zero character
+TRUE:       equ 0x01        ; true = 1
+FALSE:      equ 0x00        ; false = 0
+; End constant------------------------------------------------------------------
+
 section     .bss
 
 section     .data
@@ -530,3 +569,4 @@ section     .data
     RANDC3: equ 65536
     RANDC4: equ 32768
     RAND_MAX: equ RANDC4 - 1
+    NL_STR:  dd 0x0a, NULL
