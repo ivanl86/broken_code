@@ -74,3 +74,16 @@
 
 ## Merge Sort
 - divide and conquer
+
+Union merge
+from A or B but no dulicate
+
+Intersect merge
+from both A and B
+
+Subtract merge
+
+- L: set of values lower than k<sup>th</sup> smalleest value
+- E: set of values equal to the k<sup>th</sup> smallest value
+- G: set of all values greater that k<sup>th</sup> value
+
