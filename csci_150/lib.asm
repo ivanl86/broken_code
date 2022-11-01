@@ -1,4 +1,5 @@
 global sum_array
+global factorial
 global printstr
 global get_input
 global strlen
@@ -51,6 +52,37 @@ sum_array:
     ret
 
 ; End sum_array-----------------------------------------------------------------
+
+;------------------------------------------------------------------------------
+factorial:
+;
+; Description:
+; Receives: <argument list>
+; Returns:  <return list>
+; Requires: <requirements>
+; Notes:    <notes>
+; Algo:     <algorithm>
+;-------------------------------------------------------------------------------
+
+    push    ebp         ; preserve caller's base pointer
+    mov     ebp, esp    ; set base of frame
+
+    mov     eax, [ebp + 8]  ; move n to eax
+    cmp     eax, 1          ; if n <= 1: base case
+    jle     .base           ; jummp to base
+
+    dec     eax
+    push    eax
+    call    factorial
+    mul     dword [ebp + 8]
+
+    .base:
+    leave
+
+    ret
+    
+; End  factorial -------------------------------------------------------
+
 
 ;-------------------------------------------------------------------------------
 strlen:
@@ -466,7 +498,7 @@ array_search:
     je      .wend
     inc     dword [edi]
     add     esi, 4
-    jump    .while
+    jmp    .while
     .wend:
     cmp     esi, ebx
     jae     .exit
