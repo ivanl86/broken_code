@@ -31,8 +31,11 @@ public:
 
         itr = priorNode(item);
 
-        newNode.at(LV_0)->next = itr.at(LV_0)->next; // the newNode.next points to itr.next
-        itr.at(LV_0)->next = newNode;                // the itr.next points to newNode
+        for(int i{static_cast<int>(newNode.size() - 1)}; i >= 0; --i)
+        {
+        newNode.at(i)->next.at(LV_0) = itr.at(i)->next.at(LV_0); // the newNode.next points to itr.next
+        itr.at(i)->next.at(LV_0) = newNode.at(i);                // the itr.next points to newNode
+        }
 
         ++itemQty;
     }
@@ -97,6 +100,7 @@ private:
     void promoteNode(std::vector<SkiplistNode<T>*>& newNode)
     {
         newNode.emplace_back(newNode.at(LV_0));
+        newNode.at(newNode.size() - 1)->next.at(LV_0) = nullptr;
 
         if (levels.size() < newNode.size())
         {
