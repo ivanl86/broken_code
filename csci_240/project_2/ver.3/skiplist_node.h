@@ -9,7 +9,10 @@ struct SkiplistNode
     T item;
     std::vector<SkiplistNode<T>*> levels;
 
-    SkiplistNode(T& item) : item{item}
+    SkiplistNode()
+    { levels.push_back(nullptr); }
+
+    SkiplistNode(const T& item) : item{item}
     { levels.push_back(nullptr); }
 };
 
