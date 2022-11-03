@@ -12,6 +12,7 @@ global rand
 global current_time
 global print_nl
 
+; constant
 global NL
 global NULL
 global TRUE
@@ -57,28 +58,46 @@ sum_array:
 ;------------------------------------------------------------------------------
 factorial:
 ;
-; Description:
-; Receives: <argument list>
-; Returns:  <return list>
+; Description: calculates the factorialof an unsigned integer (N!)
+; Receives: receive on stack the value of n
+; Returns:  EAX = n!
 ; Requires: <requirements>
 ; Notes:    <notes>
 ; Algo:     <algorithm>
 ;-------------------------------------------------------------------------------
 
-    push    ebp         ; preserve caller's base pointer
-    mov     ebp, esp    ; set base of frame
+    push    ebp             ; preserve caller's base pointer
+    mov     ebp, esp        ; set base of frame
 
-    mov     eax, [ebp + 8]  ; move n to eax
-    cmp     eax, 1          ; if n <= 1: base case
-    jle     .base           ; jummp to base
+    mov     eax, 1          ; base case return value
+    mov     ecx, [ebp + 8]  ; ecx = n
+    cmp     ecx, eax        ; is n <= 1?
+    jbe     .base           ; if n <= 1 then base case
 
-    dec     eax
-    push    eax
+    dec     ecx
+    push    ecx
     call    factorial
     mul     dword [ebp + 8]
 
     .base:
+
     leave
+    ret
+
+    ; push    ebp         ; preserve caller's base pointer
+    ; mov     ebp, esp    ; set base of frame
+
+    ; mov     eax, [ebp + 8]  ; move n to eax, n is in the stack which is ebp + 8
+    ; cmp     eax, 1          ; if n <= 1: base case
+    ; jle     .base           ; jummp to base
+
+    ; dec     eax
+    ; push    eax
+    ; call    factorial
+    ; mul     dword [ebp + 8]
+
+    ; .base:
+    ; leave
 
     ret
     
@@ -89,15 +108,18 @@ factorial:
 strlen:
 ;
 ; Description: Calculates the size of a null-termainated string
-; Receives: EAX = address of the string
+; Receives: address of the string on stack (arg1)
 ; Returns:  EAX = the size of the string
 ; Requires: The string must be null-terminated
 ; Notes:    none
 ; Algo:     none
 ;-------------------------------------------------------------------------------
 
+    push    ebp
+    mov     ebp, esp
+
     push    esi             ; perserve esi
-    mov     esi, eax        ; set esi to the address of the string
+    mov     esi, [ebp + 8]       ; set esi to the address of the string
     xor     eax, eax        ; eax will be the counter of none-null chars
 
     .while:
@@ -110,6 +132,7 @@ strlen:
     .wend:
 
     pop     esi
+    leave
     ret
     
 ; End strlen -------------------------------------------------------------------
@@ -129,7 +152,7 @@ printstr:
     push    ebx             ; preserve caller's base pointer
     push    eax             ; preserve string address
 
-    call strlen             ; eax has the size of the string
+    call    strlen          ; eax has the size of the string
     mov     edx, eax        ; edx = size of the string
     pop     ecx             ; restore the address into ecx
 
@@ -225,53 +248,55 @@ is_even:
 atoi:
 ;
 ; Description: convert ascii representation of a unsigned integer to an unsigned integer
-; Receives: EDX = address of a NULL terminated string
+; Receives: arg1 = address of a NULL terminated string = EDX
 ; Returns:  EAX = converted unsigned integer value
 ; Requires: nothing
 ; Notes:    none
 ; Algo:     use horner's method
 ;-------------------------------------------------------------------------------
 
-    xor     eax, eax        ; clear eax
-    xor     ebx, ebx        ; clear ebx
-    xor     ecx, ecx        ; clear ecx
-    mov     ebx, 10         ; set ebx to 10
-    mov     esi, edx        ; mov address of string from edx to esi
+    ; xor     eax, eax        ; clear eax
+    ; xor     ebx, ebx        ; clear ebx
+    ; xor     ecx, ecx        ; clear ecx
+    ; mov     ebx, 10         ; set ebx to 10
+    ; mov     esi, edx        ; mov address of string from edx to esi
 
-    .convert:
-    movzx   ecx, byte [esi] ; mov the nex char to ecx
-    cmp     ecx, 48         ; 0 in ASCII = 48
-    jl      .endConvert     ; end if it is less than 0
-    cmp     ecx, 57         ; 9 in ASCII = 57
-    jg      .endConvert     ; end if it is greater than 9
-    mul     ebx             ; mul eax by 10
-    sub     ecx, 48         ; sub 48 to convert the char to number 
-    add     eax, ecx        ; add the number to eax
-    inc     esi             ; go to the nex char
-    jmp     .convert
-    .endConvert:
+    ; .convert:
+    ; movzx   ecx, byte [esi] ; mov the nex char to ecx
+    ; cmp     ecx, 48         ; 0 in ASCII = 48
+    ; jl      .endConvert     ; end if it is less than 0
+    ; cmp     ecx, 57         ; 9 in ASCII = 57
+    ; jg      .endConvert     ; end if it is greater than 9
+    ; mul     ebx             ; mul eax by 10
+    ; sub     ecx, 48         ; sub 48 to convert the char to number 
+    ; add     eax, ecx        ; add the number to eax
+    ; inc     esi             ; go to the nex char
+    ; jmp     .convert
+    ; .endConvert:
 
-    ; push    esi
+    push    ebp
+    mov     ebp, esp
+    push    esi
 
-    ; mov     esi, eax
-    ; mov     eax, 0
-    ; mov     ecx, 10
-    ; movzx   edx, byte [esi]
+    mov     esi, [ebp + 8]
+    mov     eax, 0
+    mov     ecx, 10
+    movzx   edx, byte [esi]
 
-    ; .while:
-    ; test    edx, edx
-    ; jz      .wend
-    ; mul     ecx
-    ; movzx   edx, byte [esi]
-    ; add     eax, edx
-    ; sub     eax, 48
-    ; inc     esi
-    ; movzx   edx, byte [esi]
-    ; jmp     .while
-    ; .wend:
+    .while:
+    test    edx, edx
+    jz      .wend
+    mul     ecx
+    movzx   edx, byte [esi]
+    add     eax, edx
+    sub     eax, 48
+    inc     esi
+    movzx   edx, byte [esi]
+    jmp     .while
+    .wend:
 
-    ; pop     esi
-
+    pop     esi
+    leave
     ret
     
 ; End atoi ---------------------------------------------------------------------
@@ -280,9 +305,9 @@ atoi:
 itoa:
 ;
 ; Description: converts an unsigned integer to a null-terminated string representation
-; Receives: eax = unsigned integer value
-;           ebx = address of the string buffer
-;           ecx = size of buffer
+; Receives: arg1 = unsigned integer value = eax, last to push
+;           arg2 = address of the string buffer = ebx, push before arg1
+;           arg3 = size of buffer =ecx
 ; Returns:  nothing
 ; Requires: nothing
 ; Notes:    none
@@ -290,21 +315,18 @@ itoa:
 ;-------------------------------------------------------------------------------
 
     push    ebp             ; preserve caller's base pointer
-    push    edi
-
     mov     ebp, esp        ; set base of frame
+
 
     sub     esp, 8          ; allocate counter var
     mov     dword [ebp - 4], 0 ; initialzing counter
     mov     dword [ebp - 8], 10; divisor
 
-    mov     edi, ebx
+    push    edi
 
-    ; sub     esp, 8          ; added two vars
-    ;                         ; var1 ebp - 8
-    ;                         ; var2 ebp - 4
-    ; mov     [ebp - 4], 0
-    ; push    dword 0         ; declare a space for a local variable
+    ; mov     edi, ebx 
+    mov     eax, [ebp + 8]
+    mov     edi, [ebp + 12]
 
     ; loop over eax (until 0)
     ; div by  10
@@ -330,10 +352,8 @@ itoa:
 
     mov     byte [edi], NULL; null terminate the string
 
-    mov     esp, ebp
     pop     edi
-    pop     ebp
-    
+    leave
     ret
     
 ; End  <procedure_label> -------------------------------------------------------
@@ -553,20 +573,25 @@ NL_SZ:      equ $ - NL      ; size of newline character
 NULL:       equ 0x00        ; a zero character
 TRUE:       equ 0x01        ; true = 1
 FALSE:      equ 0x00        ; false = 0
-; End constant------------------------------------------------------------------
-
-section     .bss
-
-section     .data
-    next:   dd 1
-    n_0:    equ 1103515245
-    n_1:    equ 12345
-    n_2:    equ 65536
-    n_3:    equ 32768
 
     RANDC1: equ 1103515245
     RANDC2: equ 12345
     RANDC3: equ 65536
     RANDC4: equ 32768
     RAND_MAX: equ RANDC4 - 1
-    NL_STR:  dd 0x0a, NULL
+
+section     .bss
+
+section     .data
+    next:   dd 1
+    NL_STR:  db 0x0a, NULL
+
+    unit_buff_sz: equ 20
+    buff_comma:     db ","
+    buff_space:     db " "
+
+    ; n_0:    equ 1103515245
+    ; n_1:    equ 12345
+    ; n_2:    equ 65536
+    ; n_3:    equ 32768
+; End constant------------------------------------------------------------------

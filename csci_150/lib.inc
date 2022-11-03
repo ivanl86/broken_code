@@ -1,0 +1,20 @@
+extern sum_array
+extern factorial
+extern printstr
+extern get_input
+extern strlen
+extern atoi
+extern itoa
+extern swap
+extern swap_xor
+extern srand
+extern rand
+extern current_time
+extern print_nl
+
+; constant
+extern NL
+extern NULL
+extern TRUE
+extern FALSE
+extern RAND_MAX
