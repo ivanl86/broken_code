@@ -26,15 +26,16 @@ public:
         std::vector<SkiplistNode<T>*> newNode{new SkiplistNode<T>(item)};
         std::vector<SkiplistNode<T>*> itr;
 
-        while (getsPromoted())
-        { promoteNode(newNode); }
+        // getsPromoted is not working properly
+        // while (getsPromoted())
+        // { promoteNode(newNode); }
 
         itr = priorNode(item);
 
-        for(int i{static_cast<int>(newNode.size() - 1)}; i >= 0; --i)
+        // for(int i{static_cast<int>(newNode.size() - 1)}; i >= 0; --i)
         {
-        newNode.at(i)->next.at(LV_0) = itr.at(i)->next.at(LV_0); // the newNode.next points to itr.next
-        itr.at(i)->next.at(LV_0) = newNode.at(i);                // the itr.next points to newNode
+        newNode.at(LV_0)->next.at(LV_0) = itr.at(LV_0)->next.at(LV_0); // the newNode.next points to itr.next
+        itr.at(LV_0)->next.at(LV_0) = newNode.at(LV_0);                // the itr.next points to newNode
         }
 
         ++itemQty;
