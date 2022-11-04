@@ -87,3 +87,16 @@ Subtract merge
 - E: set of values equal to the k<sup>th</sup> smallest value
 - G: set of all values greater that k<sup>th</sup> value
 
+## String
+- alphabet is finite or infinite
+
+## Dynamic Programming
+- an algorigthm design approach
+##
+    fib(n) = {0, n = 0}
+             {1, n = 1}
+             {fib(n-1) + fib(n-2), otherwise}
+
+##
+- V[i][w] = {max(V[i-1][w],V[i-1][w-wi] + V<sub>i</sub>), for w<sub>i</sub> <= w}
+            {v[i-1][w], otherwise} 
