@@ -11,6 +11,8 @@ extern srand
 extern rand
 extern current_time
 extern print_nl
+extern is_even
+extern array_search
 
 ; constant
 extern NL

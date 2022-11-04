@@ -11,6 +11,8 @@ global srand
 global rand
 global current_time
 global print_nl
+global is_even
+global array_search
 
 ; constant
 global NL
@@ -31,18 +33,23 @@ global RAND_MAX
 sum_array:
 ;
 ; Descriptions: Sums the integer (dwords) elements of an array
-; Receives: EAX = address of the array
-;           EBX = number of elements
+; Receives: arg1 = address of array
+;           arg2 = number of elements
 ; Returns:  EAX = sum of the elements of the array
 ; Requires: nothing
 ; Notes:    none
 ; Algo:     none
 ;-------------------------------------------------------------------------------
 
-    push    esi
+    push    ebp             ; preserve caller's base pointer
+    mov     ebp, esp        ; set base of frame
 
-    mov     esi, eax        ; mov address of array into esi
-    mov     ecx, ebx        ; mov count of array elements into ecx
+    push    esi             ; preserve esi
+
+    mov     esi, [ebp + 8]  ; esi = address of array = arg1
+    mov     ecx, [ebp + 12] ; ecx = number of elements = arg2
+    ; mov     esi, eax        ; mov address of array into esi
+    ; mov     ecx, ebx        ; mov count of array elements into ecx
     xor     eax, eax        ; set eax = 0
 
     .loop:
@@ -51,6 +58,7 @@ sum_array:
     loop    .loop
 
     pop     esi
+    leave
     ret
 
 ; End sum_array-----------------------------------------------------------------
@@ -59,7 +67,7 @@ sum_array:
 factorial:
 ;
 ; Description: calculates the factorialof an unsigned integer (N!)
-; Receives: receive on stack the value of n
+; Receives: arg1 = receive on stack the value of n
 ; Returns:  EAX = n!
 ; Requires: <requirements>
 ; Notes:    <notes>
@@ -70,7 +78,7 @@ factorial:
     mov     ebp, esp        ; set base of frame
 
     mov     eax, 1          ; base case return value
-    mov     ecx, [ebp + 8]  ; ecx = n
+    mov     ecx, [ebp + 8]  ; ecx = n = arg1
     cmp     ecx, eax        ; is n <= 1?
     jbe     .base           ; if n <= 1 then base case
 
@@ -108,18 +116,18 @@ factorial:
 strlen:
 ;
 ; Description: Calculates the size of a null-termainated string
-; Receives: address of the string on stack (arg1)
+; Receives: arg1 = address of the string on stack
 ; Returns:  EAX = the size of the string
 ; Requires: The string must be null-terminated
 ; Notes:    none
 ; Algo:     none
 ;-------------------------------------------------------------------------------
 
-    push    ebp
-    mov     ebp, esp
+    push    ebp             ; preserve caller's base pointer
+    mov     ebp, esp        ; set base of frame
 
     push    esi             ; perserve esi
-    mov     esi, [ebp + 8]       ; set esi to the address of the string
+    mov     esi, [ebp + 8]  ; esi = address of string = arg1
     xor     eax, eax        ; eax will be the counter of none-null chars
 
     .while:
@@ -141,26 +149,35 @@ strlen:
 printstr:
 ;
 ; Descriptions: Print a string
-; Receives: EAX = address of the string
-;           EBX = size of the string
+; Receives: arg1 = address of string
 ; Returns:  none
 ; Requires: nothing
 ; Notes:    none
 ; Algo:     none
 ;-------------------------------------------------------------------------------
 
+    ; push    eax             ; preserve string address
+
+    ; push    ebx
+
+    push    ebp             ; preserve caller's base pointer
+    mov     ebp, esp        ; set base of frame
     push    ebx             ; preserve caller's base pointer
-    push    eax             ; preserve string address
+
+; do i need to pop it?
+    push    dword [ebp + 8] ; strlen arg1 = addres of string 
 
     call    strlen          ; eax has the size of the string
     mov     edx, eax        ; edx = size of the string
-    pop     ecx             ; restore the address into ecx
+    ; pop     ecx             ; restore the address into ecx
+    mov     ecx, [ebp + 8]  ; ecx = address of string = arg1
 
     mov     eax, 4          ; mov 4 to eax indicates write operation
     mov     ebx, 1          ; mov 1 to ebx indicates stdout
     int     0x80            ; performs syscall
 
     pop     ebx             ; restore caller's base pointer
+    leave
     ret
 
 ; End sum_array------------------------------------------------------------------
@@ -188,26 +205,35 @@ print_array:
 get_input:
 ;
 ; Descriptions: Get an input from the user
-; Receives: EAX = address of the input buffer
-;           EBX = size of the input buffer
+; Receives: arg1 = address of input buffer
+;           arg2 = size of input buffer
 ; Returns:  none
 ; Requires: nothing
 ; Notes:    remove newline char if it exists
 ; Algo:     none
 ;-------------------------------------------------------------------------------
 
-    push    ebx             ; preserve caller's base pointer
+    ; push    ebx             ; preserve caller's base pointer
+    ; push    esi             ; preserve esi
+
+    ; mov     esi, eax        ;
+
+    push    ebp             ; preserve caller's base pointer
+    mov     ebp, esp        ; set base of frame  
     push    esi             ; preserve esi
 
-    mov     esi, eax        ;
+    mov     esi, [ebp + 8]  ; esi = address of the input buffer = arg1
 
-    mov     ecx, eax        ; mov the address of the input buffer from eax to ebx
-    mov     edx, ebx        ; mov the size of the input buffer from ebx to ecx
+    mov     ecx, [ebp + 8]  ; ecx = address of the input buffer = arg1
+    mov     edx, [ebp + 12] ; edx = size of the input buffer = arg2
+
+    ; mov     ecx, eax        ; mov the address of the input buffer from eax to ebx
+    ; mov     edx, ebx        ; mov the size of the input buffer from ebx to ecx
     mov     eax, 3          ; mov 4 to eax indicates write operation
     mov     ebx, 0          ; mov 1 to ebx indicates stdout
     int     0x80            ; performs syscall
 
-    ; esi holds the address of the buffer
+    ; esi holds the address of input buffer
     cmp     byte [esi + eax - 1], NL
     jnz     .endif
 
@@ -217,7 +243,8 @@ get_input:
     .endif:
 
     pop     esi
-    pop     ebx             ; restore caller's base pointer
+    leave
+    ; pop     ebx             ; restore caller's base pointer
     ret                     ; return the number of characters enetered
 
 ; End get_input------------------------------------------------------------------
@@ -227,17 +254,22 @@ get_input:
 is_even:
 ;
 ; Description: Takes a value and return 1 if even or false otherwise
-; Receives: EAX = the value will be checked
+; Receives: arg1 = the value will be checked
 ; Returns:  EAX = TRUE or FALSE
 ; Requires: nothing
 ; Notes:    none
 ; Algo:     none
 ;-------------------------------------------------------------------------------
 
+    push    ebp             ; preserve caller's base pointer
+    mov     ebp, esp        ; set base of frame
+
+    mov     eax, [ebp + 8]  ; eax = value to be checked = arg1
     and     eax, 1          ; use AND instruction on EAX with 1
     xor     eax, 1          ; use XOR instruction on EAX to clear other bits
     ; EAX = 1 if even
     ; EAX = 0 if odd
+    leave
     ret                     ; return EAX
     
 ; End  is_even -----------------------------------------------------------------
@@ -306,8 +338,7 @@ itoa:
 ;
 ; Description: converts an unsigned integer to a null-terminated string representation
 ; Receives: arg1 = unsigned integer value = eax, last to push
-;           arg2 = address of the string buffer = ebx, push before arg1
-;           arg3 = size of buffer =ecx
+;           arg2 = address of string buffer = ebx, push before arg1
 ; Returns:  nothing
 ; Requires: nothing
 ; Notes:    none
@@ -317,7 +348,6 @@ itoa:
     push    ebp             ; preserve caller's base pointer
     mov     ebp, esp        ; set base of frame
 
-
     sub     esp, 8          ; allocate counter var
     mov     dword [ebp - 4], 0 ; initialzing counter
     mov     dword [ebp - 8], 10; divisor
@@ -325,8 +355,8 @@ itoa:
     push    edi
 
     ; mov     edi, ebx 
-    mov     eax, [ebp + 8]
-    mov     edi, [ebp + 12]
+    mov     eax, [ebp + 8]  ; eax = unsigned integer value = arg1
+    mov     edi, [ebp + 12] ; edi = address of string buffer = arg2
 
     ; loop over eax (until 0)
     ; div by  10
@@ -415,15 +445,22 @@ swap_xor:
 srand:
 ;
 ; Description: Seeds the value used by rand
-; Receives: EAX = seed value
+; Receives: arg1 = seed value
 ; Returns:  nothing
 ; Requires: nothing
 ; Notes:    none
 ; Algo:     none
 ;-------------------------------------------------------------------------------
 
+    ; mov     [next], eax
+    push    ebp             ; preserve caller's base pointer
+    mov     ebp, esp        ; set base of frame
+
+; can i mov arg1 to next directly
+    mov     eax, [ebp + 8]  ; eax = see value = arg1
     mov     [next], eax
 
+    leave
     ret
     
 ; End srand --------------------------------------------------------------------
@@ -499,10 +536,10 @@ current_time:
 array_search:
 ;
 ; Description: search an array. return subscript of the value if found or -1 otherwise
-; Receives: EAX = array address
-;           EBX = size of array
-;           ECX = search term
-; Returns:  <return list>
+; Receives: arg1 = array address
+;           arg2 = size of array
+;           arg3 = search term
+; Returns:  EAX = subscript of search term
 ; Requires: return subscript or -1
 ; Notes:    <notes>
 ; Algo:     <algorithm>
@@ -510,17 +547,24 @@ array_search:
 
     push    ebp             ; preserve caller's base pointer
     mov     ebp, esp        ; set base of frame
+
     sub     esp, 4          ; establish a local var
 
-    push    ebx
+    push    ebx             ; preserve ebx
     push    esi             ; preserve esi
     push    edi             ; preserve edi
 
+    ; lea     edi, [ebp - 4]  ; edi holds address of local var
+    ; mov     dword [edi], 0  ; initial counter
+    ; mov     esi, eax        ; esi = address of array
+    ; add     ebx, eax        ; ebx is upper bound of array
+    ; mov     eax, -1
     lea     edi, [ebp - 4]  ; edi holds address of local var
-    mov     dword [edi], 0  ; initial counter
-    mov     esi, eax        ; esi = address of array
-    add     ebx, eax        ; ebx is upper bound of array
-    mov     eax, -1
+    mov     dword [edi], 0  ; initialize counter
+    mov     esi, [ebp + 8]  ; esi = address of array = arg1
+    mov     ebx, [ebp + 12] ; ebx = size of array = arg2
+    add     ebx, [ebp + 8]  ; ebx = upper bound of array
+    mov     ecx, [ebp + 16] ; ecx = search term = arg3
 
     .while:
     cmp     esi, ebx
@@ -541,9 +585,9 @@ array_search:
     pop     esi
     pop     ebx
 
-    mov     esp, ebp        ; deallocate local var
-    pop     ebp             ; restore caller's base pointer
-
+    ; mov     esp, ebp        ; deallocate local var
+    ; pop     ebp             ; restore caller's base pointer
+    leave
     ret
     
 ; End  array_search -------------------------------------------------------
@@ -559,9 +603,10 @@ print_nl:
 ; Algo:     <algorithm>
 ;-------------------------------------------------------------------------------
 
-    mov     eax, NL_STR
+    ; mov     eax, NL_STR
+    push    NL_STR
     call    printstr
-    
+
     ret
     
 ; End  <procedure_label> -------------------------------------------------------
@@ -584,7 +629,7 @@ section     .bss
 
 section     .data
     next:   dd 1
-    NL_STR:  db 0x0a, NULL
+    NL_STR:  db " ",0x0a, NULL
 
     unit_buff_sz: equ 20
     buff_comma:     db ","
