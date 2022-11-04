@@ -9,7 +9,7 @@
 ## Binary Search Tree (BST)
 - the data stucture to hold the data
 - the constructor takes in a comparator function to order the set
-- left child is smaller than the parent
+- left child is smaller than or equal to the parent
 - right child is greater than the parent
 - duplicate is not added for the ordered set
 - use iterator to traversal through the tree
