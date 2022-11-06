@@ -14,39 +14,39 @@ public:
     BinarySearchTree() : root{nullptr}, itemQty{0} {}
 
     bool add(const T& item) {
-        if (empty())
-            root = new BSTNode<T>(item);
-        else
-            add(item, root, root->parent);
-        // (empty()) ? add() : add(item, root, root->parent);
+        // if (empty())
+        //     root = new BSTNode<T>(item);
+        // else
+        //     add(item, root, root->parent);
+        (empty()) ? addRoot(item) : add(item, root, root->parent);
         ++itemQty;
         return true;
     }
 
     bool remove(const T& item) {
         if (empty())
-            throw std::runtime_error("Empty!");
+            return false;
 
         return (root->item == item && size() == 1) ? remove() : remove(item, root);
     }
 
-    BSTNode<T>* find(const T& item) {
-        if (empty())
-            throw std::runtime_error("Empty!");
+    // BSTNode<T>* find(const T& item) {
+    //     if (empty())
+    //         return nullptr;
 
-        return find (item, root);
-    }
+    //     return find (item, root);
+    // }
 
     bool contains(const T& item) {
         if (empty())
-            throw std::runtime_error("Empty!");
+            return false;
 
         return contains(item, root);
     }
 
     void clear() {
         if (empty())
-            throw std::runtime_error("Empty!");
+            return;
 
         clear(root);
 
@@ -65,12 +65,25 @@ public:
         return root;
     }
 
+    // void inorderTraversal() {
+    //     inorderTraversal(root);
+    // }
+
+    void inorderTraversal(BSTNode<T>* root) {
+        if (root == nullptr)
+            return;
+
+        inorderTraversal(root->lchild);
+        std::cout << root->item << " ";
+        inorderTraversal(root->rchild);
+    }
+
 private:
     BSTNode<T>* root;
     uint64_t itemQty;
 
-    void add() {
-        // root = new BSTNode<T>(item);
+    void addRoot(const T& item) {
+        root = new BSTNode<T>(item);
     }
 
     void add(const T& item, BSTNode<T>* root, BSTNode<T>* parent) {
@@ -164,6 +177,15 @@ private:
 
         getMin(root->lchild);
     }
+
+    // T inorderTraversal(BSTNode<T>* root) {
+    //     if (root == nullptr)
+    //         return;
+
+    //     inorderTraversal(root->lchild);
+    //     return root->item;
+    //     inorderTraversal(root->rchild);
+    // }
 };
 
 #endif  /* BST_H */
