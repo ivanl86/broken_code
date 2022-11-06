@@ -9,13 +9,15 @@ struct BSTNode
     BSTNode<T>* lchild;
     BSTNode<T>* rchild;
 
+    // BSTNode() {}
+
     BSTNode(T item)
-        : BSTNode(item, nullptr, nullptr, nullptr) {}
+        : BSTNode<T>(item, nullptr, nullptr, nullptr) {}
 
-    BSTNode(T item, BSTNode<T> parent)
-        : BSTNode(item, parent, nullptr, nullptr) {}
+    BSTNode(T item, BSTNode<T>* parent)
+        : BSTNode<T>(item, parent, nullptr, nullptr) {}
 
-    BSTNode(T item, BSTNode<T> parent, BSTNode<T> lchild, BSTNode<T> rchild)
+    BSTNode(T item, BSTNode<T>* parent, BSTNode<T>* lchild, BSTNode<T>* rchild)
         : item{item}, parent{parent}, lchild{lchild}, rchild{rchild} {}
 };
 
