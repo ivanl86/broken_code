@@ -2,9 +2,12 @@
 
 #include "bst.h"
 
+#define TEST_VAL_0 100
 #define TEST_VAL_1 10
 #define TEST_VAL_2 15
 #define TEST_VAL_3 20
+#define TEST_VAL_4 5
+#define TEST_VAL_5 0
 
 void test_Add_Contains_Remove();
 
@@ -19,13 +22,30 @@ void test_Add_Contains_Remove()
 {
     BinarySearchTree<int> bst;
 
-    std::cout << (bst.empty() ? "SUCCEED: Tree is initially empty!\n" : "FAILED: Tree is not initially empty\n!");
-    bst.add(TEST_VAL_1);
-    std::cout << (bst.contains(TEST_VAL_1) ? "SUCCEED: Add\n" : "FAILED: Add\n");
-    std::cout << (bst.remove(0) ? "SUCCEED: Remove\n" : "FAILED: Remove\n");
+    std::cout << "START: test_Add_Contains_Remove\n";
 
+    std::cout << (bst.empty() ? "SUCCEED: Tree is initially empty!\n" : "FAILED: Tree is not initially empty\n!");
+
+    bst.add(TEST_VAL_1);
     bst.add(TEST_VAL_2);
-    std::cout << (bst.contains(TEST_VAL_2) ? "SUCCEED: Add\n" : "FAILED: Add\n");
     bst.add(TEST_VAL_3);
-    std::cout << (bst.contains(TEST_VAL_2) ? "SUCCEED: Add\n" : "FAILED: Add\n");
+    bst.add(TEST_VAL_4);
+    bst.add(TEST_VAL_5);
+
+    std::cout << (bst.contains(TEST_VAL_0) ? "SUCCEED: Added " : "FAILED: Added ") << TEST_VAL_0 << "\n";
+
+    std::cout << (bst.contains(TEST_VAL_1) ? "SUCCEED: Added " : "FAILED: Added ") << TEST_VAL_1 << "\n";
+    std::cout << (bst.contains(TEST_VAL_2) ? "SUCCEED: Added " : "FAILED: Added ") << TEST_VAL_2 << "\n";
+    std::cout << (bst.contains(TEST_VAL_3) ? "SUCCEED: Added " : "FAILED: Added ") << TEST_VAL_3 << "\n";
+    std::cout << (bst.contains(TEST_VAL_4) ? "SUCCEED: Added " : "FAILED: Added ") << TEST_VAL_4 << "\n";
+    std::cout << (bst.contains(TEST_VAL_5) ? "SUCCEED: Added " : "FAILED: Added ") << TEST_VAL_5 << "\n";
+
+    std::cout << "Before clear: Currently contains " << bst.size() << " item(s)\n";
+
+    // std::cout << (bst.remove(TEST_VAL_1) ? "SUCCEED: Removed " : "FAILED: Removed ") << TEST_VAL_1 << "\n";
+    // std::cout << (bst.remove(TEST_VAL_2) ? "SUCCEED: Removed " : "FAILED: Removed ") << TEST_VAL_2 << "\n";
+    // std::cout << (bst.remove(TEST_VAL_5) ? "SUCCEED: Removed " : "FAILED: Removed ") << TEST_VAL_5 << "\n";
+    bst.clear();
+
+    std::cout << "After clear: Currently contains " << bst.size() << " item(s)\n";
 }
