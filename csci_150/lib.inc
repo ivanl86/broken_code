@@ -1,3 +1,4 @@
+extern copy_int_array
 extern sum_array
 extern factorial
 extern printstr
@@ -13,6 +14,7 @@ extern current_time
 extern print_nl
 extern is_even
 extern array_search
+extern strcopy
 
 ; constant
 extern NL

@@ -12,49 +12,57 @@ _start:
     ; mov     eax, prompt
     ; call    printstr
     ; call print_nl
-    call srand
 
-    push prompt
-    call printstr
-    push prompt
-    call printstr
-    push prompt
-    call printstr
+    ; call srand
+
+    push    prompt
+    call    printstr
+    add     esp, 4
+    ; push    prompt
+    ; call    printstr
+    ; add     esp, 4
+    ; push    prompt
+    ; call    printstr
+    ; add     esp, 4
 
     ; push    buffer_sz
     ; push    buffer
     ; call    get_input
-    mov     eax, 8
-    push    eax
-    call    is_even
-    test    eax, 1
-    jz      not_even
-    if_even:
-    push    even_msg
-    call    printstr
-    jmp end
-    not_even:
-    push    not_even_msg
-    call    printstr
-    end:
+
+    ; mov     eax, 8
+    ; push    eax
+    ; call    is_even
+    ; test    eax, 1
+    ; jz      not_even
+    ; if_even:
+    ; push    even_msg
+    ; call    printstr
+    ; jmp end
+    ; not_even:
+    ; push    not_even_msg
+    ; call    printstr
+    ; end:
 
     ; push array_element
     ; push array
     ; call sum_array
-    mov eax, 9
-    push eax
-    push array_element
-    push array
-    call array_search
+
+    ; mov eax, 9
+    ; push eax
+    ; push array_element
+    ; push array
+    ; call array_search
 
     ; mov     eax, 10
-    push    buffer
-    push    eax
-    call    itoa
+    ; push    buffer
+    ; push    eax
+    ; call    itoa
+    ; add     esp, 8
 
-    ; mov     eax, buffer
-    push    buffer
-    call    printstr
+    ; ; mov     eax, buffer
+    ; push    buffer
+    ; call    printstr
+    ; add     esp, 4
 
     call    print_nl
 

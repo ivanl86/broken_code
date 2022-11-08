@@ -13,6 +13,8 @@ global current_time
 global print_nl
 global is_even
 global array_search
+global copy_int_array
+global strcopy
 
 ; constant
 global NL
@@ -27,6 +29,38 @@ global RAND_MAX
 ; why: Reusable procedures
 ; when: Fall 2022
 ;-------------------------------------------------------------------------------
+
+;------------------------------------------------------------------------------
+copy_int_array:
+;
+; Description: copy array of dwords from one buffer to another
+; Receives: arg1 src array
+;           arg2 dst array
+;           arg3 src size (number of element in src array)
+; Returns:  nothing
+; Requires: nothing
+; Notes:    dst buffer is expected to be the correct size
+; Algo:     none
+;-------------------------------------------------------------------------------
+
+    push    ebp
+    mov     ebp, esp
+    push    esi
+    push    edi
+
+    mov     esi, [ebp + 8]  ; ESI = arg1
+    mov     edi, [ebp + 12] ; EDI = arg2
+    mov     ecx, [ebp + 16] ; ECX = arg3
+
+    cld             ; set forward
+    rep     movsd   ; mov esi to edi until ECX = 0
+    
+    pop     edi
+    pop     esi
+    leave
+    ret
+    
+; End  copy_int_array -------------------------------------------------------
 
 
 ;-------------------------------------------------------------------------------
@@ -111,13 +145,40 @@ factorial:
     
 ; End  factorial -------------------------------------------------------
 
+;------------------------------------------------------------------------------
+strcopy:
+;
+; Description: copy from one string to another
+; Receives: arg1 = address of src string
+;           arg2 = address of dst string
+; Returns:  nothing
+; Requires: nothing
+; Notes:    none
+; Algo:     none
+;-------------------------------------------------------------------------------
+
+    push    ebp
+    mov     ebp, esp
+    push    esi
+    push    edi
+
+    lea     edi, [ebp + 12] ; EDI = arg2
+    lea     esi, [ebp + 8]  ; ESI = arg1
+
+    pop     edi
+    pop     esi
+    leave
+    ret
+    
+; End  strcopy -------------------------------------------------------
+
 
 ;-------------------------------------------------------------------------------
 strlen:
 ;
 ; Description: Calculates the size of a null-termainated string
-; Receives: arg1 = address of the string on stack
-; Returns:  EAX = the size of the string
+; Receives: arg1 = address of string on stack
+; Returns:  EAX = size of string
 ; Requires: The string must be null-terminated
 ; Notes:    none
 ; Algo:     none
@@ -125,21 +186,34 @@ strlen:
 
     push    ebp             ; preserve caller's base pointer
     mov     ebp, esp        ; set base of frame
+    push    edi             ; preserve EDI
 
-    push    esi             ; perserve esi
-    mov     esi, [ebp + 8]  ; esi = address of string = arg1
-    xor     eax, eax        ; eax will be the counter of none-null chars
+    mov     edi, [ebp + 8]  ; EDI = arg1
+    mov     al, NULL        ; AL = NULL
+    mov     ecx, 0xFFFF     ; ECX
 
-    .while:
-    cmp     byte [esi], NULL
-    je      .wend
-    inc     eax
-    inc     esi
-    jmp     .while
+    cld
+    repene  scasb
+    dec     edi
+    mov     eax, edi
+    lea     edx, [ebp + 8]
+    sub     eax, edx
 
-    .wend:
+    ; push    esi             ; perserve esi
+    ; mov     esi, [ebp + 8]  ; esi = address of string = arg1
+    ; xor     eax, eax        ; eax will be the counter of none-null chars
 
-    pop     esi
+    ; .while:
+    ; cmp     byte [esi], NULL
+    ; je      .wend
+    ; inc     eax
+    ; inc     esi
+    ; jmp     .while
+
+    ; .wend:
+
+    ; pop     esi
+    pop     edi
     leave
     ret
     
@@ -606,6 +680,7 @@ print_nl:
     ; mov     eax, NL_STR
     push    NL_STR
     call    printstr
+    add     esp, 4
 
     ret
     
