@@ -72,10 +72,7 @@ public:
         std::list<T> listA{A.toSequence()};
         std::list<T> listB{B.toSequence()};
         OrderedSet<T> set(A.comparator);
-        // if (type == UNION)
-        //     return unionSet(listA, listB, C);
-        // else if (type == INTERSECTION)
-        //     return intersection(listA, listB, C);
+
         return merge(listA, listB, set, type);
     }
 
@@ -119,26 +116,26 @@ private:
         toSequence(list, root->rchild);
     }
 
-    // static OrderedSet<T> merge(const std::list<T>& A, const std::list<T>& B, OrderedSet<T>& C, MERGE type) {
-    //     typename std::list<T>::iterator a{A};
-    //     typename std::list<T>::iterator b{B};
+    static OrderedSet<T> merge(const std::list<T>& A, const std::list<T>& B, OrderedSet<T>& C, MERGE type) {
+        typename std::list<T>::iterator a{A.begin()};
+        typename std::list<T>::iterator b{B.begin()};
 
-    //     while (a != A.end() && b != B.end()) {
-    //         if (*a < *b)
-    //             fromA(a++, C, type);
-    //         else if (*a == *b)
-    //             fromBoth(a++, b++, C, type);
-    //         else
-    //             fromB(b++, C, type);
-    //     }
+        while (a != A.end() && b != B.end()) {
+            if (*a < *b)
+                fromA(a++, C, type);
+            else if (*a == *b)
+                fromBoth(a++, b++, C, type);
+            else
+                fromB(b++, C, type);
+        }
 
-    //     while (a != A.end())
-    //         fromA(a++, C, type);
-    //     while (b != B.end())
-    //         fromB(b++, C, type);
+        while (a != A.end())
+            fromA(a++, C, type);
+        while (b != B.end())
+            fromB(b++, C, type);
 
-    //     return C;
-    // }
+        return C;
+    }
 
     static void fromA(const typename std::list<T>::iterator a, OrderedSet<T>& C, MERGE type) {
         if (type == UNION || type == SUBTRACT)

@@ -159,7 +159,7 @@ void test_ToSequence_Merge()
         std::cout << l << " ";
     std::cout << "\n";
 
-    // setC = OrderedSet<int>::merge(setA, setB, UNION);
+    setC = OrderedSet<int>::merge(setA, setB, UNION);
     // setD = OrderedSet<int>::merge(setA, setB, INTERSECTION);
     // setE = OrderedSet<int>::merge(setA, setB, SUBTRACT);
 
