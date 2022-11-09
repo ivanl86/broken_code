@@ -5,8 +5,6 @@
 #ifndef BST_H
 #define BST_H
 
-enum Extrema {MIN, MAX};
-
 template<typename T>
 class BinarySearchTree
 {

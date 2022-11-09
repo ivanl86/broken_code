@@ -13,58 +13,91 @@
 #define TEST_VAL_8 50
 
 void test_Insert_EraseItem_Empty_Clear();
+void test_ToSequence_UnionSet_Intersection();
 
 int main(int argc, char const *argv[])
 {
     test_Insert_EraseItem_Empty_Clear();
+    std::cout << "\n";
+    test_ToSequence_UnionSet_Intersection();
     return 0;
 }
 
 void test_Insert_EraseItem_Empty_Clear() {
     OrderedSet<int> set( [] (int l, int r) { return l > r; } );
+    uint64_t pos{4};
 
-    try {
-        std::cout << "Set is initially " << (set.empty() ? "" : "not ") << "empty\n";
-        std::cout << "Contains " << set.size() << " item(s) before Add\n";
+    std::cout << "START: test_Insert_EraseItem_Empty_Clear\n";
+    for(size_t i{0}; i < 50; ++i)
+        std::cout << "-";
+    std::cout << "\n";
 
-        std::cout << (set.insert(TEST_VAL_1) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_1 << "\n";
-        std::cout << (set.insert(TEST_VAL_2) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_2 << "\n";
-        std::cout << (set.insert(TEST_VAL_3) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_3 << "\n";
-        std::cout << (set.insert(TEST_VAL_4) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_4 << "\n";
-        std::cout << (set.insert(TEST_VAL_5) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_5 << "\n";
-        std::cout << (set.insert(TEST_VAL_6) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_6 << "\n";
-        std::cout << (set.insert(TEST_VAL_7) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_7 << "\n";
-        std::cout << (set.insert(TEST_VAL_8) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_8 << "\n";
-        std::cout << (set.insert(TEST_VAL_1) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_1 << "\n";
+    std::cout << "Set is initially " << (set.empty() ? "" : "not ") << "empty\n";
+    std::cout << "Contains " << set.size() << " item(s) before Add\n";
 
-        std::list<int>* orderedList = set.toSequence();
+    std::cout << (set.insert(TEST_VAL_1) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_1 << "\n";
+    std::cout << (set.insert(TEST_VAL_2) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_2 << "\n";
+    std::cout << (set.insert(TEST_VAL_3) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_3 << "\n";
+    std::cout << (set.insert(TEST_VAL_4) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_4 << "\n";
+    std::cout << (set.insert(TEST_VAL_5) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_5 << "\n";
+    std::cout << (set.insert(TEST_VAL_6) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_6 << "\n";
+    std::cout << (set.insert(TEST_VAL_7) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_7 << "\n";
+    std::cout << (set.insert(TEST_VAL_8) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_8 << "\n";
+    std::cout << (set.insert(TEST_VAL_1) ? "SUCCEED: Added " : "FAILED: Not added ") << TEST_VAL_1 << "\n";
 
-        std::cout << "Set is " << (set.empty() ? "" : "not ") << "empty after Add\n";
-        std::cout << "Contains " << set.size() << " item(s) after Add\n";
+    std::cout << "Set is " << (set.empty() ? "" : "not ") << "empty after Add\n";
+    std::cout << "Contains " << set.size() << " item(s) after Add\n";
 
-        set.inorderTraversal();
-        std::cout << "\n";
+    set.inorderTraversal();
+    std::cout << "\n";
 
-        std::cout << (set.erase(TEST_VAL_1) ? "SUCCEED: Erased " : "FAILED: Not erased ") << TEST_VAL_1 << "\n";
-        std::cout << (set.erase(TEST_VAL_3) ? "SUCCEED: Erased " : "FAILED: Not erased ") << TEST_VAL_3 << "\n";
+    std::cout << (set.erase(static_cast<uint64_t>(pos)) ? "SUCCEED: Erased " : "FAILED: Not erased ") << "at position " << pos << "\n";
 
-        std::cout << "Contains " << set.size() << " item(s) after Erase\n";
+    std::cout << (set.erase(TEST_VAL_1) ? "SUCCEED: Erased " : "FAILED: Not erased ") << TEST_VAL_1 << "\n";
+    std::cout << (set.erase(TEST_VAL_3) ? "SUCCEED: Erased " : "FAILED: Not erased ") << TEST_VAL_3 << "\n";
 
-        set.inorderTraversal();
-        std::cout << "\n";
+    set.inorderTraversal();
 
-        set.clear();
+    std::cout << "Contains " << set.size() << " item(s) after Erase\n";
 
-        std::cout << "Set is " << (set.empty() ? "" : "not ") << "empty after Clear\n";
-        std::cout << "Contains " << set.size() << " item(s) after Clear\n";
+    set.clear();
 
-        // while (!orderedList->empty())
-        //     std::cout << orderedList->()
-    }
-    catch(const std::exception& e) {
-        std::cerr << e.what() << '\n';
-    }
-    
+    std::cout << "Set is " << (set.empty() ? "" : "not ") << "empty after Clear\n";
+    std::cout << "Contains " << set.size() << " item(s) after Clear\n";
+
+    for(size_t i{0}; i < 50; ++i)
+        std::cout << "-";
+    std::cout << "\n";
+    std::cout << "END: test_Insert_EraseItem_Empty_Clear\n";
 }
 
-bool ascending = [] (int l, int r) { return l > r; };
+void test_ToSequence_UnionSet_Intersection()
+{
+    uint64_t array_sz{8};
+    int arrayA[8]{90,45,78,101,99,12,199,123};
+    int arrayB[8]{45,100,199,77,89,90,1,123};
+    OrderedSet<int> setA( [] (int l, int r) { return l > r; } );
+    OrderedSet<int> setB( [] (int l, int r) { return l > r; } );
+    OrderedSet<int> setC( [] (int l, int r) { return l > r; } );
+    std::list<int> list;
+
+    std::cout << "START: test_ToSequence_UnionSet_Intersection\n";
+    for(size_t i{0}; i < 50; ++i)
+        std::cout << "-";
+
+    std::cout << "\n";
+    for(size_t i{0}; i < array_sz; ++i) {
+        setA.insert(arrayA[i]);
+        setB.insert(arrayB[i]);
+    }
+
+    list = setA.toSequence();
+
+    for (int l : list)
+        std::cout << l << " ";
+    std::cout << "\n";
+
+    setC = OrderedSet<int>::unionSet(setA, setB);
+
+    std::cout << "END: test_ToSequence_UnionSet_Intersection\n";
+}

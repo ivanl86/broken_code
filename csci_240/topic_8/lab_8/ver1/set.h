@@ -28,13 +28,13 @@ class Set
     virtual uint64_t size() = 0;
 
     // returns a ordered sequence of the set items
-    virtual std::list<T>* toSequence() = 0;
+    virtual std::list<T> toSequence() = 0;
 
-    // returns a set created from the union of A and B
-    virtual Set<T>* unionSet(const Set<T>* A, const Set<T>* B) = 0;
+    // // returns a set created from the union of A and B
+    // virtual Set<T> unionSet(const Set<T> A, const Set<T> B) = 0;
 
-    // returns a set created from the intersection of A and B
-    virtual Set<T>* intersection(const Set<T>* A, const Set<T>* B) = 0;
+    // // returns a set created from the intersection of A and B
+    // virtual Set<T> intersection(const Set<T>& A, const Set<T>& B) = 0;
 };
 
 #endif  /* SET_H */
