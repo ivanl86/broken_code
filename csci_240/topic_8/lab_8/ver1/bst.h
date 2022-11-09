@@ -5,11 +5,16 @@
 #ifndef BST_H
 #define BST_H
 
+enum EXTREMA {
+    MIN, MAX
+};
+
 template<typename T>
 class BinarySearchTree
 {
 public:
-    BinarySearchTree() : root{nullptr}, itemQty{0} {}
+    BinarySearchTree(std::function<bool(T ,T)> comparator)
+        : root{nullptr}, itemQty{0}, comparator{comparator} {}
 
     bool add(const T& item) {
         // if (empty())
@@ -63,10 +68,6 @@ public:
         return root;
     }
 
-    // void inorderTraversal() {
-    //     inorderTraversal(root);
-    // }
-
     void inorderTraversal(BSTNode<T>* root) {
         if (root == nullptr)
             return;
@@ -80,6 +81,8 @@ private:
     BSTNode<T>* root;
     uint64_t itemQty;
 
+    std::function<bool(T ,T)> comparator;
+
     void addRoot(const T& item) {
         root = new BSTNode<T>(item);
     }
@@ -87,12 +90,14 @@ private:
     void add(const T& item, BSTNode<T>* root, BSTNode<T>* parent) {
         if (root == nullptr) {
             root = new BSTNode<T>(item, parent);
-            (parent->item > item) ? parent->lchild = root : parent->rchild = root;
+            // (parent->item > item) ? parent->lchild = root : parent->rchild = root;
+            (comparator(parent->item, item)) ? parent->lchild = root : parent->rchild = root;
             return;
         }
 
-        (root->item > item) ?
-            add(item, root->lchild, root) : add(item, root->rchild, root);
+        // (root->item > item)
+        (comparator(root->item, item))
+            ? add(item, root->lchild, root) : add(item, root->rchild, root);
     }
 
     bool remove() {
@@ -110,31 +115,41 @@ private:
 
         if (root->item == item) {
             if (root->lchild != nullptr) {
-                tmp = getMax(root->lchild);
+                // tmp = getMax(root->lchild);
+                tmp = getExtrema(root->lchild, MAX);
                 root->item = tmp->item;
-                (tmp == root->lchild) ? root->lchild = root->lchild->lchild : tmp->parent->rchild = tmp->lchild;
+                (tmp == root->lchild)
+                    ? root->lchild = root->lchild->lchild : tmp->parent->rchild = tmp->lchild;
+
                 delete tmp;
                 --itemQty;
                 return true;
             }
             else if (root->rchild != nullptr) {
-                tmp = getMin(root->rchild);
+                // tmp = getMin(root->rchild);
+                tmp = getExtrema(root->rchild, MIN);
                 root->item = tmp->item;
-                (tmp == root->rchild) ? root->rchild = nullptr : tmp->parent->lchild = nullptr;
+                (tmp == root->rchild)
+                    ? root->rchild = root->rchild->rchild : tmp->parent->lchild = tmp->rchild;
+
                 delete tmp;
                 --itemQty;
                 return true;
             }
             else {
-                (root->parent->item < root->item) ? root->parent->rchild = nullptr : root->parent->lchild = nullptr;
+                // (root->parent->item < root->item)
+                (comparator(root->item, root->parent->item))
+                    ? root->parent->rchild = nullptr : root->parent->lchild = nullptr;
+
                 delete tmp;
                 --itemQty;
                 return true;
             }
         }
 
-        (root->item > item) ?
-            remove(item, root->lchild) : remove(item, root->rchild);
+        // (root->item > item)
+        (comparator(root->item, item))
+            ? remove(item, root->lchild) : remove(item, root->rchild);
     }
 
     bool contains(T item, BSTNode<T>* root) {
@@ -144,8 +159,9 @@ private:
         if (root->item == item)
             return true;
 
-        (root->item > item) ?
-            contains(item, root->lchild) : contains(item, root->rchild);
+        // (root->item > item)
+        (comparator(root->item, item))
+            ? contains(item, root->lchild) : contains(item, root->rchild);
     }
 
     void clear(BSTNode<T>* root) {
@@ -157,8 +173,8 @@ private:
     }
 
     BSTNode<T>* getMax(BSTNode<T>* root) {
-        if (root == nullptr)
-            return root;
+        // if (root == nullptr)
+        //     return root;
 
         if (root->rchild == nullptr)
             return root;
@@ -167,13 +183,29 @@ private:
     }
 
     BSTNode<T>* getMin(BSTNode<T>* root) {
-        if (root == nullptr)
-            return root;
+        // if (root == nullptr)
+        //     return root;
 
         if (root->lchild == nullptr)
             return root;
 
         getMin(root->lchild);
+    }
+
+    BSTNode<T>* getExtrema(BSTNode<T>* root, const EXTREMA extrema) {
+        if (extrema == MAX) {
+            if (root->rchild == nullptr)
+                return root;
+
+            getExtrema(root->rchild, extrema);
+        }
+
+        if (extrema == MIN) {
+            if (root->lchild == nullptr)
+                return root;
+
+            getExtrema(root->lchild, extrema);
+        }
     }
 
     // T inorderTraversal(BSTNode<T>* root) {
