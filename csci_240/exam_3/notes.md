@@ -99,4 +99,33 @@ Subtract merge
 
 ##
 - V[i][w] = {max(V[i-1][w],V[i-1][w-wi] + V<sub>i</sub>), for w<sub>i</sub> <= w}
-            {v[i-1][w], otherwise} 
+            {v[i-1][w], otherwise}
+
+ = {A,C,T,G}
+   {[A-Z],[a-z],[0-9]}
+
+Let S' = substring of S.substring[0, size(s)-1]
+
+Longest Common Substring
+LCS(string S, string T)
+    return number of symbols in the lognest sub sequenece
+
+LCS(string S, string T)
+    if |S| or |T| == 0
+        return 0
+    if S.last = T.last
+        return 1 + LCS(S',T')
+    return max(LCS(S',T), LCS(S,T'))
+End LCS
+
+Fixed Sized Compression
+Z = {A,B,C,D,E}
+    65,66,67,68,69
+S = "ABCBCADEEABBCDE"
+|S| = 15
+|Z| = 5
+
+|S| * log2 |Z| + 55 bits
+15 * 3 + 55 = 100
+
+Loss-less Compression Algo
