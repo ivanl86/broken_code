@@ -15,6 +15,8 @@ global is_even
 global array_search
 global copy_int_array
 global strcopy
+global to_lower
+global to_upper
 
 ; constant
 global NL
@@ -146,11 +148,10 @@ factorial:
 ; End  factorial -------------------------------------------------------
 
 ;------------------------------------------------------------------------------
-strcopy:
+to_lower:
 ;
-; Description: copy from one string to another
-; Receives: arg1 = address of src string
-;           arg2 = address of dst string
+; Description: convert uppercase alphabet char to lowercase
+; Receives: arg1 = address of string
 ; Returns:  nothing
 ; Requires: nothing
 ; Notes:    none
@@ -159,11 +160,82 @@ strcopy:
 
     push    ebp
     mov     ebp, esp
+    push    edi
+    push    esi
+
+    mov     esi, [ebp + 8]  ; ESI = arg1
+    mov     edi, [ebp + 8]
+    cld                     ; forward
+
+    .loop:
+    cmp     esi, NULL       ; if ESI = NULL
+    je      .end            ; jump to .end
+    cmp     esi, 65
+    jb      .not_upper
+    cmp     esi, 90
+    ja      .not_upper
+    lodsb
+    add     al, 32
+    stosb
+    .not_upper:
+    xor     al, al
+    stosb
+    inc     esi
+    inc     edi
+    loop    .loop
+    .end:
+
+    pop     esi
+    pop     edi
+    leave
+    ret
+    
+; End  to_lower -------------------------------------------------------
+
+;------------------------------------------------------------------------------
+to_upper:
+;
+; Description: convert lowercase alphabet char to uppercase
+; Receives: arg1 = address of string
+; Returns:  nothing
+; Requires: nothing
+; Notes:    none
+; Algo:     none
+;-------------------------------------------------------------------------------
+
+    
+    
+    ret
+    
+; End  to_upper -------------------------------------------------------
+
+;------------------------------------------------------------------------------
+strcopy:
+;
+; Description: copy from one string to another
+; Receives: arg1 = address of src string
+;           arg2 = address of dst string
+; Returns:  nothing
+; Requires: nothing
+; Notes:    assume dst string has correct length
+; Algo:     none
+;-------------------------------------------------------------------------------
+
+    push    ebp
+    mov     ebp, esp
     push    esi
     push    edi
 
-    lea     edi, [ebp + 12] ; EDI = arg2
-    lea     esi, [ebp + 8]  ; ESI = arg1
+    push    dword [ebp + 8]
+    call    strlen          ; EAX = size of string
+    add     esp, 4
+
+    mov     edi, [ebp + 12] ; EDI = arg2
+    mov     esi, [ebp + 8]  ; ESI = arg1
+
+    cld
+    mov     ecx, eax        ; ECX = size of string (arg1)
+    rep     movsb
 
     pop     edi
     pop     esi
@@ -192,12 +264,12 @@ strlen:
     mov     al, NULL        ; AL = NULL
     mov     ecx, 0xFFFF     ; ECX
 
-    cld
-    repene  scasb
+    cld                     ; go forward
+    repne   scasb           ; repeat scan until it finds NULL
     dec     edi
-    mov     eax, edi
-    lea     edx, [ebp + 8]
-    sub     eax, edx
+    mov     eax, edi        ; EAX = address of null in string
+    mov     edx, [ebp + 8]  ; EDX = address of first char in string
+    sub     eax, edx        ; EAX = length of string
 
     ; push    esi             ; perserve esi
     ; mov     esi, [ebp + 8]  ; esi = address of string = arg1
@@ -240,8 +312,9 @@ printstr:
 
 ; do i need to pop it?
     push    dword [ebp + 8] ; strlen arg1 = addres of string 
-
     call    strlen          ; eax has the size of the string
+    add     esp, 4
+
     mov     edx, eax        ; edx = size of the string
     ; pop     ecx             ; restore the address into ecx
     mov     ecx, [ebp + 8]  ; ecx = address of string = arg1
