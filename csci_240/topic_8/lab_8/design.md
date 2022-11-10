@@ -30,4 +30,3 @@
 - clear()
     - removes all the nodes in the tree
 - empty()
-    - use 
