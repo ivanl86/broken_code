@@ -16,8 +16,22 @@ _start:
     ; call srand
 
     push    prompt
+    call    to_lower
+    add     esp, 4
+
+    push    prompt
     call    printstr
     add     esp, 4
+
+    ; push    buffer
+    ; push    prompt
+    ; call    strcopy
+    ; add     esp, 8
+
+    ; push    buffer
+    ; call    printstr
+    ; add     esp, 4
+
     ; push    prompt
     ; call    printstr
     ; add     esp, 4
@@ -76,12 +90,12 @@ buffer_sz:  equ 255
 buffer:     resb buffer_sz
 
 section     .data
-prompt:     dd "Goodbye cruel world. Hello MAKE!",NL , NULL
-array:      dd 1,2,3,4,5,6,7,8,10,9
+prompt:     db "Goodbye cruel world. Hello MAKE!",NL , NULL
+array:      db 1,2,3,4,5,6,7,8,10,9
 array_sz:   equ $ - array
 array_element: equ array_sz / 4
-even_msg:   dd "It is even",NL , NULL
-not_even_msg:   dd "It is not even",NL , NULL
+even_msg:   db "It is even",NL , NULL
+not_even_msg:   db "It is not even",NL , NULL
 
 ; push first
 ; arg 3 = ebp + 16

@@ -15,6 +15,8 @@ extern print_nl
 extern is_even
 extern array_search
 extern strcopy
+extern to_lower
+extern to_upper
 
 ; constant
 extern NL
