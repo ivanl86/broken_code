@@ -167,23 +167,19 @@ to_lower:
     mov     edi, [ebp + 8]
     cld                     ; forward
 
-    .loop:
-    cmp     esi, NULL       ; if ESI = NULL
-    je      .end            ; jump to .end
-    cmp     esi, 65
-    jb      .not_upper
-    cmp     esi, 90
-    ja      .not_upper
+    .while:
     lodsb
+    cmp     al, NULL
+    je      .wend
+    cmp     al, 65
+    jb      .skip
+    cmp     al, 90
+    ja      .skip
     add     al, 32
+    .skip:
     stosb
-    .not_upper:
-    xor     al, al
-    stosb
-    inc     esi
-    inc     edi
-    loop    .loop
-    .end:
+    loop    .while
+    .wend:
 
     pop     esi
     pop     edi
@@ -203,8 +199,32 @@ to_upper:
 ; Algo:     none
 ;-------------------------------------------------------------------------------
 
-    
-    
+    push    ebp
+    mov     ebp, esp
+    push    edi
+    push    esi
+
+    mov     esi, [ebp + 8]  ; ESI = arg1
+    mov     edi, [ebp + 8]
+    cld                     ; forward
+
+    .while:
+    lodsb
+    cmp     al, NULL
+    je      .wend
+    cmp     al, 97
+    jb      .skip
+    cmp     al, 122
+    ja      .skip
+    sub     al, 32
+    .skip:
+    stosb
+    loop    .while
+    .wend:
+
+    pop     esi
+    pop     edi
+    leave
     ret
     
 ; End  to_upper -------------------------------------------------------
