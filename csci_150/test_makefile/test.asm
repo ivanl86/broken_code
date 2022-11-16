@@ -16,7 +16,19 @@ _start:
     ; call srand
 
     push    prompt
+    call    printstr
+    add     esp, 4
+
+    push    prompt
     call    to_lower
+    add     esp, 4
+
+    push    prompt
+    call    printstr
+    add     esp, 4
+
+    push    prompt
+    call    to_upper
     add     esp, 4
 
     push    prompt
@@ -90,7 +102,7 @@ buffer_sz:  equ 255
 buffer:     resb buffer_sz
 
 section     .data
-prompt:     db "Goodbye cruel world. Hello MAKE!",NL , NULL
+prompt:     db "Goodbye Cruel World. Hello MAKE!",NL , NULL
 array:      db 1,2,3,4,5,6,7,8,10,9
 array_sz:   equ $ - array
 array_element: equ array_sz / 4
