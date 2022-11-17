@@ -401,11 +401,13 @@ get_input:
     int     0x80            ; performs syscall
 
     ; esi holds the address of input buffer
-    cmp     byte [esi + eax - 1], NL
+    ; cmp     byte [esi + eax - 1], NL
+    cmp     byte [esi + edx - 1], NL
     jnz     .endif
 
     .if:
-    mov     byte [esi + eax - 1], NULL
+    ; mov     byte [esi + eax - 1], NULL
+    mov     byte [esi + edx - 1], NULL
     dec     eax
     .endif:
 
