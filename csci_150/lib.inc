@@ -17,6 +17,7 @@ extern array_search
 extern strcopy
 extern to_lower
 extern to_upper
+extern getchar
 
 ; constant
 extern NL
