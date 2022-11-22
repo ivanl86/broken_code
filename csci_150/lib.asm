@@ -17,6 +17,7 @@ global copy_int_array
 global strcopy
 global to_lower
 global to_upper
+global getchar
 
 ; constant
 global NL
@@ -31,6 +32,33 @@ global RAND_MAX
 ; why: Reusable procedures
 ; when: Fall 2022
 ;-------------------------------------------------------------------------------
+
+;------------------------------------------------------------------------------
+getchar:
+;
+; Description:
+; Receives: <argument list>
+; Returns:  <return list>
+; Requires: <requirements>
+; Notes:    <notes>
+; Algo:     <algorithm>
+;-------------------------------------------------------------------------------
+
+    push     ebp
+    mov      ebp, esp 
+
+    push    dword 2
+    push    buff
+    call    get_input
+    
+    movzx   eax, byte [buff]
+
+    leave    
+    ret
+    
+; End  <procedure_label> -------------------------------------------------------
+
+
 
 ;------------------------------------------------------------------------------
 copy_int_array:
@@ -376,44 +404,27 @@ get_input:
 ;           arg2 = size of input buffer
 ; Returns:  none
 ; Requires: nothing
-; Notes:    remove newline char if it exists
+; Notes:    remove newline char if it exists and null terminate
 ; Algo:     none
 ;-------------------------------------------------------------------------------
 
-    ; push    ebx             ; preserve caller's base pointer
-    ; push    esi             ; preserve esi
-
-    ; mov     esi, eax        ;
-
     push    ebp             ; preserve caller's base pointer
     mov     ebp, esp        ; set base of frame  
-    push    esi             ; preserve esi
+    push    ebx
 
-    mov     esi, [ebp + 8]  ; esi = address of the input buffer = arg1
-
-    mov     ecx, [ebp + 8]  ; ecx = address of the input buffer = arg1
-    mov     edx, [ebp + 12] ; edx = size of the input buffer = arg2
-
-    ; mov     ecx, eax        ; mov the address of the input buffer from eax to ebx
-    ; mov     edx, ebx        ; mov the size of the input buffer from ebx to ecx
-    mov     eax, 3          ; mov 4 to eax indicates write operation
-    mov     ebx, 0          ; mov 1 to ebx indicates stdout
-    int     0x80            ; performs syscall
-
-    ; esi holds the address of input buffer
-    ; cmp     byte [esi + eax - 1], NL
-    cmp     byte [esi + edx - 1], NL
-    jnz     .endif
-
-    .if:
-    ; mov     byte [esi + eax - 1], NULL
-    mov     byte [esi + edx - 1], NULL
+    mov     eax, 3          ; read
+    mov     ebx, 0          ; set cin
+    mov     ecx, [ebp + 8]  ; set address ob input buffer
+    mov     edx, [ebp + 12] ; set input size
+    int     0x80
+    
     dec     eax
-    .endif:
+    mov     ebx, [ebp + 8] 
+    add     ebx, eax
+    mov     byte [ebx], NULL
 
-    pop     esi
+    pop     ebx    
     leave
-    ; pop     ebx             ; restore caller's base pointer
     ret                     ; return the number of characters enetered
 
 ; End get_input------------------------------------------------------------------
@@ -448,38 +459,18 @@ is_even:
 ;-------------------------------------------------------------------------------
 atoi:
 ;
-; Description: convert ascii representation of a unsigned integer to an unsigned integer
+; Description: convert null terminated representation of a unsigned integer to an unsigned integer
 ; Receives: arg1 = address of a NULL terminated string = EDX
 ; Returns:  EAX = converted unsigned integer value
 ; Requires: nothing
 ; Notes:    none
 ; Algo:     use horner's method
 ;-------------------------------------------------------------------------------
-
-    ; xor     eax, eax        ; clear eax
-    ; xor     ebx, ebx        ; clear ebx
-    ; xor     ecx, ecx        ; clear ecx
-    ; mov     ebx, 10         ; set ebx to 10
-    ; mov     esi, edx        ; mov address of string from edx to esi
-
-    ; .convert:
-    ; movzx   ecx, byte [esi] ; mov the nex char to ecx
-    ; cmp     ecx, 48         ; 0 in ASCII = 48
-    ; jl      .endConvert     ; end if it is less than 0
-    ; cmp     ecx, 57         ; 9 in ASCII = 57
-    ; jg      .endConvert     ; end if it is greater than 9
-    ; mul     ebx             ; mul eax by 10
-    ; sub     ecx, 48         ; sub 48 to convert the char to number 
-    ; add     eax, ecx        ; add the number to eax
-    ; inc     esi             ; go to the nex char
-    ; jmp     .convert
-    ; .endConvert:
-
-    push    ebp
+    push    ebp                     ; setup frame
     mov     ebp, esp
-    push    esi
+    push    esi                     ; preserve esi
 
-    mov     esi, [ebp + 8]
+    mov     esi, [ebp + 8]          
     mov     eax, 0
     mov     ecx, 10
     movzx   edx, byte [esi]
@@ -496,8 +487,8 @@ atoi:
     jmp     .while
     .wend:
 
-    pop     esi
-    leave
+    pop     esi                     ; retore esi
+    leave                           ; teardown frame
     ret
     
 ; End atoi ---------------------------------------------------------------------
@@ -796,12 +787,13 @@ FALSE:      equ 0x00        ; false = 0
     RAND_MAX: equ RANDC4 - 1
 
 section     .bss
+    buff_sz: equ 20
+    buff:    resb buff_sz
 
 section     .data
     next:   dd 1
     NL_STR:  db " ",0x0a, NULL
 
-    unit_buff_sz: equ 20
     buff_comma:     db ","
     buff_space:     db " "
 
