@@ -18,6 +18,8 @@ global strcopy
 global to_lower
 global to_upper
 global getchar
+global print_int_array
+global exit
 
 ; constant
 global NL
@@ -36,12 +38,12 @@ global RAND_MAX
 ;------------------------------------------------------------------------------
 getchar:
 ;
-; Description:
-; Receives: <argument list>
-; Returns:  <return list>
-; Requires: <requirements>
-; Notes:    <notes>
-; Algo:     <algorithm>
+; Description: get a char input from user
+; Receives: nothing
+; Returns:  EAX = character
+; Requires: nothing
+; Notes:    none
+; Algo:     none
 ;-------------------------------------------------------------------------------
 
     push     ebp
@@ -56,8 +58,36 @@ getchar:
     leave    
     ret
     
-; End  <procedure_label> -------------------------------------------------------
+; End  getchar -------------------------------------------------------
 
+;------------------------------------------------------------------------------
+printchar:
+;
+; Description: print a char
+; Receives: arg1 = char
+; Returns:  nothing
+; Requires: nothing
+; Notes:    none
+; Algo:     none
+;-------------------------------------------------------------------------------
+
+    push    ebp
+    mov     ebp, esp
+    push    edi
+
+    mov     eax, [ebp + 8]
+    mov     [buff], al
+    mov     byte [buff + 1], NULL
+
+    push    buff
+    call    printstr
+    add     esp, 4
+
+    pop     edi
+    leave
+    ret
+    
+; End  printchar -------------------------------------------------------
 
 
 ;------------------------------------------------------------------------------
@@ -358,7 +388,6 @@ printstr:
     mov     ebp, esp        ; set base of frame
     push    ebx             ; preserve caller's base pointer
 
-; do i need to pop it?
     push    dword [ebp + 8] ; strlen arg1 = addres of string 
     call    strlen          ; eax has the size of the string
     add     esp, 4
@@ -378,20 +407,34 @@ printstr:
 ; End sum_array------------------------------------------------------------------
 
 ;------------------------------------------------------------------------------
-print_array:
+print_int_array:
 ;
 ; Description:
-; Receives: EAX = address of the array
-;           EBX = the number of element in the array
+; Receives: arg1 = address of the array
+;           arg2 = the number of element in the array
 ; Returns:  none
 ; Requires: nothing
 ; Notes:    none
 ; Algo:     none
 ;-------------------------------------------------------------------------------
 
-    .while:
+    push    ebp
+    mov     ebp, esp
 
-    
+    mov     ecx, [ebp + 12]
+    lea     edi, [ebp + 8]
+
+    .loop:
+    push    buff
+    push    edi
+    call    itoa
+    add     esp, 8
+    push    buff
+    call    printstr
+    add     esp, 4
+    loop    .loop
+
+    leave    
     ret
     
 ; End  <procedure_label> -------------------------------------------------------
@@ -399,7 +442,7 @@ print_array:
 ;--------------------------------------------------------------------------------
 get_input:
 ;
-; Descriptions: Get an input from the user
+; Descriptions: Get a string input from the user
 ; Receives: arg1 = address of input buffer
 ;           arg2 = size of input buffer
 ; Returns:  none
@@ -755,7 +798,7 @@ array_search:
 ;------------------------------------------------------------------------------
 print_nl:
 ;
-; Description:
+; Description: print new line
 ; Receives: <argument list>
 ; Returns:  <return list>
 ; Requires: <requirements>
@@ -772,6 +815,27 @@ print_nl:
     
 ; End  <procedure_label> -------------------------------------------------------
 
+;------------------------------------------------------------------------------
+exit:
+;
+; Description: exit the program
+; Receives: arg1 = exit code
+; Returns:  <return list>
+; Requires: <requirements>
+; Notes:    <notes>
+; Algo:     <algorithm>
+;-------------------------------------------------------------------------------
+
+    push    ebp
+    mov     ebp, esp
+    mov     eax, 1      ; invoke SYS_EXIT (kernel opcode 1)
+    mov     ebx, [ebp + 8]      ; return 0 status on exit - 'No Errors'
+    int     80h
+    ; leave
+    ; ret
+    
+; End  <procedure_label> -------------------------------------------------------
+
 ;-------------------------------------------------------------------------------
 ; constant
 NL:         equ 0x0a        ; a newline character
@@ -780,22 +844,24 @@ NULL:       equ 0x00        ; a zero character
 TRUE:       equ 0x01        ; true = 1
 FALSE:      equ 0x00        ; false = 0
 
-    RANDC1: equ 1103515245
-    RANDC2: equ 12345
-    RANDC3: equ 65536
-    RANDC4: equ 32768
-    RAND_MAX: equ RANDC4 - 1
+RANDC1: equ 1103515245
+RANDC2: equ 12345
+RANDC3: equ 65536
+RANDC4: equ 32768
+RAND_MAX: equ RANDC4 - 1
 
 section     .bss
-    buff_sz: equ 20
-    buff:    resb buff_sz
+
+buff_sz: equ 20
+buff:    resb buff_sz
 
 section     .data
-    next:   dd 1
-    NL_STR:  db " ",0x0a, NULL
 
-    buff_comma:     db ","
-    buff_space:     db " "
+next:   dd 1
+NL_STR:  db " ",0x0a, NULL
+
+buff_comma:     db ","
+buff_space:     db " "
 
     ; n_0:    equ 1103515245
     ; n_1:    equ 12345
