@@ -18,8 +18,6 @@ extern strcopy
 extern to_lower
 extern to_upper
 extern getchar
-extern print_int_array
-extern exit
 
 ; constant
 extern NL
