@@ -18,8 +18,10 @@ extern strcopy
 extern to_lower
 extern to_upper
 extern get_uint
+extern print_uint
 extern getchar
-extern print_int_array
+extern printchar
+extern print_intarray
 extern exit
 
 

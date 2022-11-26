@@ -8,12 +8,34 @@ section     .text
 global      _start
 
 _start:
-    call    get_uint
-    mov     [val], eax
+    ; call    get_uint
+    ; mov     [val], eax
 
-break:
-    call    getchar
-    mov     ecx, eax
+    ; add     esp, 4
+
+    ; push    eax
+    ; call    print_uint
+    ; add     esp, 4
+
+    push    dword [buff_comma]
+    call    printchar
+    add     esp, 4
+
+; break:
+;     call    getchar
+;     mov     ecx, eax
+
+;     push    eax
+;     call    printchar
+;     add     esp, 4
+
+;     call    print_nl
+;     add     esp, 4
+
+    ; push    array_sz
+    ; push    int_array
+    ; call    print_intarray
+    ; add     esp, 8
 
     ;push    dword buff_sz
     ;push    buff
@@ -39,3 +61,7 @@ val_sz:     equ 1
 val:        resd val_sz
 
 section     .data
+int_array:  dd 89, 34, 56, 12, 90, 89
+array_sz:   equ ($ - int_array) / 4
+
+buff_comma:     db 44

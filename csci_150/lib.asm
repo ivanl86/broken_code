@@ -18,9 +18,11 @@ global strcopy
 global to_lower
 global to_upper
 global getchar
+global printchar
 global print_intarray
 global exit
 global get_uint
+global print_uint
 
 ; constant
 global NL
@@ -59,6 +61,34 @@ get_uint:
     ret
     
 ; End  get_uint -------------------------------------------------------
+
+;------------------------------------------------------------------------------
+print_uint:
+;
+; Description: print an int
+; Receives: <argument list>
+; Returns:  <return list>
+; Requires: <requirements>
+; Notes:    <notes>
+; Algo:     <algorithm>
+;-------------------------------------------------------------------------------
+
+    push    ebp
+    mov     ebp, esp
+
+    push    buff
+    push    dword [ebp + 8]
+    call    itoa
+    add     esp, 8
+
+    push    buff
+    call    printstr
+    add     esp, 4
+
+    leave
+    ret
+    
+; End  print_uint -------------------------------------------------------
 
 
 ;------------------------------------------------------------------------------
@@ -435,7 +465,7 @@ printstr:
 ;------------------------------------------------------------------------------
 print_intarray:
 ;
-; Description:
+; Description: print an array of dword unsigned integer
 ; Receives: arg1 = address of the array
 ;           arg2 = the number of element in the array
 ; Returns:  none
@@ -450,20 +480,17 @@ print_intarray:
     mov     ecx, [ebp + 12]
     lea     edi, [ebp + 8]
 
-    .loop:
-    push    buff
+    .print:
     push    edi
-    call    itoa
-    add     esp, 8
-    push    buff
-    call    printstr
+    call    print_uint
     add     esp, 4
-    loop    .loop
+    add     edi, 4
+    loop    .print
 
     leave    
     ret
     
-; End  <procedure_label> -------------------------------------------------------
+; End  print_intarray -------------------------------------------------------
 
 ;--------------------------------------------------------------------------------
 get_input:
@@ -567,7 +594,7 @@ itoa:
 ;
 ; Description: converts an unsigned integer to a null-terminated string representation
 ; Receives: arg1 = unsigned integer value = eax, last to push
-;           arg2 = address of string buffer = ebx, push before arg1
+;           arg2 = address of string buffer = edi, push before arg1
 ; Returns:  nothing
 ; Requires: nothing
 ; Notes:    none
