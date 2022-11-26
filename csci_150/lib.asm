@@ -20,6 +20,7 @@ global to_upper
 global getchar
 global print_int_array
 global exit
+global get_uint
 
 ; constant
 global NL
@@ -34,6 +35,31 @@ global RAND_MAX
 ; why: Reusable procedures
 ; when: Fall 2022
 ;-------------------------------------------------------------------------------
+
+;------------------------------------------------------------------------------
+get_uint:
+;
+; Description: get an unsigned integer input from user
+; Receives: nothing
+; Returns:  EAX = unsigned int
+; Requires: nothing
+; Notes:    none
+; Algo:     none
+;-------------------------------------------------------------------------------
+
+    push    buff_sz
+    push    buff
+    call    get_input
+    add     esp, 8
+
+    push    buff
+    call    atoi
+    add     esp, 4
+    
+    ret
+    
+; End  get_uint -------------------------------------------------------
+
 
 ;------------------------------------------------------------------------------
 getchar:

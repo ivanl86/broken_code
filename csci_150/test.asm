@@ -8,17 +8,23 @@ section     .text
 global      _start
 
 _start:
+    call    get_uint
+    mov     [val], eax
+
+break:
+    call    getchar
+    mov     ecx, eax
 
     ;push    dword buff_sz
     ;push    buff
     ;call    get_input
 
-    call    getchar
-    cmp     al, 'g'
+    ; call    getchar
+    ; cmp     al, 'g'
 
 
-    push    buff
-    call    atoi
+    ; push    buff
+    ; call    atoi
 ; exit:  
     ; mov     eax, 1      ; invoke SYS_EXIT (kernel opcode 1)
     ; mov     ebx, 0      ; return 0 status on exit - 'No Errors'
@@ -28,6 +34,8 @@ _start:
 
 section     .bss
 buff_sz:    equ 150
-buff:      resb buff_sz
+buff:       resb buff_sz
+val_sz:     equ 1
+val:        resd val_sz
 
 section     .data
