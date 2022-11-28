@@ -17,9 +17,9 @@ _start:
     ; call    print_uint
     ; add     esp, 4
 
-    push    dword [buff_comma]
-    call    printchar
-    add     esp, 4
+    ; push    dword [buff_comma]
+    ; call    printchar
+    ; add     esp, 4
 
 ; break:
 ;     call    getchar
@@ -32,11 +32,37 @@ _start:
 ;     call    print_nl
 ;     add     esp, 4
 
+    push    array_sz
+    push    int_array
+    call    print_int_array
+    add     esp, 8
+
+    call    print_nl
+
+    ; push    dword 100
     ; push    array_sz
     ; push    int_array
-    ; call    print_intarray
-    ; add     esp, 8
+    ; call    array_search
+    ; add     esp, 12
 
+    ; cmp     eax, -1
+    ; je      .end
+
+    ; push    dword [int_array + (eax * 4)]
+    ; call    print_uint
+    ; add     esp, 4
+    ; .end:
+
+    push    array_sz
+    push    int_array
+    call    sum_int_array
+    add     esp, 8
+
+    push    eax
+    call    print_uint
+    add     esp, 4
+
+    call    print_nl
     ;push    dword buff_sz
     ;push    buff
     ;call    get_input
@@ -61,7 +87,7 @@ val_sz:     equ 1
 val:        resd val_sz
 
 section     .data
-int_array:  dd 89, 34, 56, 12, 90, 89
+int_array:  dd 1,2,3,7,8,9;89, 34, 56, 12, 90, 43, 100, 2, 18953, 78295
 array_sz:   equ ($ - int_array) / 4
 
 buff_comma:     db 44

@@ -1,5 +1,5 @@
 extern copy_int_array
-extern sum_array
+extern sum_int_array
 extern factorial
 extern printstr
 extern get_input
@@ -21,7 +21,7 @@ extern get_uint
 extern print_uint
 extern getchar
 extern printchar
-extern print_intarray
+extern print_int_array
 extern exit
 
 

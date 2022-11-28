@@ -1,4 +1,4 @@
-global sum_array
+global sum_int_array
 global factorial
 global printstr
 global get_input
@@ -19,7 +19,7 @@ global to_lower
 global to_upper
 global getchar
 global printchar
-global print_intarray
+global print_int_array
 global exit
 global get_uint
 global print_uint
@@ -66,11 +66,11 @@ get_uint:
 print_uint:
 ;
 ; Description: print an int
-; Receives: <argument list>
-; Returns:  <return list>
-; Requires: <requirements>
-; Notes:    <notes>
-; Algo:     <algorithm>
+; Receives: arg1 = value of int
+; Returns:  nothing
+; Requires: nothing
+; Notes:    push value of int not address of int
+; Algo:     none
 ;-------------------------------------------------------------------------------
 
     push    ebp
@@ -123,7 +123,7 @@ printchar:
 ; Receives: arg1 = char
 ; Returns:  nothing
 ; Requires: nothing
-; Notes:    none
+; Notes:    push value of char not address of char
 ; Algo:     none
 ;-------------------------------------------------------------------------------
 
@@ -180,7 +180,7 @@ copy_int_array:
 
 
 ;-------------------------------------------------------------------------------
-sum_array:
+sum_int_array:
 ;
 ; Descriptions: Sums the integer (dwords) elements of an array
 ; Receives: arg1 = address of array
@@ -211,7 +211,7 @@ sum_array:
     leave
     ret
 
-; End sum_array-----------------------------------------------------------------
+; End sum_int_array-----------------------------------------------------------------
 
 ;------------------------------------------------------------------------------
 factorial:
@@ -460,37 +460,68 @@ printstr:
     leave
     ret
 
-; End sum_array------------------------------------------------------------------
+; End sum_int_array------------------------------------------------------------------
 
 ;------------------------------------------------------------------------------
-print_intarray:
+print_int_array:
 ;
 ; Description: print an array of dword unsigned integer
 ; Receives: arg1 = address of the array
 ;           arg2 = the number of element in the array
 ; Returns:  none
 ; Requires: nothing
-; Notes:    none
+; Notes:    Print out format: { a, b, c, d }
 ; Algo:     none
 ;-------------------------------------------------------------------------------
 
     push    ebp
     mov     ebp, esp
 
+    push    dword [buff_op_brace]
+    call    printchar
+    add     esp, 4
+
     mov     ecx, [ebp + 12]
-    lea     edi, [ebp + 8]
+    mov     esi, [ebp + 8]
 
     .print:
-    push    edi
+    push    ecx
+
+    push    dword [buff_space]
+    call    printchar
+    add     esp, 4
+
+    mov     eax, [esi]
+    push    eax
     call    print_uint
     add     esp, 4
-    add     edi, 4
+    add     esi, 4
+
+    pop     ecx
+    cmp     ecx, 1
+    push    ecx
+    je      .no_comma
+
+    .print_comma:
+    push    dword [buff_comma]
+    call    printchar
+    add     esp, 4
+    .no_comma:
+    pop     ecx
     loop    .print
+
+    push    dword [buff_space]
+    call    printchar
+    add     esp, 4
+
+    push    dword [buff_cl_brace]
+    call    printchar
+    add     esp, 4
 
     leave    
     ret
     
-; End  print_intarray -------------------------------------------------------
+; End  print_int_array -------------------------------------------------------
 
 ;--------------------------------------------------------------------------------
 get_input:
@@ -916,4 +947,6 @@ NL_STR:     db " ",0x0a, NULL
 
 buff_comma:     db ","
 buff_space:     db " "
+buff_op_brace:  db "{"
+buff_cl_brace:  db "}"
 ; End constant------------------------------------------------------------------
