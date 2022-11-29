@@ -3,6 +3,7 @@ STRUC   Student
     .id:    resb 10
     .name:  resb 150
     .grade: resb 1
+    .next:  resd 1
 EBDSTRUC
 
 
@@ -39,10 +40,11 @@ get_stud_qty:
 
 
 section .bss
-
-section .bss
 buff_sz:    equ 150
 buff:       resb buff_sz
+
+student_sz:     equ 30
+student_array:  resb (student_size * student_sz)
 
 
 section .data
