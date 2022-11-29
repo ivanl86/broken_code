@@ -906,7 +906,7 @@ exit:
 ; Receives: arg1 = exit code
 ; Returns:  <return list>
 ; Requires: <requirements>
-; Notes:    <notes>
+; Notes:    arg1 = zero indicate "No Errors" or one inndicates "With Errors"
 ; Algo:     <algorithm>
 ;-------------------------------------------------------------------------------
 
