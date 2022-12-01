@@ -23,6 +23,11 @@ extern getchar
 extern printchar
 extern print_int_array
 extern exit
+extern file_open
+extern file_close
+extern file_read
+extern file_write
+extern file_creat
 
 
 ; constant

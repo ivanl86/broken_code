@@ -23,6 +23,11 @@ global print_int_array
 global exit
 global get_uint
 global print_uint
+global file_open
+global file_close
+global file_read
+global file_write
+global file_creat
 
 ; constant
 global NL
@@ -37,6 +42,143 @@ global RAND_MAX
 ; why: Reusable procedures
 ; when: Fall 2022
 ;-------------------------------------------------------------------------------
+
+;------------------------------------------------------------------------------
+file_open:
+;
+; Description: open a file
+; Receives: arg1 = address of file
+;           arg2 = access mode {0 = rd, 1 = wr, 2 = rd n wr}
+; Returns:  <return list>
+; Requires: <requirements>
+; Notes:    <notes>
+; Algo:     <algorithm>
+;-------------------------------------------------------------------------------
+
+    push    ebp
+    mov     ebp, esp
+    push    ebx
+
+    mov     eax, 5          ; EAX = sys_open
+    mov     ebx, [ebp + 8]  ; EBX = src file name
+    mov     ecx, [ebp + 12] ; ECX = access mode
+    mov     edx, ALL_PERM   ; EDX = permission
+    int     0x80            ; perform sys_call
+
+    pop     ebx
+    leave
+    ret
+    
+; End  file_open -------------------------------------------------------
+
+;------------------------------------------------------------------------------
+file_close:
+;
+; Description: close a file
+; Receives: arg1 = file descriptor
+; Returns:  <return list>
+; Requires: <requirements>
+; Notes:    <notes>
+; Algo:     <algorithm>
+;-------------------------------------------------------------------------------
+
+    push    ebp
+    mov     ebp, esp
+    push    ebx
+
+    mov     eax, 6          ; EAX = sys_close
+    mov     ebx, [ebp + 8]  ; EBX = file descriptor
+    int     0x80            ; perform sys_call
+    
+    pop     ebx
+    leave
+    ret
+    
+; End  file_close -------------------------------------------------------
+
+;------------------------------------------------------------------------------
+file_read:
+;
+; Description: read from file
+; Receives: arg1 = file descriptor
+;           arg2 = address of buffer
+;           arg3 = buffer size
+; Returns:  EAX = number of bytes read
+; Requires: <requirements>
+; Notes:    <notes>
+; Algo:     <algorithm>
+;-------------------------------------------------------------------------------
+
+    push    ebp
+    mov     ebp, esp
+    push    ebx
+
+    mov     eax, 3          ; EAX = sys_read
+    mov     ebx, [ebp + 8]  ; EBX = file descriptor
+    mov     ecx, [ebp + 12] ; ECX = buff
+    mov     edx, [ebp + 16] ; EDX = buff size
+    int     0x80            ; perform sys_call
+    
+    pop     ebx
+    leave
+    ret
+    
+; End  file_read -------------------------------------------------------
+
+;------------------------------------------------------------------------------
+file_write:
+;
+; Description: write to file
+; Receives: arg1 = file descriptor
+;           arg2 = address of buffer
+;           arg3 = buffer size
+; Returns:  <return list>
+; Requires: <requirements>
+; Notes:    <notes>
+; Algo:     <algorithm>
+;-------------------------------------------------------------------------------
+
+    push    ebp
+    mov     ebp, esp
+    push    ebx
+
+    mov     eax, 4          ; EAX = sys_wirte
+    mov     ebx, [ebp + 8]  ; EBX = file descriptor
+    mov     ecx, [ebp + 12] ; ECX = buff
+    mov     edx, [ebp + 16] ; EDX = buff size
+    int     0x80            ; perform sys_call
+    
+    pop     ebx
+    leave
+    ret
+    
+; End  file_write -------------------------------------------------------
+
+;------------------------------------------------------------------------------
+file_creat:
+;
+; Description:
+; Receives: arg1 = address of file
+; Returns:  EAX = file descriptor
+; Requires: <requirements>
+; Notes:    <notes>
+; Algo:     <algorithm>
+;-------------------------------------------------------------------------------
+
+    push    ebp
+    mov     ebp, esp
+    push    ebx
+
+    mov     eax, 8          ; EAX = sys_creat
+    mov     ebx, [ebp + 8]  ; EBX = buff
+    mov     ecx, ALL_PERM   ; ECX = permission
+    int     0x80            ; perform sys_call
+
+    pop     ebx
+    leave
+    ret
+    
+; End  file_creat -------------------------------------------------------
 
 ;------------------------------------------------------------------------------
 get_uint:
@@ -934,6 +1076,10 @@ RANDC2:     equ 12345
 RANDC3:     equ 65536
 RANDC4:     equ 32768
 RAND_MAX:   equ RANDC4 - 1
+RD_Mode:      equ 0
+WR_Mode:    equ 1
+RD_WR_Mode: equ 2
+ALL_PERM:   equ 0o777
 
 section     .bss
 
