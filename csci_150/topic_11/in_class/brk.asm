@@ -45,7 +45,7 @@ _start:
     push    eax         ; holds the top of heap mem address
     call    print_uint
     call    print_nl
-    
+
     push    dword 0
     call    exit
 
