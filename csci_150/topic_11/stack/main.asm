@@ -15,5 +15,6 @@ exit:
     int     80h
 
 section     .bss
+    head:   resd node_size
 
 section     .data
