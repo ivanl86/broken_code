@@ -21,20 +21,20 @@ _start:
     call    print_uint
     call    print_nl
 
-    ; allocate 4096 bytes
+    ; allocate 8 bytes
     mov     eax, 0x2d   ; sys_brk
     pop     ebx         ; EBX = ? EAX = the top of heap
-    add     ebx, 4096   ; allocate 4096 bytes on the heap
+    add     ebx, 8      ; allocate 8 bytes on the heap
     int     0x80        ; perform sys_call
 
-    push    ebx         ; holds the top of heap mem address + 4096
+    push    ebx         ; holds the top of heap mem address + 8
     call    print_uint
     call    print_nl
 
-    ; deallocate 4096 bytes
+    ; deallocate 8 bytes
     mov     eax, 0x2d   ; sys_brk
     pop     ebx         ; EBX = the top of heap
-    sub     ebx, 4096   ; ? deallocate 4096 bytes
+    sub     ebx, 8      ; ? deallocate 8 bytes
     int     0x80        ; perform sys_call
 
     ; get the mem address of the top of heap

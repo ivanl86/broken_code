@@ -1,2 +1,0 @@
-extern  calloc
-extern  malloc

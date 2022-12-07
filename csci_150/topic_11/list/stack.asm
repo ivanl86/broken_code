@@ -66,9 +66,3 @@ free:
     ret
     
 ; End  <procedure_label> -------------------------------------------------------
-
-section     .text
-STRUC list
-    .val:   resd 1
-    .next:  resd 1
-ENDSTRUC
