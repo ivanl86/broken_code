@@ -41,7 +41,7 @@ public:
     }
 
     T popFront() {
-        Node<T>* tmp;
+        Node<T>* tmp{nullptr};
         T item;
 
         if (isEmpty())
@@ -59,7 +59,7 @@ public:
     }
 
     T popBack() {
-        Node<T>* tmp;
+        Node<T>* tmp{nullptr};
         T item;
 
         if (isEmpty())
@@ -89,7 +89,7 @@ public:
     }
 
     void clear() {
-        Node<T>* tmp;
+        Node<T>* tmp{nullptr};
 
         if (isEmpty())
             throw std::runtime_error("Pop on empty queue");
