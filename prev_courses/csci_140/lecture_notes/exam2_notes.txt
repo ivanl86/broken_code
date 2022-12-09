@@ -1,0 +1,92 @@
+
+// start is the shifting value or the first number in the desired range of consecutive integers
+// end is the scaling factor or the width of the desired range of consecutive integers
+int random(int start, int end)
+{
+    // return (start + rand() % end);
+	return rand() % (end - start + 1) + start;
+}
+
+// random header random number generator
+int rand(int start, int end) 
+{
+	static std::random_device rd;
+	static std::mt19934 rndGen{rd()};
+	static std::uniform_int_distribution<int> uniformDist{start, end};
+	return uniformDist(rd);
+}
+
+// A function prototype is a declaration of a function
+void func(int, int &, int *) // (pass by value, pass by reference, pass by pointer)
+
+// & is a unary operator or the "the address of" operator
+// & operator assgin the address
+
+// * is a unary operator commonly referred to as the indirection operator
+// or dereferencing operator
+// * operator is used to dereferencing a pointer
+
+// the scope of a function is the region of a program
+// in which the function is known and accessible
+
+// function signature in a function prototype includes the name of the function
+// and the types and numbers of its arguments
+
+// function header is the first line of a function definition
+// function header is the return tyope of the function, the identifier, and the list of parameters
+// A function is made up of a function header and statement block
+
+// when an argument pass by value, a copy of the argument's value is made and passed to the called function
+// with pass by reference, the caller gives the called function the ability to access
+// the caller's data directly, and to modify that data
+// with pass by pointer, the memory address of the pointer that pointed to is passed to the called function
+
+// built in array vs std library array vs vector
+
+// built in array is a contiguous group of memory locations that all have the same types
+int array[size]{};
+// advantage
+// it is simple and easy to understand
+// disadvantage
+// it has fixed size
+// it does not have any bounds checking nor any member function
+
+// std library array
+std::array<int, size> array{};
+std::array<std::array<int, size>, size> array2D{};
+// advantage
+// it provides bounds checking in its member function
+// disadvantage
+// it has fixed size
+
+// vector
+std::vector<int> vector(size);
+// advantage
+// it supports dynamic resizing
+// it provides bounds checking in its member function
+// disadvantage
+// resizing has a huge impact in performance
+
+// pointer contains the memory address of a variable
+// pointer can only initialized to either 0, nullptr, NULL or a memory address
+// pointer must be initialized
+
+// trace table
+uint64_t fact(int n)
+{
+	uint64_t product{1};
+	while(n > 0)
+		product *= n--;
+	return product;
+}
+
+// fact(5)
+// i	n	n > 0	product		--n
+// 0	5	True 	5			4
+// 1	4	True	20			3
+// 2	3	True	60			2
+// 3	2	True	120			1
+// 4	1	True	120			0
+// 5	0	False
+
+// product = 120 is returned

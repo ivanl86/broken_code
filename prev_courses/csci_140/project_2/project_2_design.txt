@@ -1,0 +1,23 @@
+
+
+// class: done
+// an array to store all position and sensations: done
+// second array to printed out on the screen according to first array: done
+// print grid: done
+// move right, move left, move up, move down, pickup gold: done
+// set user position, gold position, aldrac position, 12 pit position: done
+// set sensations s = stench, b = breeze, g = glimmer: done
+// return current user postion: done
+// check adjacent cells to reveal sensations: done
+// check if user is in the same room with aldrac, pit, or gold: done
+
+// prompt the user if he wants to play: done
+// header: done
+// input movement: done
+// random number generator: done
+// check win or lose condition: done
+
+// extra feature
+// diffculty levels - easy, normal, hard
+// game instruction
+// cheat feature to see pits and the evil Aldrac's locations
