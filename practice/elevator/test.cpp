@@ -45,9 +45,10 @@ void testPriorityQueue(Queue<int>* priorityQueue, uint64_t size) {
 
 void testArrayBag(Bag<int>* arrayBag, uint64_t size) {
     int array[] {6,8,9,2,4,7,1,5,0,3};
-    // int array[] {6,8,9,2,4,7,1};
 
     std::cout << "start testing Array Bag!\n";
+
+    std::cout << arrayBag->size() << " item(s) in the bag\n";
 
     for(size_t i{0}; i < size; ++i) {
         if (arrayBag->add(array[i]))
@@ -55,14 +56,15 @@ void testArrayBag(Bag<int>* arrayBag, uint64_t size) {
     }
     std::cout << "\n";
 
-        // if (arrayBag->contains(array[3])) {
-        //     std::cout << array[3];
-        //     arrayBag->remove(array[3]);
-        // }
+    std::cout << arrayBag->size() << " item(s) in the bag\n";
+
     for(size_t i{0}; i < size; ++i) {
         if (arrayBag->contains(array[i])) {
             std::cout << array[i];
             arrayBag->remove(array[i]);
         }
     }
+    std::cout << "\n";
+
+    std::cout << arrayBag->size() << " item(s) in the bag\n";
 }
