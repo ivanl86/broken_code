@@ -31,8 +31,8 @@ public:
         if (idx < 0)
             return false;
 
-        store[idx] = store[this->count];
         --this->count;
+        store[idx] = store[this->count];
         return true;
     }
 
