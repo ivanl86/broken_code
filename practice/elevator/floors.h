@@ -1,5 +1,5 @@
+#include "arraybag.h"
 #include "linkedqueue.h"
-#include "priorityqueue.h"
 #include "person.h"
 
 #ifndef FLOORS_H
@@ -7,11 +7,14 @@
 
 class Floors {
 public:
-    void queuingElevator();
-    
+    void update();
+    void addElevatorQueue(const Person& p);
+    Person removeElevatorQueue(); 
+    void addOccupant(const Person& p);
+    Person removeOccupant(const Person& p);
 private:
-    LinkedQueue<Person> occupants;
-    PriorityQueue<Person> elevatorQueue;
+    ArrayBag<Person> occupants;
+    LinkedQueue<Person> elevatorQueue;
 };
 
 #endif  /* FLOORS_H */
