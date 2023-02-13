@@ -14,7 +14,7 @@ public:
     ArrayBag() : ArrayBag(DEFAULT_BAG_SIZE) {}
 
     ArrayBag(const uint64_t& size)
-    : store{new T[size]}, maxSize{size} {}
+        : store{new T[size]}, maxSize{size} {}
 
     bool add(const T& item) {
         if (this->count >= maxSize)

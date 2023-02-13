@@ -7,7 +7,7 @@ class Person {
 public:
     Person() = default;
     Person(uint64_t id, uint64_t dest)
-    : id{id}, dest{dest} {}
+        : id{id}, dest{dest} {}
 
     uint64_t id;
     uint64_t dest;
