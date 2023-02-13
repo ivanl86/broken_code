@@ -1,7 +1,6 @@
 #include "floors.h"
-#include "utility.h"
 
-void Floors::update() {
+bool Floors::update() {
     ArrayBag<Person> bag;
     Person p;
     while (occupants.size() >= 0)
@@ -16,6 +15,8 @@ void Floors::update() {
         }
     }
     occupants = bag;
+
+    return !(elevatorQueue.empty());
 }
 
 void Floors::addElevatorQueue(const Person& p) {
