@@ -11,21 +11,6 @@ public class PrintName {
 		for (int i = 0; i < 7; ++i) {
 			System.out.println("    III      LLL");
 		}
-//		System.out.print("    III      LLL");
-//		System.out.println();
-//		//
-//		System.out.print("    III      LLL");
-//		System.out.println();
-//		//
-//		System.out.print("    III      LLL");
-//		System.out.println();
-//		//
-//		System.out.print("    III      LLL");
-//		System.out.println();
-//		//
-//		System.out.print("    III      LLL");
-//		System.out.println();
-		//
 		System.out.print("IIIIIIIIIII  LLLLLLLLLLL");
 		System.out.println();
 	}
