@@ -3,14 +3,37 @@
 Elevator::Elevator(Floors floors[], bool callSet[])
     : floors{floors}, callSet{callSet}, currentFloor{LOBBY}, count{0}, currentState{IDLE}, currentDirection{STILL} {}
 
-void Elevator::update() {}
+void Elevator::update() {
+    switch (currentState)
+    {
+    case IDLE:
+        toIdle();
+        break;
+    case PICKUP:
+        toPickup();
+        break;
+    case DELIVER:
+        toDeliver();
+        break;
+    }
+}
 
 void Elevator::toIdle() {
-    currentState = IDLE;
+    currentDirection = STILL;
+
+    if (noneWaiting())
+        return;
+    else
+        currentState = PICKUP;
 }
 
 void Elevator::toPickup() {
-    currentState = PICKUP;
+    if (currentFloor == LOBBY)
+        currentDirection == UP;
+    else if (currentFloor < callSet[floorWaiting()])
+        currentDirection == UP;
+    else
+        currentDirection == DOWN;
 }
 
 void Elevator::toDeliver() {
@@ -47,4 +70,12 @@ bool Elevator::waitingAtLobby() {
 
 bool Elevator::noneWaiting() {
     return (!waitingElevator() && !waitingAtLobby());
+}
+
+int Elevator::floorWaiting() {
+    for(size_t i{TOP_FLOOR}; i >= LOBBY; --i) {
+        if (callSet[i])
+            return i;
+    }
+    return -1;
 }

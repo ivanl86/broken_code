@@ -21,6 +21,7 @@ public:
     bool waitingElevator();
     bool waitingAtLobby();
     bool noneWaiting();
+    int floorWaiting();
 
 private:
     uint64_t currentFloor;
