@@ -1,5 +1,13 @@
 package pa_1;
 
+/*  Java Class: CSCI 145
+Author: Ivan Leung
+Class: Mon/Wed hybrid
+Date: Feb 27 2023
+Description: Prints out some useful facts
+I certify that the code below is my own work.
+Exception(s): N/A
+*/
 //Coding template goes here
 //A source of some useful facts.
 public class Facts
