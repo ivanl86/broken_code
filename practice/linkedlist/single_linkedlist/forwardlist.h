@@ -55,14 +55,16 @@ public:
             pushFront(item);
         else if (pos == size())
             pushBack(item);
+        else
+        {
+            newNode = new Node<T>(item);
+            itr = findPrev(pos);
 
-        newNode = new Node<T>(item);
-        itr = findPrev(pos);
+            newNode->next = itr->next;
+            itr->next = newNode;
 
-        newNode->next = itr->next;
-        itr->next = newNode;
-
-        ++count;
+            ++count;
+        }
     }
 
     void popFront()
@@ -115,13 +117,14 @@ public:
             popFront();
         else if (pos == size())
             popBack();
-
-        itr = findPrev(pos);
-        tmp = itr->next;
-        itr->next = itr->next->next;
-
-        delete tmp;
-        --count;
+        else
+        {
+            itr = findPrev(pos);
+            tmp = itr->next;
+            itr->next = itr->next->next;
+            delete tmp;
+            --count;
+        }
     }
 
     void erase(const uint64_t& start, const uint64_t& end)
