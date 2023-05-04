@@ -99,10 +99,11 @@ public:
         --count;
     }
 
-    void erase(const uint64_t& pos)
+    T erase(const uint64_t& pos)
     {
         Node<T>* tmp{nullptr};
         Node<T>* itr{nullptr};
+        T item{};
 
         if (empty())
             throw std::runtime_error("Empty List!");
@@ -115,10 +116,12 @@ public:
         {
             itr = (pos <= size() / 2) ? findForward(pos) : findBackward(pos);
             tmp = itr;
+            item = tmp->item;
             itr->prev->next = itr->next;
             itr->next->prev = itr->prev;
             delete tmp;
             --count;
+            return item;
         }
     }
 
