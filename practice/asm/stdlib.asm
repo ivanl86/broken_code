@@ -114,8 +114,9 @@ bsearch:
 ;
 ; Description: Binary search in array
 ; Receives: arg1 = dword array
-;           arg2 = array size
-;           arg3 = search term
+;           arg2 = start element
+;           arg3 = end element
+;           arg4 = search term
 ; Returns:  EAX = subscript of match term or -1 if not found
 ; Requires: Array must be sorted
 ; Notes:    none
@@ -124,6 +125,49 @@ bsearch:
 
     push    ebp     ; setup frame
     mov     ebp, esp
+
+    push    esi
+    push    ebx
+
+    mov     esi, [ebp + 8]  ; ESI = dword array
+
+    mov     ebx, [ebp + 12]
+    mov     ecx, [ebp + 16]
+    cmp     ebx, ecx
+    ja      .notfound
+
+    ; mid = (start + end) / 2
+    mov     eax, [ebp + 12] ; EAX = start
+    add     eax, [ebp + 16] ; EAX = start + end
+    xor     edx, edx        ; EDX = 0
+    mov     ebx, 2          ; EBX = 2
+    div     ebx             ; EAX = (start + end) / 2
+    mov     edx, [ebp + 20] ; EDX = search term
+    cmp     edx, [esi + (eax * 4)]  ; ? search term == array[mid]
+    je      .end            ; if equal, jump to .end
+    ja      .greater        ; else if greater
+    ; else if less
+    dec     eax             ; EAX = mid - 1
+    mov     ebx, [ebp + 12] ; EBX = start
+    mov     ecx, eax        ; ECX = end
+    jmp     .continue
+    .greater:
+    inc     eax             ; EAX = mid + 1
+    mov     ebx, eax        ; EBX = start
+    mov     ecx, [ebp + 16] ; ECX = end
+    .continue:
+    push    dword [ebp + 20]
+    push    ecx             ; arg3 = end
+    push    ebx             ; arg2 = start
+    push    esi             ; arg1 = array
+    call    bsearch
+    jmp     .end
+    .notfound:
+    mov     eax, -1
+    .end:
+
+    pop     ebx
+    pop     esi
 
     leave           ; tear down frame
     ret
