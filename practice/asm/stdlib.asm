@@ -129,10 +129,10 @@ bsearch:
     push    esi
     push    ebx
 
-    mov     esi, [ebp + 8]  ; ESI = dword array
+    mov     esi, [ebp + 8]  ; ESI = arg1 = dword array
 
-    mov     ebx, [ebp + 12]
-    mov     ecx, [ebp + 16]
+    mov     ebx, [ebp + 12] ; EBX = arg2 = start
+    mov     ecx, [ebp + 16] ; ECX = arg3 = end
     cmp     ebx, ecx
     ja      .notfound
 
@@ -141,11 +141,15 @@ bsearch:
     add     eax, [ebp + 16] ; EAX = start + end
     xor     edx, edx        ; EDX = 0
     mov     ebx, 2          ; EBX = 2
-    div     ebx             ; EAX = (start + end) / 2
-    mov     edx, [ebp + 20] ; EDX = search term
-    cmp     edx, [esi + (eax * 4)]  ; ? search term == array[mid]
-    je      .end            ; if equal, jump to .end
-    ja      .greater        ; else if greater
+    div     ebx             ; EAX = mid = (start + end) / 2
+
+    mov     edx, [ebp + 20] ; EDX = arg4 = search term
+    ; check if search term == array[mid]
+    cmp     edx, [esi + (eax * 4)]
+    ; if equal, jump to .end
+    je      .end
+    ; else if greater
+    ja      .greater
     ; else if less
     dec     eax             ; EAX = mid - 1
     mov     ebx, [ebp + 12] ; EBX = start
@@ -156,7 +160,7 @@ bsearch:
     mov     ebx, eax        ; EBX = start
     mov     ecx, [ebp + 16] ; ECX = end
     .continue:
-    push    dword [ebp + 20]
+    push    dword [ebp + 20]; arg4 = search term
     push    ecx             ; arg3 = end
     push    ebx             ; arg2 = start
     push    esi             ; arg1 = array

@@ -7,15 +7,16 @@ section     .text
 global      _start
 
 _start:
-    push    dword 11
-    push    dword (arraySz - 1)
-    push    dword 0
-    push    array
+    push    dword 6     ; push search term: 6
+    push    dword (arraySz - 1) ; push last index
+    push    dword 0     ; push first index
+    push    array       ; push dword array
     call    bsearch
     add     esp, 12
 
-    cmp     eax, -1
-    je      notfound
+    cmp     eax, -1     ; check if EAX == -1
+    je      notfound    ; if equl, jump to notfound
+    ; else print the item in the array
     push    dword [array + (eax * 4)]
     call    putuint
     call    putnl
