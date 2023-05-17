@@ -3,6 +3,11 @@
 // #include "quicksort.hpp"
 #include "sort.hpp"
 
+// void sizeOfArray(int array[])
+// {
+//     std::cout << "The size of array in func: " << sizeof(array) << "\n";
+// }
+
 int main(int argc, char const *argv[])
 {
     // int term{};
@@ -15,9 +20,11 @@ int main(int argc, char const *argv[])
         std::cout << " " << element;
     }
     std::cout << "\n";
-    // bubbleSort(array, size);
-    // selectionSort(array, size);
-    insertionSort(array, size);
+    // sort::bubbleSort(array, size);
+    // sort::selectionSort(array, size);
+    // sort::insertionSort(array, size);
+    sort::quickSort(array, size);
+    // swap(array[0], array[1]);
     for(int element : array)
     {
         std::cout << " " << element;

@@ -1,19 +1,22 @@
 #ifndef SORT_HPP
 #define SORT_HPP
 
-#include <stdint.h>
+// #include <stdint.h>
 
-template <typename T>
-void swap(T& left, T& right);
+namespace sort
+{
+    template <typename T>
+    void bubbleSort(T array[], const int64_t& size);
 
-template <typename T>
-void bubbleSort(T array[], int64_t size);
+    template <typename T>
+    void selectionSort(T array[], const int64_t& size);
 
-template <typename T>
-void selectionSort(T array[], int64_t size);
+    template <typename T>
+    void insertionSort(T array[], const int64_t& size);
 
-template <typename T>
-void insertionSort(T array[], int64_t size);
+    template <typename T>
+    void quickSort(T array[], const int64_t& size);
+}
 
 #include "sort.tpp"
 
