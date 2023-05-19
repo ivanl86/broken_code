@@ -78,6 +78,16 @@ public:
     //     return !(value < other);
     // }
 
+    friend bool operator==(const Coin& left, const Coin& right) noexcept
+    {
+        return left.value == right.value;
+    }
+
+    friend bool operator!=(const Coin& left, const Coin& right) noexcept
+    {
+        return !(left == right);
+    }
+
 private:
     bool heads;
     double value;
