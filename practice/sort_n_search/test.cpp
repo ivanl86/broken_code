@@ -11,17 +11,18 @@
 int main(int argc, char const *argv[])
 {
     int idx{};
-    int term{534};
+    int term{446};
     int array[] {446,32,534,64,134,69,34,98,174,29};
     // int array[] {1,2,3,4};
     // int array[] {4,3,2,1};
-    uint64_t size{sizeof(array) / sizeof(array[0])};
+    uint64_t size{sizeof(array) / sizeof(int)};
     for(int element : array)
     {
         std::cout << " " << element;
     }
     std::cout << "\n";
-    idx = seqSearch(array, size, term);
+    // idx = seqSearch(array, size, term);
+    // idx = binSearch(array, size, term);
     if (idx < 0)
         std::cout << "Item is not found\n";
     else
@@ -36,7 +37,8 @@ int main(int argc, char const *argv[])
         std::cout << " " << element;
     }
     std::cout << "\n";
-    idx = seqSearch(array, size, term);
+    // idx = seqSearch(array, size, term);
+    // idx = binSearch(array, size, term);
     if (idx < 0)
         std::cout << "Item is not found\n";
     else
