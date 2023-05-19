@@ -12,7 +12,7 @@ namespace die
     public:
         Die(uint16_t sides);
 
-        ~Die();
+        virtual ~Die();
 
         uint16_t roll();
 
