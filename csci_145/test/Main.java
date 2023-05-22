@@ -1,8 +1,8 @@
-package broken_code.csci_145.test;
+package test;
 
 // import java.util.Date;
-import java.awt.*;
-import java.util.Arrays;
+// import java.awt.*;
+// import java.util.Arrays;
 
 public class Main {
 
