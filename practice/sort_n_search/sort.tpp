@@ -115,17 +115,17 @@ namespace
 
         while (leftPtr < rightPtr)
         {
-            while (array[leftPtr] <= pivotTerm && leftPtr < rightPtr)
+            while (array[leftPtr] <= pivotTerm && leftPtr < rightPtr) // while left term is equal to or less than pivot term and left ptr is less than right ptr
             {
-                ++leftPtr;
+                ++leftPtr; // increment left ptr
             }
-            while (array[rightPtr] >= pivotTerm && leftPtr < rightPtr)
+            while (array[rightPtr] >= pivotTerm && leftPtr < rightPtr) // while right term is equal to or greater than pivot term and left ptr is less than right ptr
             {
-                --rightPtr;
+                --rightPtr; // decrement right ptr
             }
-            swap(array[leftPtr], array[rightPtr]);
+            swap(array[leftPtr], array[rightPtr]); // swap the left term with right term
         }
-        swap(array[leftPtr], array[highIdx]);
+        swap(array[leftPtr], array[highIdx]); // swap the left term with pivot term
         return leftPtr;
     }
 }

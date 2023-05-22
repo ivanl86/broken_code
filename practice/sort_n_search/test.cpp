@@ -21,7 +21,7 @@ int main(int argc, char const *argv[])
         std::cout << " " << element;
     }
     std::cout << "\n";
-    // idx = seqSearch(array, size, term);
+    idx = seqSearch(array, size, term);
     // idx = binSearch(array, size, term);
     if (idx < 0)
         std::cout << "Item is not found\n";
@@ -38,7 +38,7 @@ int main(int argc, char const *argv[])
     }
     std::cout << "\n";
     // idx = seqSearch(array, size, term);
-    // idx = binSearch(array, size, term);
+    idx = binSearch(array, size, term);
     if (idx < 0)
         std::cout << "Item is not found\n";
     else
