@@ -1,4 +1,4 @@
-package broken_code.csci_145.hw.pa.pa2;
+package hw.pa.pa2;
 
 /*  Java Class: CSCI 145
     Author: Ivan Leung

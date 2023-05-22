@@ -1,4 +1,4 @@
-package broken_code.csci_145.hw.pa.pa1;
+package hw.pa.pa1;
 
 public class PrintTriangle {
 
