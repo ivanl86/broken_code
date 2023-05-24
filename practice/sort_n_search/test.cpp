@@ -30,7 +30,8 @@ int main(int argc, char const *argv[])
     // sort::bubbleSort(array, size);
     // sort::selectionSort(array, size);
     // sort::insertionSort(array, size);
-    sort::quickSort(array, size);
+    // sort::quickSort(array, size);
+    sort::mergeSort(array, size);
     // swap(array[0], array[1]);
     for(int element : array)
     {

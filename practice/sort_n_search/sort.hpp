@@ -16,6 +16,9 @@ namespace sort
 
     template <typename T>
     void quickSort(T array[], const int64_t& size);
+
+    template <typename T>
+    void mergeSort(T arr[], const int64_t& size);
 }
 
 #include "sort.tpp"
