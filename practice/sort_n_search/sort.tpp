@@ -13,6 +13,9 @@ namespace
 
     template <typename T>
     int64_t partition(T array[], const int64_t& lowIdx, const int64_t& highIdx, const T& pivotTerm);
+
+    template <typename T>
+    void merge(T arr[], T leftHalf[], const uint64_t& leftSize, T rightHalf[], const uint64_t& rightSize);
 }
 
 namespace sort
@@ -80,6 +83,28 @@ namespace sort
     {
         ::quickSort(array, 0, size - 1);
     }
+
+    template <typename T>
+    void mergeSort(T arr[], const int64_t& size)
+    {
+        uint64_t midIdx{size / 2};
+        T leftHalf[midIdx];
+        T rightHalf[size - midIdx];
+
+        if (size < 2)
+            return;
+        
+        for(uint64_t i{0}; i < midIdx; ++i)
+            leftHalf[i] = arr[i];
+
+        for(uint64_t i{midIdx}; i < size; ++i)
+            rightHalf[i - midIdx] = arr[i];
+
+        mergeSort(leftHalf, midIdx);
+        mergeSort(rightHalf, size - midIdx);
+
+        ::merge(arr, leftHalf, midIdx, rightHalf, size - midIdx);
+    }
 }
 
 namespace
@@ -127,6 +152,43 @@ namespace
         }
         swap(array[leftPtr], array[highIdx]); // swap the left term with pivot term
         return leftPtr;
+    }
+
+    template <typename T>
+    void merge(T arr[], T leftHalf[], const uint64_t& leftSize, T rightHalf[], const uint64_t& rightSize)
+    {
+        uint64_t i{0};
+        uint64_t j{0};
+        uint64_t k{0};
+
+        while (i < leftSize && j < rightSize)
+        {
+            if (leftHalf[i] <= rightHalf[j])
+            {
+                arr[k] = leftHalf[i];
+                ++i;
+            }
+            else
+            {
+                arr[k] = rightHalf[j];
+                ++j;
+            }
+            ++k;
+        }
+
+        while (i < leftSize)
+        {
+            arr[k] = leftHalf[i];
+            ++i;
+            ++k;
+        }
+
+        while (j < rightSize)
+        {
+            arr[k] = rightHalf[j];
+            ++j;
+            ++k;
+        }
     }
 }
 
