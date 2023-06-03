@@ -65,7 +65,7 @@ namespace sort
     {
         T min{};
         int64_t j;
-        for (size_t i{0}; i < size; ++i)
+        for (size_t i{1}; i < size; ++i)
         {
             min = array[i];
             j = i - 1;
