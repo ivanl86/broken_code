@@ -109,3 +109,67 @@ int& r = i; // legal, i is a lvalue
 - References must be initialized explicitly when they're defined, so that they refer to something of the appropriate type.
 - Once a reference is initialized, it cannot be changed to refer to something else; a reference will refer to the same location for its entire lifetime.
     - For the duration of the function's execution, a parameter of a reference type will refer to the corresponding argument.
+- **For a pass-by-value parameter, as long as the corresponding argument is a compatible type** (i.e., they're the same, or there's an implicit conversion between them), it will be legal to pass it.
+- **For a pass-by-reference parameter, the types actually have to match**. Because the reference is referring to the actual location in memory, it's important that this location is treated identically, otherwise assigning to it might give a radically different result than you expected.
+- t's possible to declare a function with default arguments, so that parameters that have common values can be substituted by defaults if they're not specified in calls to that function.
+double vectorLength(double x, double y, double z = 0.0)  
+{  
+    <ul>
+    return std::sqrt(x * x + y * y + z * z);  
+    </ul>
+    <ul>
+}  
+</ul>  
+
+## Pointers and the Heap
+- Things that are said to be *static* are often understood to be things that happen before a program runs (e.g., things that are determined by a compiler), - while *dynamic* things are things that happen while a program runs.
+- *Static allocation* is done before a program runs. In the case of C++, that means the compiler determines the object's size and (relative) position in memory (e.g., if it's a local variable of a function, where in that function's activation record the object will be stored).
+- *Dynamic allocation* is done while a program runs. As the program is executing, an object might need to be created on the fly, only to be destroyed at some other time. In the case of C++, dynamic allocation is done using the keywords **new** and **delete**, which, respectively, allocate and deallocate an object dynamically. (If you've written programs in Python or Java before, it should be noted that most allocation in these languages is actually dynamic, but that the deallocation is done automatically by a *garbage collector*. In C++, by contrast, both allocation and deallocation are the programmer's responsibility.)
+- In the heap, anything goes:
+    - Your program decides when memory will be allocated, how much of it will be allocated, and what types of objects will be stored there. That memory is allocated only when the program explicitly asks to do so.
+    - Your program decides when memory will be deallocated, making that memory available to be reused elsewhere. That deallocation happens only when the program explicitly asks to do so, and the memory is not available to any other part of the program until that deallocation has been done.
+- A pointer in C++ is a very thinly-veiled abstraction for a memory location. A pointer is actually a combination of two things:
+    - A memory address, in a literal sense. As we've seen, every tiny block of memory — often, every single byte — generally has a numeric address, which you can think of as being like an index into a giant array. So if you want to keep track of the location of something in memory, you need only keep track of its address.
+    - A type. Every pointer knows what type of object it's pointing to.
+- As declarations begin to become more complex, it becomes important that we establish a good way to read and understand them. A good rule of thumb that works in many cases is to read them in a **right-to-left manner**.  
+int* x; // x is a pointer to an integer  
+- It's often called the *address-of operator*, and is indicated by an **&**.  
+int i = 3;  
+int* p = &i; // p stores the address where i is located  
+- you can have pointers to pointers, though this isn't something I find myself doing very often — but it's also not something I've never done. For example:  
+int i = 3;  
+int* p = &i; // p is a pointer to an integer
+int** q = &p; // q is a pointer to a pointer to an integer  
+- you use an operator called the *dereference operator* (so we often call this dereferencing a pointer), which is represented by __*__. When the * operator precedes a pointer in an expression, you're asking for the object that the pointer points to.
+- In general, if you have an int* p:
+    - p is an expression that evaluates to the pointer itself (i.e., a memory address where you would find an int)
+    - *p is an expression that evaluates to the object that the pointer points to (i.e., an int)
+- As you might imagine, then, **&** (address-of) and __*__ (dereference) are the inverse of one another.
+int i = 3;  
+int* p = &i;  
+std::cout << i << std::endl; // i = 3  
+*p = 4;
+std::cout << i << std::endl; // i = 4  
+- References are implicit synonyms for objects, whereas pointers explicitly store the location of another object.  
+int* p = new int;  
+*p = 3;  
+int*& s = p; // s is a reference to a pointer to an ineger  
+*s = 6;  
+- **There are no pointers to references in C++**.       
+    -References are treated identically to the objects they refer to, so a pointer to reference would have no useful meaning; it would be no different from a pointer to the object that the reference referred to. For that reason, C++ simply disallows them.
+- When you allocate, say, a new int, you've asked for your program to do three things, right then and there:
+    - Find a block of memory on the heap that's not already allocated, one that is big enough to store an **int**. (So, for example, on the ICS 45C VM, that would be four bytes.)
+    - Provided that a block of memory was found — and we'll talk another time about the consequences of running out of memory and how you deal with them, but we currently lack the techniques in C++ to do so — that block of memory is allocated, which means that it will be "cordoned off," in a sense, so that it can't be allocated anywhere else until after you explicitly deallocate it later.
+    - The location of that allocated memory on the heap is returned to you. Since we're talking about an address in memory, what you get back is a pointer, with the type of that pointer determined by the type of object that you asked for, so **new int** would give you back an __int*__.
+-  The presence of an automatic garbage collector has two positive effects:
+    - It makes it much more difficult (though still not impossible) to suffer from *memory leaks*. When you allocate memory dynamically, it is considered to be "in use" and can't be allocated again until it's been deallocated first. **A memory leak is simply allocation without subsequent deallocation**, meaning that a program (particularly a long-running program) gradually uses more and more memory until it suffers serious consequences such as a major slowdown or even a crash. Provided that you don't keep pointers/references to objects that you no longer need, running out of memory is not something you have to think about very much in a garbage-collected language, unless your program needs to actually use a lot of memory at a time.
+    - Garbage collectors are generally conservative about deleting objects, opting to do so only when they are provably inaccessible, so they make it impossible to have a *dangling pointer* or *dangling reference*, which is a pointer/reference to deallocated memory. If you can access an object, you know it's a "live" object.
+- You can think of the **delete** operator as being a kind of inverse of the **new** operator.
+    - The **new** operator allocates an object on the heap and returns a pointer to it.
+    - The **delete** operator takes that same pointer and deallocates the object that it points to.  
+- You can read delete p as meaning "Delete the object that the pointer p points to."  
+int* p = new int;  
+*p = 3  
+delete p;  
+- After the point where we say **delete p**, the pointer **p** is still in scope, but dereferencing it (i.e., following it to the now-deallocated memory it points to) results in undefined behavior.
+- Every time you create an object with **new**, think about what part of your program should be responsible for deleting it. If the answer is "the same function in which it was created," what you probably want is a statically-allocated local variable instead, *unless* the object is particularly large or has an indeterminate size. If the answer is anything else, now you have some design work to do.
