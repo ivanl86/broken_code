@@ -173,3 +173,28 @@ int* p = new int;
 delete p;  
 - After the point where we say **delete p**, the pointer **p** is still in scope, but dereferencing it (i.e., following it to the now-deallocated memory it points to) results in undefined behavior.
 - Every time you create an object with **new**, think about what part of your program should be responsible for deleting it. If the answer is "the same function in which it was created," what you probably want is a statically-allocated local variable instead, *unless* the object is particularly large or has an indeterminate size. If the answer is anything else, now you have some design work to do.
+
+## Single-Dimension Arrays
+- An array is a sequence of cells that live contiguously — one directly following another — in memory.
+    - The cells are all of the same type (e.g., int, std::string, or whatever) and, hence, they all have the same size.
+    - Additionally, there is no standard, generally-applicable construct in C++ to ask an array its size; if you want to keep track of an array's size, you'll have to do so separately.
+- Statically-allocated arrays
+void foo()
+{
+    int arr[10];
+}
+- Dynamically-allocated arrays  
+int* arr = new int[10];  
+delete[] arr;  
+- address of cell i = (address of cell 0) + (sizeof(int) * i)
+- Pointer arithmetic  
+int a[10];                           // a is effectively a pointer to the first element of the array  
+int b[10];                           // b is also effectively a pointer  
+std::cout << a << std::endl;         // writes the address of a[0]  
+std::cout << (a + 1) << std::endl;   // writes the address of a[1]  
+*(a + 1) = 3;                        // stores 3 in a[1]  
+std::cout << (a - 1) << std::endl;   // writes the address of a[-1]  
+std::cout << (a - b) << std::endl;   // writes the distance in memory between a[0] and b[0] (divided by the size of an int)  
+- Pointer arithmetic is very much like array indexing and, in fact, the array-indexing operations you write are ultimately translated by a compiler into the corresponding pointer arithemtic operations instead.
+
+## Constness
