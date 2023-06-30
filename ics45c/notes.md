@@ -324,3 +324,64 @@ var baz(const Date& d)
     - Attempting to use memory beyond the boundaries of memory that's been allocated (e.g., using array cells outside the boundaries of the array), which is undefined behavior, as well.
     - Attempting to deallocate memory that was never allocated, or deallocate the same memory twice, which is also undefined behavior.
     - When a program ends, any memory that's been dynamically allocated and never deallocated is reported as a memory leak.
+    - One very useful mistake that Memcheck can catch is the use of values that have been uninitialized.
+        - Remember that using an uninitialized value is considered undefined behavior in C++, which means that it's technically legal (in the sense that a program can compile with this problem) but that you can't count on what the outcome will be. In some circumstances, compilers will warn you about these things, such as in this example.
+
+- If we forget to deallocate something, Memcheck will report it as a memory leak. But what happens if we deallocate the same memory twice?
+
+void foo(int* a)  
+{  
+    <ul>
+    delete a;  
+    delete a;  
+    </ul>
+}  
+
+- Another potential mistake is deleting stack-allocated memory.
+
+void foo(int* a)  
+{  
+    <ul>
+    delete a;  
+    </ul>
+}  
+
+void bar()  
+{  
+    <ul>
+    int x;  
+    foo(&x);  
+    </ul>
+}  
+
+- First, we should clear up a misnomer: A debugger doesn't actually debug anything. You debug programs by using one.
+- The job of a debugger is to make visible the inner workings of your program — the values of variables, the contents of the run-time stack, and so on — along with the ability to pause your program at opportune times and then inch forward slowly, so you can see the effect of individual lines of your code as they run, asking questions about its "paused" state before inching it forward some more.
+- Some debuggers even let you "rewind" a program backward instead of just pausing and moving forward — a technique that's cleverly called time-travel debugging — though ours doesn't have that particular ability.
+- When we break on line 7, we break before line 7 runs.
+- Step "over" to the next line of code in this function, regardless of whether it calls into a function (i.e., if there's a call to a function on this line, finish running that whole function, because I don't want to step through it).
+We do this in LLDB using the command thread step-over or the command next.
+- Step "into" this line of code, so that if it calls a function, we pause at the first line of code within that function. This lets me step through that function line by line, as well, if I want to see the details about how it works. (On a line of code containing no function calls, this is no different from stepping over.)
+We do this in LLDB using the command thread step-in or the command step.
+- Step "out" of the current function, pausing at the point where we've returned to its caller.
+We do this in LLDB using the command thread step-out or the command finish.
+
+## Classes
+- In C++, a class is a blueprint for a new type of object.
+- For example, we've seen that a *std::string* holds, among other things, a pointer to a dynamically-allocated array of *chars*.
+- An interface, which specifies what information is stored by objects of a type and what those objects are able to do.
+- An implementation, which specifies precisely what happens when objects of a type are asked to do things.
+- A class' interface consists, broadly, of a set of members. There are two kinds of members we'll use for now — though I should point out that there are others that we'll see later.
+    - Member variables, which specify data that are stored by objects of the class. These are analogous to the members that we saw in structs previously.
+    - Member functions (also sometimes called methods), which specify operations that can be performed by objects of the class. Like regular functions, member functions specify a sequence of parameters and a return type. Unlike regular functions, though, they're called on a particular object (i.e., when we call them, we're asking some particular object to be the one to do that job).
+- Some members are declared *public*, which means they are intended to be used by code outside of the class they're declared in.
+- Others are declared *private*, meaning that they are only accessible to code within the class (e.g., private member variables in a class can only by accessed by the member functions in that class).
+- In general, you should tend to want to make details of a class' implementation private whenever possible — or leave them out of the interface altogether, using local variables (or other constructs we've yet to see, such as the unnamed namespace) instead.
+    - The fewer details you reveal to other parts of a program, the more of those details you can change without breaking the other parts;
+    - This is the essence of how you write very large programs so that they can still be maintained over time. 
+    - It's not about security; it's about writing each piece so that it relies on as few details of the other pieces as possible, so that changes are as controlled and localized as possible.
+- A *class declaration* is how we specify the existence of a class. A class declaration is used to specify how objects of a class are used, and has two audiences:
+    - A human reader, who will use the class declaration in order to understand how to write code that makes use of the class.
+    - A compiler, which will use the class declaration in order to know how much memory to allocate to objects of the class, how its member variables are laid out, and what member functions can legally be called on objects of the class.
+
+## Functions and Lambdas
+- In C++, an object is called a function object if it can be called like a function (i.e., its name can be followed by parentheses surrounding a list of arguments separated by commas).
