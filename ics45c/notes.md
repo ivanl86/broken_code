@@ -198,3 +198,129 @@ std::cout << (a - b) << std::endl;   // writes the distance in memory between a[
 - Pointer arithmetic is very much like array indexing and, in fact, the array-indexing operations you write are ultimately translated by a compiler into the corresponding pointer arithemtic operations instead.
 
 ## Constness
+- Declaring a variable whose value can't be changed is as simple as prepending the word const to its type. Note that const is actually part of the variable's type. For example, consider these two declarations:  
+const int x = 3;  
+- it's easiest to read these from right to left, so we would say that "x is an integer constant"  
+- Let's consider some of the following declarations and decide whether they're legal or illegal.
+const int x = 3;  
+int& r = x; // Referring r to x is illegal, because it would introduce the possibility of assigning into r, which would, in turn, change the constant value of x.  
+int* p = &x; // Pointing p to x is illegal, because it would introduce the possibility of assigning into *p, which would, in turn, change the constant value of x.  
+int x = 3;  
+const int& y = x;  
+- The key thing to understand is that a reference to a constant doesn't necessarily guarantee that the value it refers to will never change; it simply guarantees that the reference itself will never be used to change the value.  
+- The ability to declare a reference to a constant solves a problem we had earlier: how to point a reference to a variable that's already const. The solution is to use a reference with const in its type also.  
+const int x = 3;  
+const int& y = x;  
+- Consider, for example, a function that prints the characters of a string in reverse. One way to implement that function might look like this:  
+void printInReverse(const std::string& s)  
+{  
+    <ul>
+    for (int i = s.length() - 1; i >= 0; --i)  
+
+    {  
+        std::cout << s[i];  
+    }  
+    </ul>
+    <ul>
+}  
+</ul>
+
+- There's no reason why this function should need to operate on a copy of the string passed into it, which might be quite large. But there's also no reason why the function would ever make any change to the string that's passed to it. The type const std::string& captures this idea perfectly.
+- There's one more useful wrinkle. As we saw before, one thing you give up when you use pass-by-reference parameter passing is the ability to pass an rvalue as an argument. This restriction is lifted for parameters with const reference types, since the problematic operation — changing an rvalue, which has no storage associated with it — is not an issue if the value can never be changed.
+- When you consider the effect that const might have on a pointer's type, you realize that there are four possibilities for what you might like to hold constant:
+    - Nothing; either p or *p can change. (This is the default for a pointer, when you don't specify const anywhere in the pointer's type.)
+    - Hold the pointer p constant (i.e., you can't point it somewhere else), but allow *p to change.
+    - Hold *p constant (i.e., you can't change the value the pointer points to), but allow p to be pointed somewhere else.
+    - Hold both the pointer p and the value *p to be constant (i.e., you can't change the value the pointer points to, and you can't point it somewhere else).  
+
+__int* p; // a pointer to an int  
+const int* q; // a pointer to an int constant  
+int const* r; // a pointer to an constant int (equivalent to q)  
+int* const s; // a constant pointer to an int  
+const int* const t; // a const pointer to an int constant__  
+- p is a pointer to an int. Neither the pointer nor the value it points to are const-protected.
+- q is a pointer to an int constant. The value that q points to cannot be changed via q (e.g., attempting to assign to *q will be an error), but q can be pointed somewhere else.
+- r is a pointer to a constant int. This turns out to mean exactly the same thing we said when we declared q. const int and int const are two syntaxes for saying the same thing. (In fact, you'll find disagreement in the C++ community about which of these is the proper thing to say. Those that prefer const int are sometimes said to prefer "west const" (i.e., the word const on the left) and those that prefer int const are sometimes said to prefer "east const." It seems I have a preference for west const, but I don't feel especially strongly about it; I think consistency across a large code base is probably more important than which of these you prefer.
+- s is a constant pointer to an int. It will be possible to modify the value s points to, but s cannot be pointed anywhere else.
+- t is a constant pointer to an int constant. It will be illegal to change both t and *t.
+
+## Structures
+- *homogeneous data structures* — collections of some number of elements of the same type
+- *heterogeneous data structures* — where we bring together multiple values of potentially different types into a single entity.
+- We can initialize a struct's members at the point where we create it using C++'s *uniform initialization* syntax — which, as we'll see, standardizes the way that objects of most types can be initialized.
+
+void foo()  
+{  
+    <ul>
+    Date today{2016, 10, 2};  
+    ...  
+    </ul>
+}  
+
+- The construct **{2016, 10, 2}** is called an *initializer list*, which specifies a sequence of values that are to be used to initialize today.
+- A middle ground called *designated initializers* will be introduced in C++20, which would allow you to name the members you're initializing.
+
+void foo()  
+{  
+    <ul>
+    // Not legal yet, but will be legal in C++20  
+    Date d{.year = 2016, .month = 10, .day = 2};  
+    ...  
+    </ul>
+}  
+
+d.year = 2005;     // Illegal, because d is a pointer; it has no member called year  
+*d.year = 2005;    // Also illegal, because "." has a higher precedence than "*"  
+(*d).year = 2005;  // Legal, but ugly as sin!  
+d->year = 2005;    // Much nicer!  
+
+- Similar to statically-allocated structs, you can use an initializer list to give values to the struct's members at the time of creation.  
+Date* d = new Date{2016, 10, 2};
+
+- Syntactically, passing a struct as a parameter is unsurprising.
+
+void foo(Date d)  
+{  
+    <ul>
+    // d is a copy of the struct passed as a parameter  
+    </ul>
+}  
+
+void bar(Date& d)  
+{  
+    <ul>
+    // modifications to d take effect in the caller  
+    </ul>
+}  
+
+var baz(const Date& d)  
+{  
+    <ul>
+    // d is not a copy, but it can't be modified  
+    </ul>
+}  
+
+- Accessing any single byte is generally about as fast as accessing any other one.
+- Accessing two bytes is best done on a two-byte boundary (i.e., a memory address that is a multiple of 2).
+- Accessing four bytes is best done on a four-byte boundary (i.e., a memory address that is a multiple of 4).
+- Accessing eight bytes is best done on a eight-byte boundary (i.e., a memory address that is a multiple of 8).
+- Consider, then, where the members of an X would be stored if one was placed immediately after another:
+
+- a would be at the beginning of the struct (i.e., at an offset of 0 bytes from the beginning)
+- b would be just after a, so at an offset of 1 byte from the beginning, since a is 1 byte
+- c would be just after b, so at an offset of 5 bytes from the beginning, since b is 4 bytes
+- d would be just after c, so at an offset of 7 bytes from the beginning, since c is 2 bytes
+- The problem is that accessing the four-byte value of b, the two-byte value of c, and the eight-byte value of d would all be significantly slower than they need to be, because none of them are aligned on a proper boundary. 
+- So C++ compilers quite often introduce *padding* into a structure, bytes that are intentionally left unused, but that serve to improve access speeds to the individual members by placing them at the appropriate boundaries.
+
+## Illuminating the Dark Corners
+- The first tool that will be handy for us is called *Valgrind*.
+- Valgrind is actually a whole collection of tools for monitoring a program and watching for different kinds of issues that can be indicative of problems;
+- However, we'll only be using one of Valgrind's tools, which is called *Memcheck*.
+- Memcheck monitors a C++ program while it runs — watching as memory allocation and deallocation happens, as pointers are followed, arrays are indexed, and so on — and reports various errors as they're detected.
+- Some examples of things that Memcheck can detect are these.
+    - Decisions being made (e.g., conditions that drive if statements or loops) on the basis of variables whose values have never been assigned, which means the outcome is undefined.
+    - Attempting to use memory that's never been allocated, such as following an uninitialized pointer to where it points, which means that the result you get is undefined.
+    - Attempting to use memory beyond the boundaries of memory that's been allocated (e.g., using array cells outside the boundaries of the array), which is undefined behavior, as well.
+    - Attempting to deallocate memory that was never allocated, or deallocate the same memory twice, which is also undefined behavior.
+    - When a program ends, any memory that's been dynamically allocated and never deallocated is reported as a memory leak.
