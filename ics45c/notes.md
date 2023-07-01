@@ -385,3 +385,225 @@ We do this in LLDB using the command thread step-out or the command finish.
 
 ## Functions and Lambdas
 - In C++, an object is called a function object if it can be called like a function (i.e., its name can be followed by parentheses surrounding a list of arguments separated by commas).
+- Suppose we have this simple C++ function:  
+
+int square(int n)  
+{  
+    <ul>
+    return n * n;  
+    </ul>
+}  
+
+- But what happens if we write the expression square, without writing parentheses and parameters after it?
+    - This turns out to be legal in C++, and the result is a function object — technically, a pointer to the function
+    - (which you can think of as the address where that function's compiled code begins), though this turns out to be less important in C++11 than it was in older versions of C++.
+- If there are function objects, there must also be a way to do the same kinds of things to them that we expect to be able to do to other objects, such as these:
+    - Store them in variables
+    - Pass them as arguments to other functions
+    - Return them as the result of other functions
+    - Store them in member variables of a class and initialize them in a constructor
+- Given a variable of type std::function<int(int)>, we could store any function in it, as long as that function had a compatible signature (i.e., it could be called with an int argument and return an int result).
+
+int square(int n)  
+{  
+    <ul>
+    return n * n;  
+    </ul>
+}  
+
+// This is how you assign a function into a std::function variable.  Note  
+// that there are no parentheses and parameters after "square".  This is  
+// intentional, because the goal here is to assign the function itself into  
+// "f", not the result of *calling* the function into "f".  
+std::function<int(int)> f = square;  
+// This is how we would call the function object held by a std::function  
+// variable.  Note that the syntax is identical to how you would call any  
+// other function!  A function object can be treated like a function.  
+std::cout << f(3) << std::endl;  
+- So what can you do with a std::function<int(int)> variable? Lots of things! For example:
+    - Copy its value into another std::function variable of the same type (i.e., with the same signature)
+    - Call the function it stores (by following its name with parentheses and arguments) and get back a result
+    - Pass it as an argument to some other function
+    - Return it as a result from another function
+    - Store it in a member variable of an object of a class
+
+- For example, consider the following function:
+
+void transform(int* a, unsigned int size, std::function<int(int)> f)  
+{  
+    <ul>
+    for (unsigned int i = 0; i < size; i++)  
+    {  
+        <ul>
+        a[i] = f(a[i]);  
+        </ul>
+    }  
+    </ul>
+}  
+- This makes transform an amazingly powerful function. Instead of being a function that does only a particular thing to every element, it's instead a more abstract function that can do any particular thing to every element, and you get to tell it what that particular thing is each time you call it!
+
+- Languages that allow you to treat functions this way — that consider functions to be data, in the sense that you can pass them as arguments, store them in variables, return them as results, etc. — are said to (at least partially) support *functional programming*.
+- (This is only part of what is technically called "functional programming," but a useful part, even in a language that doesn't support the rest.)
+- C++ supports lambda expressions, though the syntax is a bit cumbersome. It helps to start with an example, so here's an example:  
+
+transform(a, 10, [](int i) { return i + i; });  
+
+- A pair of brackets at the beginning of an expression indicates that the following will be a lambda expression (i.e., a function literal).
+- This is followed by parameters listed in parentheses, which is, in turn, followed by a body for the function.
+- This particular lambda expression builds a function that takes an integer and returns the result of adding that integer to itself (i.e., doubling it).
+
+- There are a couple of things to note here:
+    - The return type does not need to be specified, since C++ is able to determine its type based on the body of the function. In this case, for example, since the body of the function adds i to itself and then returns the result, C++ can determine definitively that the return type is int.
+        - (There are some more complex cases where the return type can't be determined, and C++ provides a syntax for specifying it in those cases where you need to.)
+    - The brackets actually serve as more than just a way for the compiler to detect the beginning of a lambda expression. Additionally, you can specify how variables from the lambda's surrounding scope should be treated.
+        - For example, in the example below, the **=** says "Make a copy of any variables from outside the function that are used in the function." Not surprisingly, you can also use an **&**, which means "Variables from outside the function that are used in the function should be treated as references to the variables outside the function."
+- How member functions are different from other functions
+- We've talked before about how member functions in classes are different from other functions. For example, consider this class:  
+
+class Person  
+{  
+public:  
+    <ul>
+    ...  
+    void setFirstName(const std::string& newFirstName);  
+    ...  
+    </ul>
+};  
+
+- It's important to note that the type of **setFirstName** is not **std::function<void(const std::string&)>**, because **setFirstName** actually takes two parameters:
+    - The implicit this parameter that is the first parameter of every member function. (In this case, the type of this would be Person*, a pointer to the Person object on which the function is being called.)
+    - The string parameter newFirstName.
+- However, it does turn out that **setFirstName** has a type: it's **std::function<void(Person*, const std::string&)>**.
+
+- For a member function that's const, such as this one:
+
+class Person  
+{  
+public: 
+    <ul>
+    ...  
+    std::string getFirstName() const;  
+    ...  
+    </ul>
+};  
+
+- the const would affect the type of that this parameter, so **getFirstName** would have the type **std::function<std::string(const Person*)>**.
+
+## Linked Data Structures
+- As a very simple starting point, the design of a LinkedList class might start out looking like the one below; I'm assuming here that each element of the list is an int value.  
+
+class LinkedList  
+{  
+public:  
+    <ul>
+    LinkedList();  
+    LinkedList(const LinkedList& list);  
+    LinkedList& operator=(const LinkedList& list);  
+    ~LinkedList();  
+    // ...  
+    </ul>
+private:  
+    <ul>
+    struct Node  
+    {  
+        <ul>
+        int value;  
+        Node* next;  
+        </ul>
+    };  
+    Node* head;     // pointer to the first node  
+    </ul>
+};  
+
+- Notice that the Node struct has been declared as a private member of the LinkedList class, and that the next member variable is also private; this means that code outside of the LinkedList class won't even be able to say Node.
+- In this way, there's no way to use the nodes of our linked list except within our LinkedList class, which is a good design choice, since it prevents us from spreading an implementation detail (how nodes are structured and linked) throughout our program.
+
+- How we iterate through a linked list's nodes is to keep track of the location of a "current" node at any given time. We can use that current node's value in any way we need to, then use its next to make the next node be our "current" one. We're using pointers to keep track of locations, so this implies that our "current" node's location would be a variable of type Node*. We can use that pointer's "nullness" as a way to know that we've reached the end of the list.
+
+int LinkedList::sum() const  
+{  
+    <ul>
+    int total = 0;  
+    // Begin by pointing 'current' to the first node in the list, which is the  
+    // node that 'head' points to.  Note that if the list is empty, 'current'  
+    // will now be nullptr.  Note, too, that the "const" here promises that we  
+    // won't change the node that 'current' points to, not that we won't change  
+    // the 'current' pointer.  Remember that we can read these kinds of type  
+    // declarations from right-to-left: "current is a pointer to a Node that  
+    // is constant".  
+    const Node* current = head;  
+    // When 'current' is nullptr, that tells us to stop (i.e., we've "fallen  
+    // off" the end of the list.  So we'll loop while 'current' *isn't* nullptr.  
+    while (current != nullptr)  
+    {  
+        <ul>
+        // Add the current node's value to our running total  
+        total += current->value;  
+        // Update our current node to be the one that follows the current node.  
+        // This moves us one node closer to the end of the list.  
+        current = current->next;  
+        </ul>
+    }  
+    // When we've iterated through the entire list and added every value to our  
+    // running total, we can return the total; that's our sum.  
+    return total;
+    </ul>  
+}  
+
+- One important thing to understand about this example is that we haven't changed anything about any of the nodes. The current pointer has been made to temporarily point to each one, and we've updated that pointer along the way. When the member function ends, the current pointer (a local variable) dies, as it should. But none of the nodes has been changed.
+- By way of contrast, consider another somewhat nonsensical example of a member function we might add to our LinkedList class: one that doubles every node's value.
+
+void LinkedList::doubleAll()
+{
+    <ul>
+    Node* current = head;
+    while (current != nullptr)
+    {
+        <ul>
+        current->value = current->value * 2;
+        current = current->next;
+        </ul>
+    }
+    </ul>
+}
+
+- There is one other minor syntactic issue that crops up in our design, which I'd like to warn you about if you want to go this route. Notice that we declared the Node struct as a member of the LinkedList class. This means that, from outside of the LinkedList class, its name is actually LinkedList::Node. This may seem irrelevant — if Node is private within LinkedList, when would we ever need to say its name from outside of LinkedList? — but it turns out to be important for one reason.
+- Suppose you wanted to write a member function in LinkedList that takes a pointer to a Node as a parameter and returns a pointer to a Node. (It's not important what the function does; I just want to show you how to deal with its signature.) You might declare that member function like this:
+
+class LinkedList  
+{  
+    <ul>
+    ...  
+    </ul>
+private:
+    <ul>
+    ...  
+    Node* foo(Node* n);  
+    </ul>
+};  
+
+- When you implement that in a source file, you might be inclined to try to write it this way:
+
+Node* LinkedList::foo(Node* n)  
+{  
+    <ul>
+    ...  
+    </ul>
+}  
+
+- But, unfortunately, this will turn out not to work. Node has no meaning outside of the scope of LinkedList and, technically, while the C++ compiler is reading your code, it doesn't consider itself to be in the scope of LinkedList until after it passes the part of your code where you've said LinkedList::. This means that the first use of Node in the function's signature will return a perplexing error message saying that Node has not been declared, even though the second use of Node (in the function's parameter) will be fine, because it follows where you said LinkedList::.
+
+- The solution to this problem is to qualify Node's name where necessary:
+
+LinkedList::Node* LinkedList::foo(Node* n)  
+{  
+    <ul>
+    ...  
+    </ul>
+}  
+
+- Note that we only have to do this to the return value, but not to the parameter, because the parameter appears after the name of the function and, hence, is considered to be in the scope of LinkedList.
+
+## Unit Testing
+- This kind of testing, where we focus on a single, small piece of a program — a single class, a single module, sometimes even a single function — in isolation from the others is called *unit testing*.
+- There are some who would say that every line of code in a program should be covered by at least one unit test; this can be difficult to achieve in practice, but is a worthy goal if you can achieve it. It should be noted, though, that fully unit testing a program requires techniques we've not yet learned, so it's probably beyond the limits of what we can accomplish in this course. How you design a program is an important part of whether you can write unit tests for it.
