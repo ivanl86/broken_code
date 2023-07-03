@@ -214,20 +214,18 @@ const int& y = x;
 const int x = 3;  
 const int& y = x;  
 - Consider, for example, a function that prints the characters of a string in reverse. One way to implement that function might look like this:  
+
 void printInReverse(const std::string& s)  
 {  
     <ul>
-    for (int i = s.length() - 1; i >= 0; --i)
-
+    for (int i = s.length() - 1; i >= 0; --i)  
     {  
         <ul>
         std::cout << s[i];
         </ul>  
     }  
     </ul>
-    <ul>
 }  
-</ul>
 
 - There's no reason why this function should need to operate on a copy of the string passed into it, which might be quite large. But there's also no reason why the function would ever make any change to the string that's passed to it. The type const std::string& captures this idea perfectly.
 - There's one more useful wrinkle. As we saw before, one thing you give up when you use pass-by-reference parameter passing is the ability to pass an rvalue as an argument. This restriction is lifted for parameters with const reference types, since the problematic operation — changing an rvalue, which has no storage associated with it — is not an issue if the value can never be changed.
