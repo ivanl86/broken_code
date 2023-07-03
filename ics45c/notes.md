@@ -873,3 +873,210 @@ std::for_each(
     </ul> 
 
 ## Inheritance and Polymorphism
+- It's often said that object-oriented programming is characterized by three main features:
+    - Classes, which give you the ability to describe new kinds of objects, which encapsulate a set of data along with a set of operations that safely manipulate that data.
+    - Inheritance, which gives you the ability to describe new classes that are extensions or updates of existing ones, allowing you to write many similar classes without having to manually duplicate code between them.
+    - Polymorphism, which, broadly, gives you the ability to write code that can take on different meanings at run-time depending on context. Most notably, in object-oriented languages, this means that calls to member functions on objects will be resolved in favor of the kind of object the function was called on. (In short, when you ask a particular object to do a job, the "right thing" happens automatically.)
+- We can introduce an inheritance relationship between two classes X and Y, in which Y is said to be a derived class of X and, in turn, X is said to be a base class of Y. The way you introduce that relationship is to describe it in the declaration of the derived class, like this:
+
+<p>
+class X { ... };
+
+class Y : public X { ... };
+</p>
+
+- The : operator in this context can be read as *derives from* or *inherits from*. The word **public** in this context means that the inheritance relationship is known throughout the program (i.e., code anywhere in the program can make use of this fact); while there are other ways to express inheritance relationships, ours will be public much more often than not, so we'll reserve a conversation about other ways for later.
+- Conceptually, inheritance indicates what we often call an *is a* relationship (i.e., a Y object is an X). This concept makes more sense given a specific example, like a Student class that inherits from Person; in that case, we would be saying logically that "a Student is a Person," which makes good conceptual sense. Almost everything that's true of a person is also true of a student, but students have additional qualities and are in certain ways different from other people.
+- Once this relationship is introduced in C++, it has a few effects:
+    - The class Y automatically has all of the members — e.g., member functions, member variables — declared in the class X, except for constructors and destructors. This is where the "inheritance" comes in: Y is said to inherit these things from X, so that we don't have to rewrite them in Y.
+    - You can introduce additional members into Y, different from the ones inherited from X, by simply declaring them within Y's class declaration. This is how you give Y objects new abilities that X objects don't have.
+    - You can replace existing member functions inherited from X with new implementations that are specific to Y, by re-declaring them in Y's class declaration with the same signature as those inherited from X, and then defining the new member function (i.e., giving it a body). This is called *overriding* one of X's member functions. This doesn't give Y objects any new abilities, but it does change how certain abilities inherited from X behave.
+- First of all, we'll be able to declare and define objects of each of these classes, X and Y.  
+
+<p>
+X x;<br>
+Y y;  
+</p>
+
+- We'll also be able to dynamically allocate objects of both classes and point like-typed pointers to them, as you would with any other class.
+
+<p>
+X* px = new X; <br>
+Y* py = new Y;
+</p>
+
+- And, similarly, we'll be able to use like-typed references to refer to these objects. (I'm assuming all of the code in this section is part of the same function.)
+
+<p>
+X& rx = x; <br>
+Y& ry = y;
+</p>
+
+- Our first attempt at mixing types is to assign (or copy construct) a value of one type into a variable of a related type. Consider these possibilities, again assuming that the code earlier in this section has already executed.
+
+<p>
+Y y2 = x; // illegal<br>
+X x2 = y; // legal
+</p>
+
+- Which of these do we expect will be legal? Let's consider them in turn:
+    - We should expect that assigning **x** into **y2** will fail, because an **X** object does not contain enough information to properly initialize a **Y** object. Or, spoken more simply, **X**'s aren't necessarily kinds of **Y**'s.
+    - On the other hand, we should expect that assigning y into **x2** could succeed. Based on the notion of inheritance as an "is a" relationship, "a **Y** is an **X**." **Y** objects are kinds of **X**'s, so it makes at least some sense that it should be possible to assign a **Y** object into an **X** variable.
+        - It does bring up an interesting question, though. What happens? An **X** object is only big enough to store all of the member variables declared in the **X** class. A **Y** object is bigger, assuming that it contains additional member variables (in addition to the ones inherited from **X**). The answer is what's called *slicing*. The member variables that **Y** inherited from **X** would be copied into the variable **x2**, while the others would be "sliced away" (i.e., they would be lost).
+        - Notably, when all is said and done in this case, **x2** contains an **X** object, not a **Y** object, albeit one that was "sliced" from a **Y** originally.
+- Pointers and references make for some more interesting behavior. Which of these do we expect will be legal?
+
+<p>
+X xx;<br>
+Y yy;<br>
+X& rxx = yy; // legal<br>
+Y& ryy = xx; // illegal<br>
+X* px = new X;<br>
+Y* py = new Y;<br>
+X* px2 = py; // legal<br>
+Y* py2 = px; // illegal<br>
+</p>
+
+- The answer lies in the basic philosophical assumption that "a Y is an X."
+- We expect, in general, that X pointers and X references can legally point to objects that are X's. But, because of the inheritance relationship between the two classes, Y's are X's.
+    - So we can reasonably expect X pointers and X references to be able to point to Y objects.
+    -   However, we don't expect the reverse to be true. An X is not necessarily a Y, so we don't expect to be able to point Y pointers or Y references to X objects.
+- If we have a pointer of one type pointing to an object of a different type, we have another interesting question to consider. Suppose that the following member function is declared in both X and Y (i.e., Y has a version that overrides the version from X).
+
+<p>
+class X<br>
+{<br>
+public:<br>
+    <ul>
+    void foo();<br>
+    </ul>
+};<br>
+
+class Y : public X<br>
+{<br>
+public:<br>
+    <ul>
+    void foo();<br>
+    </ul>
+};<br>
+</p>
+
+- Given the declarations above, what do we expect will happen in these cases?
+
+<p>
+rxx.foo();<br>
+px2->foo();
+</p>
+
+- There are two possibilities.
+    - X's version of foo() will be called, because the pointer and reference have type X.
+    - Y's version of foo() will be called, because the objects are actually Y objects.
+- Which of these possibilities holds true depends on how the **foo()** function is declared. The latter behavior — determining the version based on the type of the object — is an example of what's called *polymorphism*, where the same pointer might be used to call different versions of **foo()** at run time, depending on the kind of object the pointer points to.
+- But polymorphism has a run-time cost (i.e., the cost of looking up the appropriate version of the function at run time, based on the type of the object), so this behavior is not the default in C++. You have to opt in, on a member-function-by-member-function basis, by declaring particular member functions to be virtual. We declare a member function to be virtual by putting the keyword **virtual** at the beginning of its signature in the class declaration.
+
+<p>
+class X<br>
+{<br>
+public:<br>
+    <ul>
+    virtual void foo();<br>
+    </ul>
+};<br>
+<br>
+class Y : public X<br>
+{<br>
+public:<br>
+    <ul>
+    void foo();<br>
+    </ul>
+};<br>
+</p>
+
+- Note that declaring foo() to be a virtual function in the class X automatically makes it virtual in all of the classes derived from X, so we don't need to mark foo() as virtual in the class Y. It's wise to be clear about the fact that you intend to be overriding a member function from a base class, though; there's more to be said about that in the next section.
+- If foo() is virtual, then our calls to foo() using rxx and px2 will both call Y's version of foo(). If foo() is not virtual, then they would call X's version (i.e., the version corresponding to the pointer's or reference's type) instead.
+- Member functions that are intended to override a member function from a base class are best marked with an override specifier, which means that the word **override** should be added to the end of their signature:
+
+<p>
+class Y : public X <br>
+{<br>
+public:<br>
+    <ul>
+    void foo() override;<br>
+    </ul>
+};<br>
+</p>
+
+- While this is not strictly necessary in C++ — technically, what makes Y::foo() override X::foo() is the fact that their signatures match (and what makes it useful is the fact that the member function is virtual) — it is a good habit to get into, for at least a couple of reasons:
+    - Your code reads more clearly, because the word **override** in its signature alerts the reader to the relationship between the member function and a corresponding one from a base class.
+    - More importantly, if you specify that this is your intent, the compiler will now check your intent, meaning that you'll be able to get back a compile-time error in any case where that intent isn't met, such as these:
+        - You mark a member function with **override** in a class whose base class doesn't have a member function with that name.
+        - You mark a member function with **override** in a class whose base class does have a member function with that name, but whose signature doesn't match.
+        - You mark a member function with **override**, but that member function was not declared virtual.
+    - In any of these cases, what you would get without the word override is a program that compiles and exhibits behavior other than what you were expecting. In other words, in none of these cases would your member function actually override a member function from the base class, but if you expected that it had, you would be misunderstanding your own program. Eliminating possible mistakes, by turning them into compile-time errors, is always a good thing.
+- Note, too, that this argument is especially true of programs that evolve over time. If you were to change the signature of a member function in a class, any class derived from it would have to change. With **override** on the derived class' member functions, these issues would manifest themselves as compile-time errors and be quickly fixed. Without it, they would be issues that wouldn't surface until run-time, which might very well mean that they would be problems that you wouldn't notice right away, perhaps not until users of the program were affected.
+
+## Abstract Base Classes
+- We could begin with relatively straightforward implementations of Circle and Rectangle classes (and whatever other shapes we'd like to implement; feel free to practice by adding additional shapes to this example).
+
+<p>
+class Circle<br>
+{<br>
+public:<br>
+    <ul>
+    double area() const;<br>
+    </ul>
+};<br>
+<br>
+class Rectangle<br>
+{<br>
+public:<br>
+    <ul>
+    double area() const;<br>
+    </ul>
+};<br>
+</p>
+
+- One way to relate C++ classes that share the same interface (i.e., that have one or more member functions with identical signatures and identical meanings) is to make that relationship explicit using inheritance. We do that by introducing a base class that's general — not specific to any particular kind of shape — and then derive our Circle and Rectangle classes from it. A good name for that class might be Shape.
+
+<p>
+class Shape<br>
+{<br>
+public:<br>
+    <ul>
+    virtual double area() const;<br>
+    </ul>
+};<br>
+
+class Circle : public Shape<br>
+{<br>
+public:<br>
+    <ul>
+    double area() const override;<br>
+    </ul>
+};<br>
+
+class Rectangle : public Shape<br>
+{<br>
+public:<br>
+    <ul>
+    double area() const override;<br>
+    </ul>
+};<br>
+</p>
+
+- The trouble, though, is that there is no reasonable implementation for Shape's area() member function. What does it mean to ask a shape for its area? It depends on what kind of shape it is. The Shape class represents the abstract notion of a shape without being any particular kind of shape. And if we don't know what kind of shape we have, we don't know how to calculate its area.
+- This issue arises in designs like this quite often, so C++ offers a way to establish the important fact about our design — namely, that all shapes can calculate an area the same way — while leaving the implementation details to be filled in by derived classes. We do this by declaring area() in the Shape class to be a pure virtual function, by using the rather bizarre-looking = 0 notation at the end of its signature. (You can read that as the word "pure" if it helps it to make more sense.)
+
+<p>
+class Shape<br>
+{<br>
+public:<br>
+    <ul>
+    virtual double area() const = 0;<br>
+    </ul>
+};<br>
+</p>
+
+- Doing this has two consequences:
+    - **Shape::area()** has no body. It's not a function, but merely a placeholder for functions that will be defined in derived classes.
+    - **Shape**, by virtue of having at least one pure virtual function, is a class that has member functions that are unimplemented. It would be dangerous to have **Shape** objects, because you might call one of these missing member functions on it, and the compiler wouldn't be able to prevent this from happening in all cases. So as soon as a class has at least one pure virtual function, it becomes a special kind of class called an abstract base class. It is not possible to create objects of an abstract base class — to protect you from inadvertently calling a pure virtual function — but it is possible to have pointers or references of these types, which is what makes polymorphism possible.
