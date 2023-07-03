@@ -144,7 +144,8 @@ int** q = &p; // q is a pointer to a pointer to an integer
 - In general, if you have an int* p:
     - p is an expression that evaluates to the pointer itself (i.e., a memory address where you would find an int)
     - *p is an expression that evaluates to the object that the pointer points to (i.e., an int)
-- As you might imagine, then, **&** (address-of) and __*__ (dereference) are the inverse of one another.
+- As you might imagine, then, **&** (address-of) and __*__ (dereference) are the inverse of one another.  
+
 int i = 3;  
 int* p = &i;  
 std::cout << i << std::endl; // i = 3  
@@ -155,6 +156,7 @@ int* p = new int;
 *p = 3;  
 int*& s = p; // s is a reference to a pointer to an ineger  
 *s = 6;  
+
 - **There are no pointers to references in C++**.       
     -References are treated identically to the objects they refer to, so a pointer to reference would have no useful meaning; it would be no different from a pointer to the object that the reference referred to. For that reason, C++ simply disallows them.
 - When you allocate, say, a new int, you've asked for your program to do three things, right then and there:
@@ -215,10 +217,12 @@ const int& y = x;
 void printInReverse(const std::string& s)  
 {  
     <ul>
-    for (int i = s.length() - 1; i >= 0; --i)  
+    for (int i = s.length() - 1; i >= 0; --i)
 
     {  
-        std::cout << s[i];  
+        <ul>
+        std::cout << s[i];
+        </ul>  
     }  
     </ul>
     <ul>
@@ -607,3 +611,267 @@ LinkedList::Node* LinkedList::foo(Node* n)
 ## Unit Testing
 - This kind of testing, where we focus on a single, small piece of a program — a single class, a single module, sometimes even a single function — in isolation from the others is called *unit testing*.
 - There are some who would say that every line of code in a program should be covered by at least one unit test; this can be difficult to achieve in practice, but is a worthy goal if you can achieve it. It should be noted, though, that fully unit testing a program requires techniques we've not yet learned, so it's probably beyond the limits of what we can accomplish in this course. How you design a program is an important part of whether you can write unit tests for it.
+- A test begins with the word **TEST** (all uppercase), followed by two names in parentheses, followed by the test's body between curly braces. So it looks like a function, though it has no declared return type, and the name of the test is actually specified within the parentheses.
+- In every other way, you can think of these as C++ functions and, more or less, be right about it. (Technically, **TEST** is what's called a *macro*; it gets translated, behind the scenes, to a function and some other bits and pieces that help Google Test to find it and call it for you.)
+- Individual tests are grouped together into what are called *test cases* (a slightly odd name, but you can think of them as test groups if it helps).
+- For each test you write, you specify the name of the test case first, then the name of the individual test. So the test above is a test called **testName** in a test case called **TestCaseName**.
+- Each test you write is intended to focus on one *behavior* of the code you're testing.
+    - Note that I didn't say one function or one member function, for the simple reason that you quite often can't test one function without using others.
+    - Behaviors are *sequences* of calls to functions for which there are known results. It's often the case that you need a sequence of calls before you have a result you can verify.
+- Each test should focus on a single behavior, not a single function.
+    - The goal is this: When a test fails, you should know exactly what scenario failed, rather than having to look through a long sequence of test code to try to decide what part of it is wrong.
+    - If you want to test three different behaviors involving the same function, write three separate tests.
+- When writing a Google Test, there are two ways to specify results that should be checked by your test: assertions and expectations. They are nearly the same, with one key difference:
+    - An assertion specifies something that must be true at the point where it's written (e.g., the return value of the function blah() must be zero). If it's not, the test is aborted and is considered to have failed, and the report will show why.
+    - An expectation specifies something that must be true at the point where it's written, similar to an assertion. If it's not, the test is considered to have failed, but the test continues executing anyway, so you can see if other expectations also fail in the same test, and the report will show all expectations that failed and why.
+- You might argue that you could also just as easily check the title in that same test, but I would argue that this is a different behavior, so it should be a different test.
+
+## Well-Behaved Classes
+- Here are some things that objects of a well-behaved class do.
+     - The statically-allocated portion of them is compact enough that it is possible to store objects of a well-behaved class on the run-time stack, so we can get the benefit of their automatically deletion when they fall out of scope. If these objects manage large amounts of memory, it's dynamically-allocated by the object behind the scenes.
+    - They clean up after themselves automatically when they die, meaning that deleting an object is all that needs to be done to ensure that no other resources (memory, open files, etc.) associated with that object have leaked.
+    - They can be passed to functions by value and preserve the usual semantics (i.e., changing the object within the function does not have any effect on the original). In cases where this doesn't make sense, this should be disallowed altogether, rather than silently behaving badly.
+    - They can be assigned into existing objects of the same type, with the appropriate copying and cleanup, again, done automatically. In cases where this doesn't make sense, this should be disallowed altogether, rather than silently behaving badly.
+    - They can be const, while preserving the ability to perform all operations that do not violate the promise of const. In other words, operations that do not change the publicly observable state of the object are legal; those that do potentially change it are illegal.
+    - They shouldn't do unnecessary work or use memory or other resources unnecessarily; they should be efficient. (Note that the term "unnecessarily" is in the eye of the beholder; the goal isn't always to be absolutely as fast as possible, when that goal trades off against other desirable properties like readability, maintainability, or separation of concerns.)
+- Classes whose objects manage resources that live outside of themselves — such as dynamically-allocated memory, open files, open connections to networks, etc. — generally require three new kinds of functions to be implemented.
+    - A *destructor*. We've seen previously that constructors are called just after an object is created; their job is to initialize the newly-created object. Destructors are called just before an object's death, and they perform whatever cleanup is necessary (aside from the destruction of the member variables, which is handled automatically).
+    - A *copy constructor*, which is used to initialize new objects that are created as copies of existing ones (e.g., because an object has been passed by value, or because one object has been used to explicitly initialize another).
+    - An *assignment operator*, which is called every time an existing object is assigned into another existing object. Note that this is distinct from what a copy constructor does; copy constructors initialize newly-created objects, while the assignment operator is invoked when you have two objects already and one is being assigned into the other.
+- These three functions, together, are sometimes called **The Big Three**, because the need to write one of them usually implies the need to write all three of them, and because they play a vital role in allowing many kinds of objects to manage resources properly.
+
+- A default destructor has an empty body, meaning that the only thing destroyed are the member variables.
+- By default, creating a copy of an object copies its member variables, one by one, into the new object. If those member variables are all well-behaved, they support the appropriate copying semantics already, so nothing special needs to be done.
+- By default, assigning an object assigns its member variables one by one from the source object into the target object, in place of the original member variables in the target object. If those member variables are well-behaved, they support assignment already.
+- Note, also, that the Big Three became the Big Five in the C++11 standard, because of the inclusion of a new feature called *moving*. I left that out of this example for the sake of simplicity, but moving does offer a significant performance optimization for some kinds of objects. We may see the tools for this — *move constructors* and *move assignment operators* — later in this course, but we'll wait on them for now; all things in time.
+
+## C++ Standard Library
+- The C++ Standard Library provides its data structures and algorithms in a portion of the library that is split, roughly, into three interlocking parts: *containers*, *generic algorithms*, and *iterators*.
+- The C++ Standard Library provides a set of what are called containers (or data structures), some examples of which include:
+    - std::vector, an array-based sequence, in the same spirit as the ArrayList class we wrote in a previous example
+    - std::list, a doubly-linked list with head and tail pointers
+    - std::map, a balanced binary search tree of key/value pairs
+- Since a vector's elements are stored, behind the scenes, in a dynamically-allocated array, some things become immediately apparent:
+    - A vector must have a notion of a capacity, which is to say that the array must have been created with a particular number of cells.
+    - A vector stores its elements in array cells, so each element has an index.
+    - Accessing an element, given its index, is a constant-time operation (i.e., it runs in O(1) time).
+    - Inserting elements at the beginning of the sequence, removing elements from the middle of the sequence, and so on, are more expensive, requiring a linear number of operations (i.e., O(n), if there are n elements in the vector).
+- The size of a vector is determined by how many things we're currently storing in it; 
+- Its capacity is determined by how many things we can store in it without running out of space in the array.
+- You can also initialize a vector to contain a predefined sequence of elements, using the same initializer list syntax we saw when we learned about structs previously. The objects in the initializer list become the vector's elements, while the size of the vector is the number of objects in the initializer list.  
+
+std::vector<int> v{1, 2, 3, 4, 5};  
+
+- For example, this variant creates a vector containing 10 elements that all have the value 100.  
+
+std::vector<int> v(10, 100);  
+
+- There is a bounds-checked alternative: a member function called at(), which throws an exception when an attempt is made to access an element outside of the boundaries of the vector's size (i.e., outside of the index range [0, size-1]).
+
+for (unsigned int i = 0; i < 10; i++)  
+{  
+    <ul>
+    v.at(i) += 10;  
+    std::cout << v.at(i) << std::endl;  
+    </ul>
+}  
+
+- If it looks strange to you that you can assign to the result of calling a function, this isn't as crazy as it looks. The at() member function returns a reference to the cell in question, as opposed to a copy of it, so that assigning to the result of calling at() is actually assigning directly into a cell of the array.
+- Of course, if the vector is const, you won't be able to assign into its cells, since that would constitute a change to the vector's publicly observable state; in fact, anything that changes any element of the vector will be disallowed.  
+
+void foo(const std::vector\<int>& v)  
+{  
+    <ul>
+    v.push_back(15);   // illegal  
+    v[3] = 50;         // illegal  
+    v.at(3) = 50;      // illegal  
+    for (unsigned int i = 0; i < v.size(); i++)      // legal  
+    {  
+        <ul>
+        std::cout << v.at(i) << std::endl;     // legal  
+        </ul>
+    }  
+    </ul>
+}
+
+- The C++ Standard Library provides a set of generic algorithms, which generalize commonly-occurring operations that you might like to perform, such as these:
+    - Apply the same function to each of a range of values
+    - Find a value in a range of values that has a particular, interesting property (e.g., is a positive number, is a student whose age is greater than 21, etc.)
+    - Remove from a range of values those that have a particular, interesting property
+    - Shuffle the values in a range of values randomly, so they appear in a different (randomly-determined) order than they did before
+    - Sort the values in a range of values, possibly given an arbitrary function to compare pairs of values to see which should come first
+
+- Iterators are the glue between the containers and the generic algorithms. An iterator is an abstraction for a position in a container, whose main role is the provide access to the value stored at that position (e.g., in a particular cell of a std::vector), while hiding all of the details about the container's underlying implementation.
+- Syntactically, iterators behave a lot like pointers. In some cases, that's what they actually are; in others, they're more complex. But they support the same basic operators either way.
+    - You can use the * operator to dereference an iterator, just like you can use the * operator to dereference a pointer. The effect is the same: Given an iterator i pointing to a position containing a value v, *i would give you access to the value v. As with pointers, you could do this on either side of an assignment, so you could read the value of *i or you could change it. Also similar to pointers, the -> operator is available if the values have members.
+    - The ++ operator moves an iterator forward (i.e., to the next position in the container).
+    - The -- operator moves an iterator backward (i.e., to the previous position in the container).
+    - You can sometimes use other kinds of arithmetic (e.g., given an iterator i, writing i + 3 or i += 3 can be legal), which mirrors the pointer arithmetic we've seen previously.
+- Iterators support whichever operations are sensible for the kind of container they're iterating, and they are categorized on the basis of which operations they support. A few examples of those categorizations are:
+    - Forward iterators, which are able to iterate through a container in one direction (forward, one position at a time) but no other. This means they support * (dereferencing) and ++ (iterating forward).
+    - Bidirectional iterators, which are able to do everything that forward iterators can do, plus iterate backward (i.e., they also support --).
+    - Random access iterators, which are able to do everything that bidirectional iterators can do, plus arbitrary jumps using pointer-arithmetic-like syntax.
+
+- Recall a loop that we wrote previously to iterate over an array using a technique called pointer arithmetic.  
+
+int a[10];  
+for (int* p = a; p != a + 10; p++)  
+{  
+    <ul>
+    *p = 0;
+    </ul>  
+}  
+
+- Recall what's being done here.
+    - The pointer a points to the start of the array (i.e., the array's first cell).
+    - We calculate an "end position" from our knowledge of the array's size: a + 10 is a pointer to the cell directly following the last cell in the array.
+    - We move the traversal pointer p forward by using ++ (i.e., more pointer arithmetic).
+    - When we want to access one of the values in the array, we dereference the traversal pointer using the * operator.
+
+- While one could argue that this is a fairly obtuse piece of syntax, it turns out to be important to understand it, because iterators in the C++ Standard Library work the same way. Iterators behave a lot like pointers do. We use * to dereference them, ++ to advance them, and calculate "begin" and "end" positions as a way to traverse the elements. The only difference is the types at work.  
+
+std::vector\<std::string> s;  
+// ...  
+for (std::vector\std::string>::iterator i = s.begin(); i != s.end(); i++)  
+{  
+    <ul>
+    std::cout << *i << std::endl;  
+    </ul>
+}  
+
+- And since iterators behave like pointers, we can also use the -> operator to access members of the values they point to, just like pointers.  
+
+for (std::vector\<std::string>::iterator i = s.begin(); i != s.end(); i++)  
+{  
+    <ul>
+    std::cout << i->length() << std::endl;  
+    </ul>
+}  
+
+- Beginning in C++11, C++ compilers include a new feature called type inference, which allows the compiler to deduce the proper type for you automatically, instead of you having to say it. The way you ask for this behavior is simple: specify the type as auto.  
+
+for (auto i = s.begin(); i != s.end(); i++)  
+{  
+    <ul>
+    std::cout << i->length() << std::endl;  
+    </ul>
+}  
+
+- Let's consider a function that prints all of the elements in a vector of strings.  
+
+void printAll(const std::vector\<std::string>& v)  
+{  
+    <ul>
+    // What would be the appropriate type for i?  
+    for (??? i = v.begin(); i != v.end(); i++)  
+    {  
+        <ul>
+        std::cout << *i << std::endl;  
+        </ul>
+    }  
+    </ul>
+}  
+
+- As we've seen, the word const can be used in different places and mean different things. Let's think about some possible ways to write the correct type for i.
+    - std::vector\<std::string>::iterator would be incorrect, because the iterator type implies that values can be either read or written, which would violate the constness of the vector. (Because the vector is const, anything that introduces the possibility of changing the vector will be illegal; an iterator introduces that possibility.)
+    - const std::vector\<std::string>::iterator would also be incorrect, because it implies that the iterator itself can't be changed (i.e., you wouldn't be able to advance it forward using ++), and that you could still use it to modify the elements of the vector, which would violate the vector's constness. We don't want the iterator to be constant; we want the elements in the vector to remain constant.
+- Unfortunately, there isn't anywhere else we could legally add the keyword const to this type declaration to mean something different. But there is a way to say what we want to say here: use the type const_iterator instead of the type iterator. A const_iterator is one that can be used to read values from a container but not change them. So, the proper type for i would be std::vector\<std::string>::const_iterator.  
+
+void printAll(const std::vector\<std::string>& v)  
+{  
+    <ul>
+    for (std::vector\<std::string>::const_iterator i = v.begin(); i != v.end(); i++)  
+    {  
+        <ul>
+        std::cout << *i << std::endl;
+        </ul>  
+    }  
+    </ul>
+}  
+
+- Note, too, that the auto keyword would deduce this automatically, because of the vector's constness, making this code equivalent. (It's in matters like this where auto really shines.)  
+
+void printAll(const std::vector\<std::string>& v)  
+{  
+    <ul>
+    for (auto i = v.begin(); i != v.end(); i++)  
+    {  
+        <ul>
+        std::cout << *i << std::endl;  
+        </ul>
+    }  
+    </ul>
+}  
+
+- You may have noticed that there is a recurring pattern in these examples:
+    - Start an iterator where begin() points.
+    - Obtain each value the iterator points to.
+    - Advance the iterator forward once per loop iteration until it points where end() points.
+
+- In this pattern, the only reason we need the iterator is to track our position as we iterate; it's an implementation detail of our pattern, but is otherwise boilerplate. For this reason, another kind of for loop — called a range-based for loop — was introduced into C++. The range-based for loop automates precisely this pattern.  
+
+std::vector<int> v{1, 2, 3, 4, 5};  
+for (int i : v)  
+{  
+    <ul>
+    std::cout << i << std::endl;  
+    </ul>
+}  
+
+- Behind the scenes, the range-based for loop is turned into this equivalent:  
+
+std::vector<int> v{1, 2, 3, 4, 5};  
+for (std::vector\<int>::iterator v_iterator = v.begin(); v_iterator != v.end(); v_iterator++)  
+{  
+    <ul>
+    int i = *v_iterator;  
+    std::cout << i << std::endl;  
+    </ul>
+}  
+
+- It should be noted, too, that the range-based for loop doesn't work only on vectors; it works on anything that looks like a C++ Standard Library container (i.e., it has begin() and end() that return iterators).
+- As with the use of auto that we saw previously, constness is handled properly and automatically. And we can even avoid copying the vector's elements into our loop variable by using techniques like const references.
+
+void printAll(const std::vector\<std::string>& v)  
+{  
+    <ul>
+    for (const std::string& s : v)  
+    {  
+        <ul>
+        std::cout << s << std::endl;  
+        </ul>
+    }  
+    </ul>
+}  
+
+- For example, suppose we wanted to print all of the values in a std::vector<std::string> to the standard output, one per line. The std::for_each algorithm will make that very simple, indeed.  
+
+#include <algorithm>   // This is where the generic algorithms are declared  
+#include <string>  
+#include <vector>  
+
+void printStringLine(const std::string& s)  
+{  
+    <ul>
+    std::cout << s << std::endl;  
+    </ul>
+}  
+// ...  
+std::vector<std::string> v;  
+// ...  
+std::for_each(v.begin(), v.end(), printStringLine);  
+
+- The first two arguments to std::for_each specify the range of values that we want to operate on; in this case, we're passing the entire contents of the vector v by using the begin() and end() member functions. The third argument specifies the function that we want to apply to every value; in this case, we've passed our own printStringLine function, which prints a single string value on a line by itself.
+- Note, too, that the generic algorithms that accept functions as arguments actually accept function objects, which means that we can pass anything that can be called as a function, including not only functions that we've written, but also arbitrary objects with overloaded function call operators, including the ones built by lambdas.
+
+std::vector<std::string> v;  
+// ...  
+std::for_each(  
+    <ul>
+    v.begin(), v.end(),  
+    <ul>
+    [](const std::string& s) { std::cout << s << std::endl; }); 
+    </ul>
+    </ul> 
+
+## Inheritance and Polymorphism
