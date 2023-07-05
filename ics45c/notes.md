@@ -842,11 +842,11 @@ void printAll(const std::vector\<std::string>& v)
     </ul>
 }  
 
-- For example, suppose we wanted to print all of the values in a std::vector<std::string> to the standard output, one per line. The std::for_each algorithm will make that very simple, indeed.  
+- For example, suppose we wanted to print all of the values in a std::vector\<std::string> to the standard output, one per line. The std::for_each algorithm will make that very simple, indeed.  
 
-#include <algorithm>   // This is where the generic algorithms are declared  
-#include <string>  
-#include <vector>  
+#include \<algorithm>   // This is where the generic algorithms are declared  
+#include \<string>  
+#include \<vector>  
 
 void printStringLine(const std::string& s)  
 {  
@@ -855,14 +855,14 @@ void printStringLine(const std::string& s)
     </ul>
 }  
 // ...  
-std::vector<std::string> v;  
+std::vector\<std::string> v;  
 // ...  
 std::for_each(v.begin(), v.end(), printStringLine);  
 
 - The first two arguments to std::for_each specify the range of values that we want to operate on; in this case, we're passing the entire contents of the vector v by using the begin() and end() member functions. The third argument specifies the function that we want to apply to every value; in this case, we've passed our own printStringLine function, which prints a single string value on a line by itself.
 - Note, too, that the generic algorithms that accept functions as arguments actually accept function objects, which means that we can pass anything that can be called as a function, including not only functions that we've written, but also arbitrary objects with overloaded function call operators, including the ones built by lambdas.
 
-std::vector<std::string> v;  
+std::vector\<std::string> v;  
 // ...  
 std::for_each(  
     <ul>
@@ -1080,3 +1080,427 @@ public:<br>
 - Doing this has two consequences:
     - **Shape::area()** has no body. It's not a function, but merely a placeholder for functions that will be defined in derived classes.
     - **Shape**, by virtue of having at least one pure virtual function, is a class that has member functions that are unimplemented. It would be dangerous to have **Shape** objects, because you might call one of these missing member functions on it, and the compiler wouldn't be able to prevent this from happening in all cases. So as soon as a class has at least one pure virtual function, it becomes a special kind of class called an abstract base class. It is not possible to create objects of an abstract base class — to protect you from inadvertently calling a pure virtual function — but it is possible to have pointers or references of these types, which is what makes polymorphism possible.
+- Now that we have the Shape class, there's a natural way to express the idea that we want a variable that can potentially store any kind of shape. Of course, we can't use the type Shape for such a variable, but we can use a pointer or a reference instead. So, for example, we could implement a function in C++ that's analogous to our print_area Python function this way:
+
+<p>
+void printArea(const Shape& s)<br>
+{<br>
+    <ul>
+    std::cout << "The area of the shape is " << s.area() << std::endl;<br>
+    </ul>
+}<br>
+</p>
+
+- The parameter s can be referred to any type of object that inherits from Shape. Meanwhile, because area() is a virtual function in Shape, the appropriate version of area() will be called based on the type of shape we have.
+- We can also store collections of shapes, though we would now need to use pointers rather than references, since collections can change over their lifetime. For example, we could have a vector of Shape pointers, each able to point to any type of object that inherits from Shape.
+
+<p>
+double calculateSumOfAreas(const std::vector<\Shape*>& shapes)<br>
+{<br>
+    <ul>
+    double total = 0.0;<br>
+    <br>
+    for (const Shape* s : shapes)<br>
+    {<br>
+        <ul>
+        total += s->area();<br>
+        </ul>
+    }<br>
+    <br>
+    return total;<br>
+    </ul>
+}<br>
+</p>
+
+## Type Conversions
+- In C++, values of many of the built-in types can be *implicitly* converted to other built-in types. By *implicitly*, I mean that it is not necessary for you to ask for the conversion to take place; it simply happens, with the compiler deducing automatically that it's necessary based on context. The most obvious example arises in the various integral types, which we've seen before are implicitly convertible to one another.
+- In C, it is legal to cast values of most types to values of most other types, simply by asking for the conversion to be done. We'll call these C-style casts. An example will drive the discussion:
+
+<p>
+int i = 3;<br>
+int* p = (int*) i;<br>
+<br>
+std::cout << i << std::endl;   // prints <strong>3</strong><br>
+std::cout << p << std::endl;   // prints <strong>0x3</strong><br>
+</p>
+
+- Not all C-style casts are so insidious, though. For example, if you have two int values and you want to divide one by another and get back a double result, it's not as easy as it sounds.
+
+<p>
+int i = 3;<br>
+int j = 4;<br>
+double k = i / j;<br>
+
+std::cout << k << std::endl;   // prints <strong>0</strong><br>
+</p>
+
+- The reason that k's value is 0 is that division of two integers in C++ is defined as integer division, which is to say that we divide the two integers, discard whatever fractional part there might be, and return the result. So, rather than k having the value 0.75 that you might expect, it has the value 0 instead.
+- One solution to this problem is to explicit convert one value or the other to a **double**. As long as one of them is **double**, even if the other is **int**, C++ will perform floating-point division and give you a **double** as a result. So one way to write that would be like this:
+
+<p>
+int i = 3;<br>
+int j = 4;<br>
+double k = i / (double) j;<br>
+<br>
+std::cout << k << std::endl;   // prints <strong>0.75</strong><br>
+</p>
+
+- Note, too, that parenthesization matters here, and in ways you might not expect. C-style casting has a higher precedence than most other operators, meaning that it binds more tightly to operands than, say, a division operator does. So, for example: **(double) i / j** technically means "Cast **i** to **double**, then divide that by the **int j**." Meanwhile, **(double) (i / j)** means "Divide the **int i** by the **int j** (yielding an integer), then cast the result to a double."
+
+- You can use C-style casts to cast pointers from one type to another, which is occasionally useful when you want to do downcasting in an inheritance hierarchy (i.e., you have a <strong>Shape*</strong> pointing to an object that you know is a **Circle** and want to cast the pointer to <strong>Circle*</strong> instead). And C-style casts will do that, too.
+
+<p>
+Shape* ps = new Circle{3.0};<br>
+Circle* pc = (Circle*) ps;<br>
+</p>
+
+- Though it should be noted that this cast will succeed whether the pointer really points to a **Circle** object or not. What you'll want is a pointer to an object that you'll now be able to treat as a **Circle**; if it's something else, you'll very likely end up with undefined behavior, or even a program crash. In fact, you can even use C-style casts to convert between pointers of completely unrelated types.
+
+<p>
+struct A<br>
+{<br>
+    <ul>
+    int a;<br>
+    </ul>
+};<br>
+<br>
+struct B<br>
+{<br>
+    <ul>
+    double b;<br>
+    </ul>
+};<br>
+<br>
+A* a = new A{3};<br>
+B* b = (B*) a;<br>
+std::cout << b->b << std::endl;   // on the ICS 45C VM, prints <strong>1.4822e-323</strong><br>
+</p>
+
+- C-style casts, ultimately, have two shortcomings, which means that they're best avoided in modern C++ programs.
+    - Their syntax is difficult for human readers to parse, especially in complex expressions. Parentheses have too many other meanings already — function calls, constructor calls, overriding precedence and associativity of operators — which means that it's difficult to glance at an expression and recognize that it has a cast in it. But casts are places where potential danger lies, so we should want them to be obvious when they appear.
+    - C-style casts can be used to accomplish very different goals: converting between numeric types, downcasting in an inheritance hierarchy, or even converting between values of unrelated types. However, there's no differentiation in the syntax; one syntax can do any of these things, which means that a small mistake won't always lead to a compile time error, but will instead compile into code that means something very different from what you intended.
+- A *dynamic cast* is one that casts a pointer or reference of one type to a pointer or reference of a related type. In particular, by related type, I mean that they're class types that are related by inheritance, and that your goal is to downcast in an inheritance hierarchy (which is to say that you have a pointer of a base class type and you want to cast it to a derived class type). Consider the Shape example we've seen previously; this would be a legal use of **dynamic_cast**.
+
+<p>
+void foo(Shape* s)<br>
+{<br>
+    <ul>
+    Circle* c = dynamic_cast<\Circle*>(s);<br>
+    // ...<br>
+    </ul>
+}<br>
+</p>
+
+- Note the syntax here; the use of dynamic_cast looks very much like a call to a function template. As it turns out, **dynamic_cast** isn't really a function, but it doesn't hurt to think of it that way.
+- The compiler will emit code that checks whether s is really pointing to a Circle object. If so, the cast succeeds and c will be a Circle* pointing to it; if not, the cast fails and **c** will instead be **nullptr**.
+- There's one more small wrinkle: **dynamic_cast** will only work when the types involved have at least one virtual member function. It should be noted that this is generally the only circumstance where you'd typically want to use it, anyway.
+
+- A *static cast* is one that is entirely resolved at compile time. That means there is an inherent risk involved, since the compiler can't necessarily be sure what the run-time type of an object is, given only a pointer to it. For example, if we rewrote our **foo()** function above this way:
+
+void foo(Shape* s)<br>
+{<br>
+    Circle* c = static_cast<Circle*>(s);<br>
+    // ...<br>
+}<br>
+
+- The cast will succeed regardless of what kind of object s points to, though subsequent use of the pointer c will lead to undefined behavior if the object isn't really a **Circle**. In a case like this, one reason you might choose **static_cast** over **dynamic_cast** is a performance reason (i.e., avoiding the cost of the type check at run time). As is often the case, there is a tradeoff here between safety and speed.
+- But, at the very least, the compiler can check whether there's some chance of the cast succeeding (e.g., by checking whether there is an inheritance relationship between the types) and report an error at compile time if you try to use it for a conversion between unrelated types. And, additionally, you can use **static_cast** to invoke built-in conversions between non-pointer types, such as this one.
+
+<p>
+double d = 3.5;<br>
+int i = static_cast<int>(d);   // legal, because such a conversion exists<br>
+</p>
+
+- A *reinterpret cast* is a very scary instrument, indeed. You can use **reinterpret_cast** to convert just about anything into just about anything else, similar to the C-style casts we saw previously. For example, a **reinterpret_cast** will allow you to convert between pointers of unrelated types, between integers and pointers, and so on.
+- It's not often you need something like this — and it's best avoided if you don't have the absolute need, since it's so dangerous in practice — but it does come in handy once in a while to be able to make conversions in a completely unrestricted way. One such use is to cast pointers to <strong>void*</strong> and back, where void* is an untyped pointer: an address without a type. A void* doesn't let you do anything with the object it points to (since it's unknown what the object's type is), but a reinterpret_cast would let you cast the pointer to a different type, provided that you knew what the right type was. This is the kind of thing that's done in extremely low-level code, such as memory allocators, but if you find yourself doing this often in higher-level programs, your design is probably lacking.
+- All of the C++ casts we've seen so far, including reinterpret_cast, are respectful of const, in the sense that none of those casts can be used to change a const type to a corresponding non-const type (e.g., to cast from const std::string& to std::string&). (On the other hand, C-style casts will let you do this, whether you meant to do it or not; this is one of many reasons they're best avoided.)
+- In general, this is a good thing; we don't want const protections to be thrown away indiscriminately. But sometimes we have to remove it temporarily; for example, if we need to interoperate with someone else's C++ code and they didn't make proper use of const (e.g., they have a class with member functions that should be marked const but aren't), we may not have the ability to change their code, so we'll have to work around the problem if we want to make use of it. A const cast can be used to remove the const from a type, while introducing no other changes to it. (If you also wanted to change the type in some other way, you'd have to do two casts: a const_cast to remove the const and another one such as a static_cast or dynamic_cast to change the type.) A simple example:
+
+<p>
+void blah(const Blah& b)<br>
+{<br>
+    <ul>
+    Blah& bb = const_cast<Blah&>(b);<br>
+    bb.someMemberFunctionThatIsNotConst();<br>
+    </ul>
+}<br>
+</p>
+
+- As a rule, **const_cast** is something that should make you feel uncomfortable to use, because it represents a way to subvert invariants about how a program is supposed to behave. Once in a while, you have no choice, but it's very much a tool of last resort.
+
+- Suppose we have a class called Transaction, where a Transaction has an ID that is initialized when it's constructed. (There might well be other interesting things about transactions in the context of the program we're writing, but we'll leave them out of this example to keep things simple.) We might write such a class this way.
+
+<p>
+class Transaction<br>
+{<br>
+public:<br>
+    <ul>
+    Transaction(int id): id{id} { }<br>
+    int getId() const { return id; }<br>
+    </ul>
+<br>
+private:<br>
+    <ul>
+    int id;<br>
+    </ul>
+};<br>
+</p>
+
+- Now suppose that you had the following two functions that take a Transaction as a parameter, one by value and the other by reference.
+
+<p>
+void val(Transaction t) { ... }
+void ref(Transaction& t) { ... }
+</p>
+
+- Which of the following lines of code would you expect to be legal? (Take a moment to decide what you think before proceeding with reading this section.)
+
+<p>
+Transaction t1{14}; // legal<br>
+Transaction t2 = 17; // legal<br>
+int i3 = 555; Transaction t3 = i3; // legal<br>
+val(72); // legal<br>
+ref(89); // illegal<br>
+</p>
+
+- Let's consider them individually:
+    - Transaction t1{14} will be legal, because this is clearly a call to Transaction's constructor, with a single parameter of type int. Transaction has such a constructor, so this one is fine.
+    - Transaction t2 = 17 will be legal, as well. At first blush, it looks a bit ridiculous, but when you consider that copy constructors work this way, it's not entirely surprising; if assigning a value of the same type when constructing an object calls a one-argument copy constructor, maybe it's not so crazy that assigning a value of a different type works, as long as there's a one-argument constructor that accepts that type.
+
+<p>
+<ul>
+Transaction t4{998};<br>
+Transaction t5 = t4;   // calls the copy constructor<br>
+</ul>
+</p>
+
+-
+    - i3 = 555; Transaction t3 = i3 is legal for the same reason that Transaction t2 = 17 is legal.
+    - val(72) looks entirely ridiculous. We're calling a function that accepts a Transaction by value, but we're passing it an int. And yet, oddly, this line is also legal, for the same reason as Transaction t2 = 17.
+    - ref(89) is illegal, because a Transaction reference can't be made to refer to an object of the incompatible type int.
+
+- One could certainly argue that this is not a sensible default — and plenty of folks much more well-known in the C++ community than me think so! — but it's long been the rule in C++, so it's not a rule that can be changed now without breaking a lot of existing code. Still, we don't have to live with this default; we just have to know how to turn it off.
+
+- A constructor that is marked with the **explicit** keyword at the beginning of its signature is one that can only be called explicitly, which is to say that it can never be used to invoke an implicit type conversion. It's not a word you can use in the signature of anything but a constructor, and it only really makes sense to use it on a constructor that takes a single argument — the only circumstance where it will otherwise be easy to make a mistake like passing a parameter of one type and having it be implicitly converted to another type without us realizing it. But when you write a constructor that can be called with one argument, you should consider whether you want the implicit conversion to be a possibility; in my experience, the answer is more often than not "No!", but it's worth thinking about each time.
+
+- So we could refine our **Transaction** example above like this:
+
+<p>
+class Transaction<br>
+{<br>
+public:<br>
+    <ul>
+    explicit Transaction(int id): id{id} { }<br>
+    int getId() const { return id; }<br>
+    </ul>
+<br>
+private:<br>
+    <ul>
+    int id;<br>
+    </ul>
+};<br>
+</p>
+
+- The one-word change, adding **explicit** to the constructor's signature, is enough to clean up our design, so that the things that seemed crazy now become illegal.
+
+<p>
+Transaction t1{14}; // legal<br>
+// all illegal below
+Transaction t2 = 17;<br>
+int i3 = 555; Transaction t3 = i3;<br>
+val(72);<br>
+ref(89);<br>
+</p>
+
+- Of these examples, the only one that will now be legal is the first one. For a design like this, I would argue that it's the only one that made sense! One of the hallmarks of a good C++ design is one in which a program doesn't compile when you do something you shouldn't; much of what's been added to the language over the years has been added with the goal of making it possible for compilers to catch more of our mistakes for us automatically. But compilers can't do that unless we can communicate our intent; explicit is another in a long list of C++ features we've seen that allow us to do that.
+
+## Static Members
+- The static members of a class are the ones that belong to the entire class, instead of belonging to individual objects of that class. Static member variables exist whether you have objects of the class or not, independent of the individual objects of that class. Static member functions are called on the class, rather than being called on an object of the class; you don't even need an object of the class to call them, and they don't have access to non-static member variables unless you qualify them with an object of the class.
+- An example of that would be implementing a feature to keep track of how many objects of some class exist. The code example below explores that idea by implementing a class called Widget. Widgets aren't especially interesting on their own — they store an integer ID and nothing else — but what is interesting about them is that it's possible, at any given time, to find out how many Widget objects exist (i.e., have been allocated but not yet deallocated). The trick is to add two things to the Widget class:
+    - A static member variable that keeps track of how many Widget objects there are. This member variable needs to be static because there's only one such count; each Widget doesn't keep track of this count separately.
+    - A static member function that makes it possible to ask how many Widget objects there are. This is best implemented as a static member function for two reasons:
+        - Conceptually, it makes sense, since this is a question you are asking of the Widget class — "How many of you are there?" — instead of one particular Widget.
+        - Having been implemented as a static member function, it will be possible to call it without first creating a Widget object, simply by saying Widget::getWidgetCount(). You shouldn't need a Widget in order to find out how many Widgets there are.
+
+## Contracts and Exceptions
+- To formalize what it means to "think a function's design all the way through," we can say that functions (including member functions of classes) have a contract associated with them.
+- Part of that contract is specified formally as the function's signature; in C++, that signature lists the name of the function, the names and types of its parameters, and the type of its result.
+- But a contract is more than a signature; to understand a function's contract, you have to finish your thought about its design. A function's contract consists, additionally, of (at least) the following:
+    - *Preconditions*, which are the things that must be true before you can call the function and see it succeed. Some of these preconditions might be the values of its parameter (e.g., the sqrt function might require its parameter to be non-negative). Some of them might require other things to be true (e.g., other functions have been called successfully or, in the case of member functions, the object's member variables have to have certain values already).
+    - *Postconditions*, which are the things that will be true once the function has completed successfully, assuming that the preconditions were all true. In the case of the sqrt function, we would expect to get a return value of type double if the preconditions pass; we would also expect that if we squared that value, we would get a result very close to the parameter's value (allowing some tolerance for the imprecision of doubles).
+    - *Side effects*, which are the things that happen other than the function computing and returning a result. Examples include dynamically allocating or deallocating memory, writing output to the console or to a file, establishing a connection across a network, popping up a GUI window, and so on.
+- Classes, too, have a contract associated with them. As with functions' contracts, the contract of a class is partly made up of what's written in the class declaration, as well as the contract associated with each member function. But, additionally, there is one other thing that is included:
+    - *Class invariants*, which are the things that must always be true about the members of a class after each member function has completed successfully, above and beyond what's specified in the class declaration.
+- The ArrayList class that I wrote in the Well-Behaved Classes example has a couple of invariants, beyond just the types specified in the declaration:
+    - An ArrayList's capacity will always be at least as large as its size.
+    - The capacity of an ArrayList will always match the number of elements in its underlying array.
+
+- There would be two benefits if we could encode this information in C++, rather than in comments:
+    - Specifying things like preconditions, postconditions, and class invariants in code instead of in a natural language like English would leave them less open to the ambiguity of natural language, which would improve a human reader's understanding of a program.
+    - Being able to write actual C++ code that describes preconditions, postconditions, and class invariants would allow a compiler to perform some checking at compile time — though, in reality, there would be relatively few such violations that a compiler could reasonably catch — and also to (optionally) generate code that performs the checks at run-time. For example, a call to a function where the preconditions aren't met could simply cause the function to fail with a meaningful error message, rather than trying to muddle through with bad input.
+
+- Our sqrt function might be declared this way:
+
+<p>
+double sqrt(double n)<br>
+    <ul>
+    [[expects: n >= 0.0]]<br>
+    [[ensures: sqrt(n) >= 0.0 && std::abs(sqrt(n) * sqrt(n) - n) < 0.0001]];<br>
+    </ul>
+</p>
+
+- Notice that we've explicitly specified that the parameter **n** has to be non-negative; the **expects** attribute is suggested as a way to specify preconditions. Meanwhile, we've specified that the result of calling the function, assuming that the preconditions are met, will be non-negative, and that the square of the result will be very nearly equal to the parameter **n**; the **ensures** attribute is intended as a way to specify postconditions.
+
+- The proposal includes nothing specifically about class invariants, but you could certainly imagine such a syntax. For example, our ArrayList class might be declared this way:
+
+<p>
+class ArrayList<br>
+{<br>
+    <ul>
+    // ...<br>
+    </ul>
+<br>
+private:<br>
+    <ul>
+    std::string* items;<br>
+    unsigned int sz;<br>
+    unsigned int cap;<br>
+    </ul>
+}<br>
+[[ensures: items != nullptr && cap >= sz]];<br>
+</p>
+
+- Where an **ensures** attribute on the class could be interpreted as a class invariant. (Why I chose the ensures syntax is that a class invariant can be thought of as a postcondition of all member functions.)
+- Of course, it's not possible to write these kinds of things today in C++, but even though there is no syntax to support it, we have to be thinking about these things either way.
+    - Whether your language lets you encode these things explicitly or not, functions have preconditions, postconditions, and side effects; classes have invariants.
+    - **Part of how we understand our own designs (and each other's) is to understand these preconditions, postconditions, side effects, and invariants.**
+
+- In any programming language, when you call a function (or the equivalent), you're asking that function to do a job for you, given a set of parameters that configure that job. There are two possible outcomes:
+    - The function succeeds and returns some kind of result and/or has some kind of side effect.
+    - The function fails to complete its job, in which case it needs to inform you of the failure in some way.
+- There are different mechanisms for reporting failure in different programming languages, and there is not steadfast agreement in the programming language design community about how best to approach this problem, but one common approach — which appears not just in C++, but in a number of other programming languages, as well — is called an *exception*.
+
+- In C++, the notion of failure is handled separately from success; functions that fail don't return a value at all, but instead throw an exception. (If you've previously programmed in Python, this idea will sound familiar, as it is more or less the same as raising an exception in Python.) How you handle an exception is entirely different from how you handle the return value of a function. The basic model works this way:
+    - Functions either return successfully (and give back a return value, unless their return type is **void**) or they fail. When they fail, they do so by throwing an exception. The function has no return value in this case; failure is a completely separate mechanism.
+    - C++ guarantees that any local variables in a function that have been initialized will be destroyed when a function ends by throwing an exception. So one large part of ensuring that exceptions don't cause memory or other resource leaks is to favor static allocation over dynamic allocation. If the local variables are pointers, they will be deallocated like any other local variables, but the objects they point to will not.
+    - When a function fails with an exception, its caller will either handle the exception by catching it, or it will fail, too, in which case its caller's caller will have the same choice, and so on. If every function on the call stack, including **main()**, fails to catch the exception, the program will terminate. (We don't generally want programs to crash, but note that, as a practical matter, there are many fewer places where you'll catch exceptions than throw them; it's much more often the case that the failure of a function also implies the failure of its caller, though there are usually some places in a program where handling the exception can be done appropriately.)
+    - Exceptions are objects and, in C++, they do not have to be particularly special. Any kind of object, including those of the built-in types like int or a pointer, can be thrown. By and large, we don't end up throwing built-in values like that very often, though; better to throw objects that capture the notion of what kind of failure happened and, if necessary, carry more information about the failure with them. The C++ Standard Library even provides base classes such as **std::exception** that you can inherit from, which can give all exceptions a handful of shared characteristics, such as a (C-style) string containing an error message.
+    - Exceptions are caught on the basis of their type. A function doesn't just say "I know how to handle any error!" Instead, it says "I know how to handle *this particular kind* of error!" This is why it's important to give an exception a meaningful type; the type is how we distinguish one kind of failure from another.
+- Syntactically, there are two things you will need to be able to do to use exceptions in a C++ program: throw them and catch them.
+- Throwing an exception is best done by simply creating an object of the exception's type and using it as the argument in a throw statement. For example, if you had a class called MyException that had a default constructor, we could throw a MyException this way:
+
+<p>
+throw MyException{};<br>
+</p>
+
+- Note that we're best off allocating the object statically. If we allocated it dynamically using the new operator, what we'd actually be throwing is a pointer to that object, and, even worse, we'd also be obligating the code that handles the exception to delete it.
+- Catching an exception is done by specifying a block of code in which you expect an exception may occur, along with an indication of what should happen if it does. This is done with a try block, which, structurally, looks like this:
+
+<p>
+try<br>
+{<br>
+    <ul>
+    functionThatThrowsMyExceptionSometimes();<br>
+    </ul>
+}<br>
+catch (MyException&)<br>
+{<br>
+    <ul>
+    std::cout << "Doh!" << std::endl;<br>
+    </ul>
+}<br>
+</p>
+
+- If an exception is thrown in a catch, it's just like any other exception being thrown. Unless there is a try block inside the catch, the exception will be handled by a surrounding try block, or the call stack will be unwound as usual.
+- Exceptions can be re-thrown in a catch by simply issuing the statement throw;, which is a way to say "I did some work, but this exception isn't completely handled yet; I just wanted to clean some things up before I failed, too." This is actually not all that uncommon, especially in code that has to do a lot of manual clean-up; this technique is sometimes called catch-and-rethrow. (Simplfying this is one of the reasons we should want to less of that kind of clean-up in the first place; we'll have more to say about that a little later in this course.)
+- It is possible to write a catch handler that is capable of catching anything. You would write it this way:
+
+<p>
+catch (...)<br>
+{<br>
+    <ul>
+    // Do anything you'd like here<br>
+    </ul>
+}<br>
+</p>
+
+It's important to note, though, that you will not have access to the exception object itself in the catch handler, because it hasn't been given a name, and because there is no single type that encompasses all possible exceptions that might be thrown. Where this technique is primarily of value is when using the "catch-and-rethrow" technique:
+
+<p>
+catch (...)<br>
+{<br>
+    <ul>
+    // Do cleanup because of the exception, then rethrow it to be handled by the caller<br>
+<br>
+    throw;<br>
+    </ul>
+}
+</p>
+
+- You may have noticed that, in the examples above, exceptions are being caught by reference. This is the typical practice in C++, as it addresses two problems:
+
+- It avoids copies of the exception being made, which can be a performance drag if those copies are expensive to make.
+- More importantly, it allows us to catch exceptions of derived types without them being "sliced." It's not uncommon for exception types to be specified as an inheritance hierarchy, with less specific types of exceptions acting as the base classes for more specific ones (e.g., something less specific like IOException being the base class for a more specific FileNotFoundException) so the ability to catch a broader type of exception, but still have it behave polymorphically if you call a virtual function on it, is very useful indeed.
+- Some people also advocate catching exceptions by const reference, like this:
+
+<p>
+catch (const MyException& e)<br>
+</p>
+
+- which makes clear that you won't be modifying the exception within the catch handler. I haven't picked up that style myself, but I can see at least some benefit to it.
+
+- But this does bring up an interesting question. What happens if an exception is thrown, a local variable is destroyed automatically (which means that its destructor will be called), and its destructor throws an exception? We now have two exceptions that have occurred: the one we were propagating before, as well as the additional one thrown by some destructor in the process of propagating the first one. While the details here can be subtle, the usual outcome in this case is that the program terminates immediately.
+- All in all, the best advice is that we should never throw exceptions in destructors, because destructors can be called in circumstances (such as the stack unwinding that happens while exceptions propagate) that will cause a program to crash immediately if the destructor throws an exception. Designing our classes so that destruction cannot fail turns out to be paramount.
+- Why this fact makes our life simpler is that we can make a basic assumption:
+    - If we use the delete or delete[ ] operators, it's safe to assume that they won't throw an exception. This can make it easier to design code that handles exceptions correctly and safely.
+- This can be an overwhelming thing to think about if you've never considered it before, but, particularly in the case of member functions of classes, the C++ Standard Library provides a good mental model of how to think about these kinds of issues. Member functions of classes like std::vector are documented to make one of the following four guarantees about what happens when an exception is thrown. (The guarantees get progressively stronger as you read further down the list.)
+    - No guarantee, which means that if a member function throws an exception, all bets are off. Class invariants may no longer hold, memory may have leaked or been corrupted arbitrarily, and so on. It may be a good idea for the program to attempt the most graceful exit possible at this point, since there is no way to know the extent of the damage that might have been done.
+    - The basic guarantee, which means that if a member function throws an exception, the object that the member function was called on will be left in a consistent state (i.e., all of its class invariants will be met), though the object may have been altered. Furthermore, if an exception is thrown, memory and other resources will not have leaked.
+    - The strong guarantee, which means that if a member function throws an exception, the object's state will be identical to what it was before the function was called. (This is also sometimes called the rollback guarantee.) As with the basic guarantee, memory and other resources will not have leaked. In general, this is a better guarantee to make than the basic guarantee, but is sometimes impractical because of cost.
+    - The nothrow guarantee, which means that the member function guarantees that it can never throw an exception. It is unavoidable for some functions to throw exceptions sometimes — e.g., any function that dynamically allocates memory might throw a std::bad_alloc if that allocation fails — but plenty of functions (like the ArrayList::size member function in the ArrayList example from the Well-Behaved Classes notes) can be written in a way that guarantees they won't.
+- Ideally, our goal should be to provide the strongest of these guarantees that we can, provided that it's possible and that the cost doesn't outweigh the benefit.
+    - The nothrow guarantee is clearly not something we can provide all the time. A lot of functions, even perfectly-written ones, throw exceptions in some cases, because, for example, they may rely on external resources like heap memory, files, networks, and so on.
+    - The strong guarantee can be an expensive guarantee to provide, sometimes resulting in an operation that has different complexity characteristics (e.g., O(n) instead of O(1) running time, or O(n) instead of O(1) memory). In a case like that, it's usually better not to provide the guarantee, but instead to design a way that the guarantee can be obtained when needed (e.g., by copying a data structure, modifying the copy, then swapping it back into place with the original one if everything succeeded).
+    - We should always endeavor to provide the basic guarantee, though. There are few excuses for giving up on this one, because the alternative is unpredictable or undefined behavior or even program crashes in the event that an exception is thrown. Exceptions happen, whether we like it or not, so best not to have them mushroom into much bigger problems that are more difficult to diagnose and fix.
+
+## RAII
+- Let's assume that the doTheJob function can't be considered to have succeeded if any of the functions it calls fail; a failure of any of these functions means that doTheJob has failed, as well. (More often than not in real designs, this is the case. We generally catch exceptions in many fewer places than you might imagine.) In that case, we don't want this function to catch exceptions and fully handle them, yet we also have to ensure that we don't leak memory here. These needs lead to the following, rather contorted-looking logic:
+
+<p>
+void doTheJob()<br>
+{<br>
+    <ul>
+    A* a = nullptr;<br>
+    B* b = nullptr;<br>
+<br>
+    try<br>
+    {<br>
+        <ul>
+        a = buildA();<br>
+        b = buildB();<br>
+<br>
+        doThings(a, b);<br>
+        doMoreThings(a);<br>
+        doYetMoreThings(b);<br>
+<br>
+        delete b;<br>
+        delete a;<br>
+        </ul>
+    } <br>
+    catch (...)<br>
+    {<br>
+        <ul>
+        // It's safe to pass nullptr to delete, so we don't technically<br>
+        // need to check for nullptr here.<br>
+        delete b;<br>
+        delete a;<br>
+<br>
+        // Re-throw the exception, since we haven't handled it; we've just made<br>
+        // sure to do some cleaning up before our function fails.<br>
+        throw;<br>
+        </ul>
+    }<br>
+    </ul>
+}<br>
+</p>
+
