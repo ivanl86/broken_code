@@ -1504,3 +1504,55 @@ void doTheJob()<br>
 }<br>
 </p>
 
+- This leads to a very important idea that underlies C++ design: Resource acquisition is initialization, an idea so important that C++ programmers often just refer to it by an acronym (RAII). The basic idea is this:
+    - Prefer to acquire dynamic resources in constructors. You might adjust them later, but try to initially acquire them in a constructor. And if that acquisition fails, throw an exception from the constructor, so a successful constructor call means that you know the resource was acquired.
+    - Always release those dynamic resources in destructors.
+- So, in short, we should prefer to move dynamic resource acquisition of all kinds — dynamic memory allocation, files, network connections, locks, and son — into constructors, and then release them in the corresponding destructors. That's it. As is often the case, there are some details that can be tricky, but the idea is quite simple.
+- However, we've seen that there are times that we simply can't avoid dynamic allocation:
+    - Very large objects are best stored outside of the run-time stack, because the run-time stack generally has a limited size, and because there is a performance benefit in keeping the run-time stack relatively compact (e.g., improved cache locality).
+    - Dynamic polymorphism only works the way we've seen it if there's a way for us to have a variable of one type that contains an object of another. The only way to do that is with a pointer or reference, and the only way to allocate an object of a type unknown at compile time is to do so dynamically.
+- One very good way to solve that problem would be to do this:
+    - Design a class with a single member variable, which stores a single pointer. (It's important to note that the object will be the same size as the pointer; there's no substantial run-time overhead here.)
+    - Pass a pointer to its constructor, storing it in that member variable.
+    - Under the assumption that the smart pointer has unique ownership of the object it points to, delete the object when the smart pointer's destructor is called.
+
+## Templates
+- That's what function templates let you do. They let you define the blueprint for an infinite set of possible functions, where you specify the ways that the different functions in the set would differ from each other. In our case, we might like to write a function template that demonstrates how to generate myswap implementations for each possible type of value I might want to swap.
+
+<p>
+template <\typename T><br>
+void myswap(T& t1, T& t2)<br>
+{<br>
+    <ul>
+    T temp = t1;<br>
+    t1 = t2;<br>
+    t2 = temp;<br>
+    </ul>
+}<br>
+</p>
+
+- The word template here, preceding what otherwise looks like a function definition, means that we've written a function template. There isn't one myswap function; there is a potentially infinite set of them, which differ in terms of the template's parameters. In this case, there is one parameter: the type of values being swapped. The keyword typename establishes that the first parameter is a type — as opposed to something else, like an int constant — and T, in this case, is a name used throughout the function to describe that type.
+- C++ provides us the ability to write class templates, which are a solution to a similar kind of problem. A class template is a blueprint for a set of classes, each of which becomes a distinct, separate type.
+- We write class templates in the same way that we write function templates: We begin with the word template, followed by the template's parameters listed between angle brackets and separated by commas. So, for example, a class like the std::vector class in the standard library might look something like this:
+
+<p>
+template <\typename ElementType><br>
+class Vector<br>
+{<br>
+    <ul>
+    ...<br>
+    </ul>
+};<br>
+</p>
+
+- As with function templates, there is no way to explicitly limit what the type **ElementType** is allowed to be, though there is an implicit limitation brought about by the things you do to **ElementType** objects inside the class. For example, if we wrote this code in a member function in our **Vector** class:
+
+<p>
+ElementType e;
+e.foo();
+</p>
+
+- then we'd be introducing three constraints on ElementType:
+    - It must be possible to default-construct an ElementType (i.e., ElementType has a constructor that takes no parameters).
+    - **ElementType** has a destructor — a necessity because the statically-allocated variable e will be destroyed when it falls out of scope.
+    - **ElementType** must have a member function foo that takes no parameters, though there is no limitation on what its return type is (since we're not doing anything with the return value).
