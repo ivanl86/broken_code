@@ -126,3 +126,90 @@ List of operators<br>
 # <= --> less or equal to<br>
 # == --> equal to<br>
 # != --> not equal to<br>
+
+## While Loops
+i = 1<br>
+while i <= 5:<br>
+    <ul>
+    print(i)<br>
+    i = i + 1<br>
+    </ul>
+print("done")<br>
+<br>
+i = 1<br>
+while i <= 5:<br>
+    <ul>
+    print('*' * i)<br>
+    i = i + 1<br>
+    </ul>
+print("done")<br>
+
+## For Loops
+for item in "Python":<br>
+    <ul>
+    print(item)<br>
+    </ul>
+for item in ["Mosh", "John", "Sarah"]:<br>
+    <ul>
+    print(item)<br>
+    </ul>
+for item in [1, 2, 3, 4, 5, 6]:<br>
+    <ul>
+    print(item)<br>
+    </ul>
+for item in range(10): # range from 1 to 9 excluding 10<br>
+    <ul>
+    print(item)<br>
+    </ul>
+for item in range(5, 10): # range from 5 to 9 excluding 10<br>
+    <ul>
+    print(item)<br>
+    </ul>
+for item in range(5, 10, 2): # range from 5 to 9 in two numbers forward<br>
+    <ul>
+    print(item)<br>
+    </ul>
+
+## Nested Loops
+for x in range(4):<br>
+    <ul>
+    for y in range(3):<br>
+        <ul>
+        print(f"({x}, {y})")<br>
+        </ul>
+    </ul>
+
+## Lists
+names = ["John", "Bob", "Mosh", "Sarah", "Mary"]<br>
+print(names[2:])<br>
+
+## 2D Lists
+matrix = [<br>
+    <ul>
+    [1, 2, 3],<br>
+    [4, 5, 6],<br>
+    [7, 8, 9]<br>
+    </ul>
+]<br>
+
+## List Methods
+numbers = [5, 2, 1, 7, 4]
+numbers.append(20) # Adds the number '20' to the end of the list
+numbers.insert(0, 10) # The first number indicates the index in the list and the second number indicates what number is adding to the list
+numbers.remove(5) # Removes the number '5' in the list
+numbers.clear() # Clear all items in the list
+numbers.pop() # Remove the last item in the list
+numbers.index(5) # Return the index number if the number '50' is in the list
+50 in numbers # Returns true if the number '50' is the list, otherwise returns false
+numbers.sort() # Sorts the numbers in the list in ascending order
+numbers.reverse() # Reverse the order of the numbers in the list
+numbers2 = numbers.copy() # Creates a copy of new independant list and assign it to numbers2
+
+## Functions
+def greet_user():<br>
+    <ul>
+    print("Hi there!")<br>
+    print("Welcome aboard")<br>
+    </ul>
+<br>
+<br># Leave 2 blank lines after class or function defintion<br>

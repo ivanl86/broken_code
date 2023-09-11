@@ -21,7 +21,7 @@ elif is_cold:
     print("It's a cold day")
     print("Wear warm clothes")
 else:
-    Print("It's a lovely day")
+    print("It's a lovely day")
 print("Enjoy your day")
 
 has_high_income = True
@@ -38,3 +38,46 @@ if temperature > 30:
     print("It's a hot day")
 else:
     print("It's not a hot day")
+
+i = 0
+while i < 5:
+    print('*' * i)
+    i = i + 1
+print("Done")
+
+for x in range(4):
+    for y in range(3):
+        print(f"({x}, {y})")
+
+numbers = [5, 2, 5, 2, 2]
+for number in numbers:
+    print("*" * number)
+
+for number in numbers:
+    output = ""
+    for num in range(number):
+        output += "*"
+    print(output)
+
+names = ["John", "Bob", "Mosh", "Sarah", "Mary"]
+print(names[2:4])
+
+matrix = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+
+print(matrix[:][0])
+
+for row in matrix:
+    for item in row:
+        print(item)
+
+def greet_user():
+    print("Hi there!")
+    print("Welcome aboard")
+
+
+# Leave 2 blank lines after class or function defintion
+greet_user()
