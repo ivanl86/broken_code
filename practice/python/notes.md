@@ -213,3 +213,33 @@ def greet_user():<br>
     </ul>
 <br>
 <br># Leave 2 blank lines after class or function defintion<br>
+
+## Paraments
+def greet_user(first_name, last_name):<br>
+    <ul>
+    print(f"Hi {first_name} {last_name}!")<br>
+    print("Welcome aboard")<br>
+    </ul>
+<br>
+<br># Leave 2 blank lines after class or function defintion<br>
+
+## Keyword Arguments
+def greet_user(first_name, last_name):<br>
+    <ul>
+    print(f"Hi {first_name} {last_name}!")<br>
+    print("Welcome aboard")<br>
+    </ul>
+<br>
+<br># Leave 2 blank lines after class or function defintion<br>
+<br>
+<br>
+greet_user(last_name = "Smith", first_name = "John")<br>
+
+- position arguments should be placed after keyword arguments
+greet_user("John", last_name = "Smith")<br>
+
+## Return Statement
+def square(number):<br>
+    <ul>
+    return number * number<br>
+    </ul>
