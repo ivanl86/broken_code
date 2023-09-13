@@ -74,10 +74,16 @@ for row in matrix:
     for item in row:
         print(item)
 
-def greet_user():
-    print("Hi there!")
-    print("Welcome aboard")
+def greet_user(first_name, last_name):
+    print(f"Hi {first_name} {last_name}!")
+    print("Welcome aboard!")
 
 
 # Leave 2 blank lines after class or function defintion
-greet_user()
+def square(number):
+    return number * number
+
+
+# Leave 2 blank lines after class or function defintion
+greet_user(last_name = "John", first_name = "Smith")
+print(square(4))
