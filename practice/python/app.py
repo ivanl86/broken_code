@@ -80,10 +80,112 @@ def greet_user(first_name, last_name):
 
 
 # Leave 2 blank lines after class or function defintion
-def square(number):
+def square(number) -> int:
     return number * number
 
 
 # Leave 2 blank lines after class or function defintion
 greet_user(last_name = "John", first_name = "Smith")
 print(square(4))
+
+# try:
+#     age = int(input("Age: "))
+#     income = 20000
+#     risk = income / age
+#     print(age)
+# except ZeroDivisionError:
+#     print("Age cannot be 0!")
+# except ValueError:
+#     print("Invalid value")
+
+class Point:
+    def __init__(self, x, y) -> None:
+        self.x = x
+        self.y = y
+
+    def move(self):
+        print("move")
+
+    def draw(self):
+        print("draw")
+
+
+# Leave 2 blank lines after class or function defintion
+point1 = Point(10, 20)
+# point1.x = 10
+# point1.y = 20
+print(point1.x)
+point1.draw()
+
+point2 = Point(5, 6)
+point2.x = 5
+print(point2.x)
+point2.move()
+
+class Person:
+    def __init__(self, name) -> None:
+        self.name = name
+
+    def talk(self):
+        print(f"My name is {self.name}")
+
+
+person = Person("John")
+person.talk()
+
+class Pet:
+    def walk(self) -> None:
+        print("walk")
+
+
+class Dog(Pet):
+    def bark(self):
+        print("bark")
+
+
+class Cat(Pet):
+    pass
+
+
+dog = Dog()
+dog.walk()
+dog.bark()
+cat = Cat()
+cat.walk()
+
+# import weight_converters
+from weight_converters import kg_to_lbs
+
+
+print(kg_to_lbs(70))
+# print(weight_converters.lbs_to_kg(156))
+
+import utils
+nums = [3, 10, 6, 2, 7]
+print(utils.find_max(nums))
+
+import ecommerce.shipping
+ecommerce.shipping.calc_shipping()
+from ecommerce import shipping
+shipping.calc_shipping()
+from ecommerce.shipping import calc_shipping
+calc_shipping()
+
+import random
+
+for i in range(3):
+    print(random.random())
+    print(random.randint(0, 10))
+
+members = ["John", "Mary", "Bob", "Mosh"]
+print(random.choice(members))
+
+class Dice:
+    def roll(self):
+        first = random.randint(1, 6)
+        second = random.randint(1, 6)
+        return first, second
+
+
+dice = Dice()
+print(dice.roll())
