@@ -243,3 +243,129 @@ def square(number):<br>
     <ul>
     return number * number<br>
     </ul>
+
+## Exceptions
+try:<br>
+    <ul>
+    age = int(input("Age: "))<br>
+    income = 2000<br>
+    risk = income / age<br>
+    print(age)<br>
+    </ul>
+except ZeroDivisionError:
+    <ul>
+    print("Age cannot be 0")
+    </ul>
+except ValueError:<br>
+    <ul>
+    print("Invalid value")<br>
+    </ul>
+
+## Classes
+
+class Point:<br>
+    <ul>
+    def move(self):<br>
+        <ul>
+        print("move")<br>
+        </ul>
+    def draw(self):<br>
+        <ul>
+        print("draw")<br>
+        </ul></ul>
+
+point1 = Point()<br>
+point1.x = 10<br>
+point1.y = 20<br>
+print(point1.x)<br>
+point1.draw()<br>
+
+point2 = Point()<br>
+point2.x = 5<br>
+print(point2.x)<br>
+point2.move()<br>
+
+## Constructors
+class Point:<br>
+    <ul>
+    def __init__(self, x, y)<br>
+        <ul>
+        self.x = x<br>
+        self.y = y<br>
+        </ul>
+    def move(self):<br>
+        <ul>
+        print("move")<br>
+        </ul>
+    def draw(self):<br>
+        <ul>
+        print("draw")<br>
+        </ul></ul>
+
+point1 = Point(10, 20)<br>
+
+## Inheritance
+class Pet:<br>
+    <ul>
+    def walk(self) -> None:<br>
+        <ul>
+        print("walk")<br>
+        </ul></ul>
+
+
+class Dog(Pet):<br>
+    <ul>
+    def bark(self):<br>
+        <ul>
+        print("bark")<br>
+        </ul></ul>
+
+
+class Cat(Pet):<br>
+    <ul>
+    pass<br>
+    </ul>
+
+
+dog = Dog()<br>
+dog.walk()<br>
+dog.bark()<br>
+cat = Cat()<br>
+cat.walk()<br>
+
+## Modules
+import weight_converters<br>
+from weight_converters import kg_to_lbs<br>
+
+
+print(kg_to_lbs(70)) # when importing an individual function, prefix of said function is not needed<br>
+print(weight_converters.lbs_to_kg(156))<br>
+
+## Packages
+    - creates a directory with a Python file named __init__.py in it
+    - all Python files store in this directory are in the same package
+    - ecommerce is the name of the directory
+    - shipping is the name of the Python file stored in ecommerce
+    - calc_shipping() is the function in shipping
+
+import ecommerce.shipping<br>
+ecommerce.shipping.calc_shipping()<br>
+<br>
+from ecommerce import shipping<br>
+shipping.calc_shipping()<br>
+<br>
+from ecommerce.shipping import calc_shipping<br>
+calc_shipping()<br>
+<br>
+
+## Build In Modules
+import random<br>
+<br>
+for i in range(3):<br>
+    <ul>
+    print(random.random())<br>
+    print(random.randint(0, 10)) # generate a random integer between 0 to 10, inclusive<br>
+    </ul>
+<br>
+members = ["John", "Mary", "Bob", "Mosh"]<br>
+print(random.choice(members)) # return a random object from the list<br>
