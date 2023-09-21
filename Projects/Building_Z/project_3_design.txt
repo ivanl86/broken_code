@@ -1,0 +1,203 @@
+
+objects:
+building
+position
+person : infected
+: lounger 20% chance to make a random move
+: hyper always make a random move
+: aggressor always make a move and purse the spec-op within 2 adjacent tiles
+person : uninfected
+
+Building Z has 80 rooms in 8x10 grid
+spec-op starts at room (0, 0)
+6 actions
+(N)orth, (S)outh, (W)est, (E)ast, (P)ause, (C)arry
+
+The antidote is located in one of the four center rooms: (4, 3), (4, 4), (5, 3), (5, 4)
+
+O = spec-op
+S = scientist
+L = lounger
+H = hyper
+A = aggressor
+
+Class:
+Building
+contains all person objects
+6 lounger, 4 hyper, 2 aggressor
+1 spec-op, 1 scientist
+friend ostrean<< to output the layout of the building with the position of all the person objects
+
+Position (struct)
+public data members: x and y
+a constructor to initial values of x and y
+and a copy of constructor that takes a position as an argument
+
+Person
+base class for all the infected, the spec-op, the scientist
+Protected: position data member
+type of person
+a constructor that takes a position and type as its only argument
+operator== and operator!= are overridden to compare the position of two person objects
+pure virtual function called move which takes the move as its argument
+
+Infected
+pure virtual function called move which has a move as its parameter
+
+Lounger, Hyper, Aggressor
+override the move function in infected
+a constructor takes a position as its parameter
+the constructor for the Aggressor takes a second parameter which is the pointer to the spec-op object
+It allows the aggressor to purse the spec-op
+
+Uninfected
+it represents the scientist and the spec-op
+it overrides the pure virtual move funciton in Person class
+it should throw a runtime exception if the move is invalid
+
+write a program called building_z.cpp to handle all uesr input and output and turn taking
+and the player's move making
+std::cout << buildingZ << std::endl;
+
+the spec-op saves the scientist if both of their positions are at (0, 0)
+
+do not change the user interface or the behavior
+add pre and post condition comments to function prototype in each header file
+can add private members to the header files of any class
+but dot not change the public or protected sections unless granted permission
+
+Questions
+//Aggressor() delete Innocent?
+~Aggressor(){}; in aggressor.h
+std::vector<Infected*> guards; in building.h
+add default constructor
+why use the default 'A' in move()
+does invalid move count as a turn?
+
+    Position pos(0, 0);
+    if (!(isInValidRange(move)))
+        throw std::runtime_error("");
+    switch (move)
+    {
+    case 'N':
+        if (specOp->getPosition() == pos);
+        specOp->x - 1;
+        this->pos->x - 1;
+    case 'S':
+        this->pos->x + 1;
+    case 'E':
+        this->pos->y + 1;
+    case 'W':
+        this->pos->y - 1;
+    case 'C':
+        hasAntidote = true;
+    case 'P':
+        break;
+    }
+
+        return ((move == 'N' && (this->pos->x > 0))
+         || (move == 'S' && (this->pos->x < MAX_X))
+         || (move == 'E' && (this->pos->y < MAX_Y))
+         || (move == 'W' && (this->pos->y > 0))
+         || (move == 'C')
+         || (move == 'P'));
+
+    switch (move)
+    {
+    case 'N':
+        this->pos->x + 1;
+    case 'S':
+        this->pos->x - 1;
+    case 'E':
+        this->pos->y + 1;
+    case 'W':
+        this->pos->y - 1;
+
+
+
+toString
+
+os << (bdg.zombies.at(l)->getPosition().x == x && bdg.zombies.at(l)->getPosition().y == y ? bdg.zombies.at(l)->getType() : ' ')
+os << (bdg.zombies.at(h)->getPosition().x == x && bdg.zombies.at(h)->getPosition().y == y ? bdg.zombies.at(h)->getType() : ' ')
+os << (bdg.zombies.at(a)->getPosition().x == x && bdg.zombies.at(a)->getPosition().y == y ? bdg.zombies.at(a)->getType() : ' ')
+
+        os << "---------------------------------\n";
+        for (size_t y = 0; y < MAX_Y; ++y)
+        {
+            os << '|';
+            bool isLoungerHere{false};
+            for (size_t l = LOUNGER_FISRT; l < LOUNGER_LAST; ++l)
+                isLoungerHere = (bdg.zombies.at(l)->getPosition().x == x && bdg.zombies.at(l)->getPosition().y == y ? true : false);
+            if (isLoungerHere)
+                os << 'L';
+            else os << ' ';
+
+            bool isHyperHere{false};
+            for (size_t h = HYPER_FISRT; h < HYPER_LAST; ++h)
+                isHyperHere = (bdg.zombies.at(h)->getPosition().x == x && bdg.zombies.at(h)->getPosition().y == y ? true : false);
+            if (isHyperHere)
+                os << 'H';
+            else os << ' ';
+
+            bool isAggressorHere{false};
+            for (size_t a = AGGRESSOR_FISRT; a < AGGRESSOR_LAST; ++a)
+                isAggressorHere = (bdg.zombies.at(a)->getPosition().x == x && bdg.zombies.at(a)->getPosition().y == y ? true : false);
+            if (isAggressorHere)
+                os << 'A';
+            else os << ' ';
+        }
+        os << "|\n";
+        for (size_t y = 0; y < MAX_Y; ++y)
+        {
+            os << "| "
+               << (bdg.specOp->getPosition().x == x && bdg.specOp->getPosition().y == y ? bdg.specOp->getType() : ' ')
+               << (bdg.scientist->getPosition().x == x && bdg.scientist->getPosition().y == y ? bdg.scientist->getType() : ' ');
+        }
+        os << "|\n";
+
+if (bdg.zombies.at(l)->getPosition().x == x && bdg.zombies.at(l)->getPosition().y == y)
+    gridCells.at(LEFT_CELL) = bdg.zombies.at(l)->getType();
+if (bdg.zombies.at(h)->getPosition().x == x && bdg.zombies.at(h)->getPosition().y == y)
+    gridCells.at(MIDDLE_CELL) = bdg.zombies.at(h)->getType();
+                if (bdg.zombies.at(a)->getPosition().x == x && bdg.zombies.at(a)->getPosition().y == y)
+                    gridCells.at(RIGHT_CELL) = bdg.zombies.at(a)->getType();
+
+(zombies.at(i)->getPosition().x == specOp->getPosition().x) && (zombies.at(i)->getPosition().y == specOp->getPosition().y)
+
+other.pos->x == this->pos->x && other.pos->y == this->pos->y
+
+
+(x, y)
+(0, 0), (1, 0), (2, 0), (0, 1), (0, 2), ()
+
+    for (size_t i = 0; i < TOTAL_ZOMBIES; ++i)
+        zombies.at(i)->move();
+
+            os << "Rescue mission in progress\n";
+    for (size_t x = 0; x <= MAX_X; ++x)
+    {
+        os << bdg.printHorizontalDivider() << std::endl;
+        for (size_t y = 0; y <= MAX_Y; ++y)
+        {
+            std::string gridCells{"   "};
+            for (size_t l = LOUNGER_FISRT; l <= LOUNGER_LAST; ++l)
+                if (gridCells.at(LEFT_CELL) != bdg.zombies.at(l)->getType() && (bdg.zombies.at(l)->getPosition().x == x && bdg.zombies.at(l)->getPosition().y == y))
+                    gridCells.at(LEFT_CELL) = bdg.zombies.at(l)->getType();
+            for (size_t h = HYPER_FISRT; h <= HYPER_LAST; ++h)
+                if (gridCells.at(MIDDLE_CELL) != bdg.zombies.at(h)->getType() && (bdg.zombies.at(h)->getPosition().x == x && bdg.zombies.at(h)->getPosition().y == y))
+                    gridCells.at(MIDDLE_CELL) = bdg.zombies.at(h)->getType();
+            for (size_t a = AGGRESSOR_FISRT; a <= AGGRESSOR_LAST; ++a)
+                if (gridCells.at(RIGHT_CELL) != bdg.zombies.at(a)->getType() && (bdg.zombies.at(a)->getPosition().x == x && bdg.zombies.at(a)->getPosition().y == y))
+                    gridCells.at(RIGHT_CELL) = bdg.zombies.at(a)->getType();
+            os << bdg.printVerticalDivider() << gridCells;
+        }
+        os << bdg.printVerticalDivider() << std::endl;
+        for (size_t y = 0; y <= MAX_Y; ++y)
+        {
+            os << bdg.printVerticalDivider() << ' '
+               << (bdg.specOp->getPosition().x == x && bdg.specOp->getPosition().y == y ? bdg.specOp->getType() : ' ')
+               << (bdg.scientist->getPosition().x == x && bdg.scientist->getPosition().y == y ? bdg.scientist->getType() : ' ');
+        }
+        os << bdg.printVerticalDivider() << std::endl;;
+    }
+    os << bdg.printHorizontalDivider() << std::endl;

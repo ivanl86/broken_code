@@ -1,0 +1,63 @@
+#include "position.h"
+
+#include <string>
+
+#ifndef PERSON_H
+#define PERSON_H
+
+// The base class of Infecteds and Uninfecteds and is abstract
+class Person
+{
+public:
+    /** Person object. the base class for infecteds and uninfecteds
+     * @parameter pos. the initial position
+     * @parameter type. the type of person
+     */
+    Person(const Position& pos, char type);
+    
+    /** Gets the current position of the Person
+     * @return position. */
+    Position getPosition() const;
+
+    /** Gets the type of the person [L, H, A, O, S]
+     * @return the type of the Person
+     */
+    char getType() const; 
+
+    /** Equality operator
+     * @parameter other the other person object
+     * @return true if this object has the same position as the other and false otherwise */
+    bool operator==(const Person& other) const;
+
+    /** Inequality operator
+     * @parameter other the other person object
+     * @return false if this object has the same position as the other and true otherwise */
+    bool operator!=(const Person& other) const;
+
+    /** Moves the Person from the current position to pos. This is a pure virtual function
+     * @parameter move determines the direction to move. The default value is 'A' for auto  */
+    virtual void move(char move = 'A') = 0; 
+
+    /** Virtual Destructor */
+    virtual ~Person();
+    
+protected:
+    Position* pos;
+    char type;
+
+    /** move the object to the north */
+    void moveNorth();
+
+    /** move the object to the south */
+    void moveSouth();
+
+    /** move the object to the east */
+    void moveEast();
+
+    /** move the object to the west */
+    void moveWest();
+private:
+
+};
+
+#endif
