@@ -1,0 +1,6 @@
+n <- 100
+space <- c("H","T")
+p <- c(0.5,0.5)
+observation <- sample(space, size=n, prob=p, replace=TRUE)
+p.hat <- sum(observation=="H")/n
+p.hat
