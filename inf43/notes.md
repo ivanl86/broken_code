@@ -1,0 +1,58 @@
+# Notes
+### What is software engineering
+- the process of constructing software
+- phases of development other than programming
+- principles and qualities of enduring value
+- Lesser interest
+    - managing and scheduling software development teams
+    - making money
+    - software's impact on users, organization, and society
+- Three essential ingredients of software engineering
+    - people (most important)
+        - do the work
+    - processes
+        - organize and manage effort of individuals
+    - tools
+        - support people and processes
+### Fundamental Principles
+- rigor and formality
+    - each developer imposes their own interest on the project which is diffcult to resolve when problems occur
+    - setting rules into the proccess that all programmers must follow
+    - lack of rigor can result in unreliable products, high costs, and time overrun
+- separation of concerns
+    - enhance the visibility, understandability, and maintainability of software systems
+    - modularity
+        - keep things in different modules which make them eaiser to maintain and debug
+    - divide and conquer
+        - separate a large problem into smaller sub-problems and solve them individually
+        - complexity can be greatly reduced and better managed
+    - abstraction
+        - separation of important details from the unimportant ones
+        - users do not have to know all the details behind software to know how to use it
+            - ex. high level language hides the complicated bits from programmers
+- anticipation of change
+    - make sure everything is easy to change because there needs to be change
+- generality
+    - attempt to find a more general solutio which might be easier to solve or readily available
+- incrementality
+    - show the custmer preliminary versions of the software frequently
+    - ensure it meets the custemer's requirements
+    - create muti-version software to work to the requirement gradually
+### Essential Porperties of Software
+- complexity
+    - software are complex, no two parts are alike and diffcult to understand
+- conformity
+    - software must conform to human system
+- changeability
+    - all successful software gets changed
+    - most software survive beyond the life of hardware it was written for
+- invisibility
+    - reality of software not embedded in tangible space
+    - hinders communication and understanding
+### Three Perspectives on Software Engineering
+- bussiness
+    - cost, time, profit
+- engineering
+    - internal quality
+- design
+    - external quality
