@@ -236,3 +236,11 @@
     - faces performance issues
     - bugs
     - lack of transprency and unexpected cost increase
+- Shopa Failure
+    - lack of claer goal
+    - conflict between the IT team and the sales team
+- Doctors
+    - lack of user involvement
+    - engineers need to spend more time in hospital environment to gain a deeper understanding of how healthcare professionals, particularly doctors, work.
+    - the disconnection between techonologists and healthcare providers often results in tech products and applications that do not effectively address the needs and challenges of medical practitioners
+    - developers need to observe their workflow and understand their requirements
