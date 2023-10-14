@@ -166,7 +166,9 @@
 - glossary
     - if the product you are making use all kinds of acronyms or technical terms that everyone might not know, it is nice to have a glossary
 - reference documents
-    - reference to other feature or other product
+    - pointers to existing processes and tools used within an organization
+    - pointers to other, existing software that provides similar functionality
+    - pointers to literature
 - user interface
     - some requirement documents have sketches of the UI is imagined to look like
     - sometimes the user might already know how it should look like
@@ -194,6 +196,7 @@
 - are all terms and concepts defined
     - make sure all terms are defined so people can understand it
 - is the requirement specification unbiased
+
 ### Acceptance Test Plan
 - it often goes along with the specification document
 - if we actually can correctly made everything in the specification, then our acceptance test plan will pass
@@ -211,3 +214,25 @@
 - in-house staff writing systems for internal use
     - the most common situation is that some other department in your own company that is asking the IT department to make some software for them
     - the customer can played by anyone including from internal like any department from your company and it can also be external like another company
+
+### Summary of the Online Readings
+- some commonnalities
+    - they are poorly managed
+    - they do not know how far behind they are on the project
+    - they do not know how to measure their progress
+    - they went overbudge
+    - unexpected cost increase
+- Wishful Thinking
+    - talks about hubble psychology
+- Five Enduring Government
+    - all five project share some commonalities
+        - they all went overbudge
+        - they all delayed for many years
+        - they all got canceled eventually
+- TSB IT Migration
+    - the migration causes many problems
+        - custmers' account balance disappear or getting extra money they should not get
+- Minnesota's L and R System
+    - faces performance issues
+    - bugs
+    - lack of transprency and unexpected cost increase
