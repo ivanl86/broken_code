@@ -172,6 +172,34 @@ like beta program
         - maight need a traditional to-do list as well
             - with checkmark
 -  software view that shows you all of the events and tasks that flow around
+### Additional features
+- tags
+    - calendar view
+        - you can add time windows like events
+    - filter
+        - time window filter
+            - can be apply to your events in your task list
+            - you can apply them to certain time ranges
+            - filtering criteria is based on the tasks
+        - when applying a filter only tasks with the tag will put up to the calendar
+            - all tasks will be to normal place filter is removed
+        - it is optional
+        - tag is just a label
+- you are able to see all your tasks in the task view
+- all tasks must have a duration
+    - even if all your incoming task has a tag that marked for later time, if there is no any other tasks, you will get those tasks if they are your next avavibel tasks
+        - by the time you get to the time window you may finished all task then your time window will be empty with no taks in it
+    - you can create a time window to allow doing any tasks but one
+        - ex. you can have a time window at night that excludes grocery shopping because grocery stores are closed
+- budget
+    - a million for version 1 (mobile devices and tablets)
+    - another million for desktop version
+- we need IT support for the cloud service
+- colortheme
+    - user can define what color they want
+        - light or dark mode
+        - or any other color
+
 
 ### Questions
 - should the app has some sort of priority marker that can be put on certain tasks like setting some tasks are more important than the others
@@ -243,3 +271,23 @@ like beta program
         - require maintiance
 - do you want the app to send notifications or alerts
     - yes
+- is there any advertisments in the app
+    - no, we do not want any distraction for the user
+- any integrations with other apps
+    - yes, in the long term
+    - but currently no
+- any widgets for mobile devices
+    - no, maybe later
+- any specific version
+    - at the time release it should compatible with the current version and the one prior
+- any features the user have to pay for
+    - no, the subscription is based on either user data is local and free or they pay for the subscription and have their data sync on the cloud
+    - free version has no server cost
+- memory size limit
+    - no, the client does not care
+- any holiday theme
+    - no
+- how much do we prioritize our security in privacy
+    - yes, we should try our best to use encrypted protocols to make sure minimizing the risk of peopl hack into our servers and stealing user data
+- is there a programming language
+    - no
