@@ -18,3 +18,19 @@ abtraction
     abstractions are formed by removing irrelevant information and retaining / highlighting relevant information
     every desing notation supports a certain kind of abstraction
     software engineering
+
+UML (Unified Modeling Language)
+    industry standard for software design/modeling
+different types of UML diagrams
+    clss diagrams
+    activiy diagrams
+    sequence diagrams
+    use case diagrams
+
+Aggregation relationships are transitive and assymetric
+    one object contains a set of other objects
+Composition relationships add the property of existence
+
+information hiding
+    hide design decisions that are most likely to change, thereby protecting other parts of the program from change if the design decision is changed
+    showing only those details to the outside world which are necessary for the out side world and hiding all other  details from the out side world
